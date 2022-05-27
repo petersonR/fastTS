@@ -2,7 +2,7 @@ pandoc: 2.7.3
 pkgdown: 2.0.3
 pkgdown_sha: ~
 articles: {}
-last_built: 2022-05-27T18:48Z
+last_built: 2022-05-27T23:06Z
 urls:
   reference: https://petersonr.github.io/srlTS/reference
   article: https://petersonr.github.io/srlTS/articles
