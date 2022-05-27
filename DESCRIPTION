@@ -1,11 +1,13 @@
 Package: srlTS
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Sparsity-ranked lasso for time series
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Authors@R: person("Ryan Andrew", "Peterson", 
+                  email = "ryan.a.peterson@cuanschutz.edu", 
+                  role = c("aut", "cre"))
+Description: Fits sparsity-ranked lasso models to times series data.
+    Especially useful for large time series with exogenous features 
+    and/or complex seasonality.
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
@@ -15,3 +17,10 @@ Suggests:
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 URL: https://petersonr.github.io/srlTS/
+Imports: 
+    dplyr,
+    ncvreg,
+    magrittr,
+    butcher,
+    yardstick,
+    rlang

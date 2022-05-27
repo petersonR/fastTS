@@ -20,37 +20,70 @@ knitr::opts_chunk$set(
 [![Codecov test coverage](https://codecov.io/gh/petersonR/srlTS/branch/main/graph/badge.svg)](https://app.codecov.io/gh/petersonR/srlTS?branch=main)
 <!-- badges: end -->
 
-The goal of srlTS is to ...
+The goal of srlTS is to fit the sparsity-ranked lasso to time series data. 
 
 ## Installation
 
 You can install the development version of srlTS like so:
 
-``` r
-# FILL THIS IN! HOW CAN PEOPLE INSTALL YOUR DEV PACKAGE?
+```{r install, eval = FALSE}
+# install.packages("remotes")
+remotes::install_github("PetersonR/srlTS")
 ```
 
-## Example
+## Examples
 
-This is a basic example which shows you how to solve a common problem:
+This is a basic example.
 
-```{r example, eval = F}
+```{r example}
 library(srlTS)
-## basic example code
+
+y <- cumsum(rnorm(100))
+fit <- srlTS(y, gamma = c(0, .5))
+
+fit
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
+For the Lake Huron data set
 
-```{r cars}
-summary(cars)
+```{r lakehuron}
+data("LakeHuron")
+
+fit_LH <- srlTS(LakeHuron)
+
+fit_LH
+coef(fit_LH)
 ```
 
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this. You could also use GitHub Actions to re-render `README.Rmd` every time you push. An example workflow can be found here: <https://github.com/r-lib/actions/tree/v1/examples>.
+If you have a univariate time series with suspected trend, such as the EuStockMarkets data set,
 
-You can also embed plots, for example:
+```{r stocks}
+data("EuStockMarkets")
+X <- as.numeric(time(EuStockMarkets))
+X_sp <- splines::bs(X-min(X), df = 9)
 
-```{r pressure, echo = FALSE}
-plot(pressure)
+fit_stock <- srlTS(log(EuStockMarkets[,1]), n_lags_max = 400, X = X_sp, w_exo = "unpenalized")
+tail(coef(fit_stock), 11)
+
+# insert plot? 
 ```
 
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN.
+If you have a univariate time series with suspected trend, such as the airquality data set,
+
+```{r seasonal}
+data("nottem")
+fit_nt <- srlTS(nottem, n_lags_max = 24)
+coef(fit_nt)
+
+data("UKDriverDeaths")
+fit_ukdd <- srlTS(UKDriverDeaths, n_lags_max = 24)
+coef(fit_ukdd)
+
+# Show how to add holiday indicators?
+
+data("sunspot.month")
+fit_ssm <- srlTS(sunspot.month)
+fit_ssm
+summary(fit_ssm$relaxed_fit)
+```
+

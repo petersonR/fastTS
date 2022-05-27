@@ -1,5 +1,7 @@
 #' Perform time series ranked sparsity methods
 #'
+#' @aliases plot.srlTS coef.srlTS predict.srlTS print.srlTS
+#'
 #' @param y univariate time series outcome
 #' @param X matrix of predictors (no intercept)
 #' @param n_lags_max maximum number of lags to consider
@@ -8,11 +10,17 @@
 #' @param pf_eps penalty factors below this will be set to zero
 #' @param w_endo optional pre-specified weights for endogenous terms
 #' @param w_exo optional pre-specified weights for exogenous terms
-#' @param ncv_args additional args to pass through to ncvreg
-
-sparseR_ts <- function(y, X = NULL, n_lags_max, gamma, ptrain = .8,
+#' @param ncvreg_args additional args to pass through to ncvreg
+#'
+#' @importFrom ncvreg ncvreg
+#' @importFrom dplyr lag
+#' @importFrom butcher axe_data
+#' @importFrom stats AIC BIC coef complete.cases lm logLik na.omit pacf predict ts
+#'
+#' @export
+srlTS <- function(y, X = NULL, n_lags_max, gamma, ptrain = .8,
                        pf_eps = 0.01, w_endo, w_exo,
-                       ncv_args = list(penalty = "lasso", returnX = FALSE, lambda.min = .001)) {
+                  ncvreg_args = list(penalty = "lasso", returnX = FALSE, lambda.min = .001)) {
   n <- length(y)
 
   if(missing(n_lags_max))
@@ -23,25 +31,40 @@ sparseR_ts <- function(y, X = NULL, n_lags_max, gamma, ptrain = .8,
 
   train_idx <- 1:floor(n*ptrain)
 
+  if(any(is.na(y)))
+    stop("Cannot have missing values in outcome; run imputation first?")
+
+  if(class(y) == "ts")
+    y <- as.numeric(y)
+
   ytest <- y[-train_idx]
   ytrain <- y[train_idx]
+
 
   ## SRL-pac
   ylags <- sapply(1:n_lags_max, function(i) dplyr::lag(y, i))
   colnames(ylags) <- paste0('lag', 1:n_lags_max)
 
   if(!is.null(X)) {
+    X <- as.matrix(X)
+
+    stopifnot(is.numeric(X))
+
     if(is.null(colnames(X)))
       colnames(X) <- paste0("X", 1:ncol(X))
-    Xtest <- X[-train_idx,]
-    Xtrain <- X[train_idx,]
+
+    if(any(is.na(X)))
+      stop("Cannot have missing values in covariates; run imputation first?")
+
+    Xtest <- X[-train_idx,, drop = FALSE ]
+    Xtrain <- X[train_idx,, drop = FALSE]
 
     Xfulltrain <- na.omit(cbind(ylags, X)[train_idx,])
     Xfulltest <- cbind(ylags, X)[-train_idx,]
 
     # Use simple OLS for weights for exogenous features
     if(missing(w_exo))
-      w_exo <- abs(apply(Xtrain, 2, function(x) coef(lm((ytrain ~ x)))))
+      w_exo <- abs(apply(Xtrain, 2, function(x) coef(lm((ytrain ~ x)))[2]))
 
     if(w_exo[1] == "unpenalized")
       w_exo <- rep(Inf, ncol(Xtrain))
@@ -80,25 +103,8 @@ sparseR_ts <- function(y, X = NULL, n_lags_max, gamma, ptrain = .8,
   best_fit_penalized_bic <- srl_fits[[which.min(apply(sapply(srl_fits, BIC), 2, min))]]
   best_fit_penalized_aicc <- srl_fits[[which.min(apply(sapply(srl_fits, AICc), 2, min))]]
 
-  predictions <- data.frame(
-    y = ytest,
-    fc_srb = predict(best_fit_penalized_bic, X = Xfulltest, which = which.min(BIC(best_fit_penalized_bic))),
-    fc_sra = predict(best_fit_penalized_aicc, X = Xfulltest, which = which.min(AICc(best_fit_penalized_aicc)))
-  )
+  oos_results <- get_oos_results(srl_fits, ytest=ytest, Xtest=Xfulltest)
 
-  oos_results_aic <- predictions %>%
-    summarize(
-      rmse = yardstick::rmse_vec(y, fc_sra),
-      rsq = yardstick::rsq_vec(y, fc_sra),
-      mae = yardstick::mae_vec(y, fc_sra),
-    )
-
-  oos_results_bic <- predictions %>%
-    summarize(
-      rmse = yardstick::rmse_vec(y, fc_srb),
-      rsq = yardstick::rsq_vec(y, fc_srb),
-      mae = yardstick::mae_vec(y, fc_srb)
-    )
   b <- coef(best_fit_penalized_aicc, which = which.min(AICc(best_fit_penalized_aicc)))[-1]
   df <- data.frame(y=y_cc_train, Xfulltrain[,b!=0])
   relaxed_fit <- lm(y ~ ., data = df)
@@ -107,39 +113,32 @@ sparseR_ts <- function(y, X = NULL, n_lags_max, gamma, ptrain = .8,
     fits = srl_fits,
     ncvreg_args = ncvreg_args,
     gamma = gamma,
-    oos_results = rbind("AIC" = oos_results_aic, "BIC" = oos_results_bic),
-    relaxed_fit = broom::tidy(relaxed_fit)
+    oos_results = oos_results,
+    relaxed_fit = axe_data(relaxed_fit)
   )
 
-  class(results) <- "sparseR_ts"
+  class(results) <- "srlTS"
   results
 }
 
-# try1 <- sparseR_ts(y2, n_lags_max = 24)
+#' @importFrom graphics abline
+#' @export
+plot.srlTS <- function(x, log.l = TRUE, ...){
 
-plot.sparseR_ts <- function(x, log.l = TRUE, ...){
-
-  best_fit_penalized_bic <- x$fits[[which.min(apply(sapply(x$fits, BIC), 2, min))]]
   best_fit_penalized_aicc <- x$fits[[which.min(apply(sapply(x$fits, AICc), 2, min))]]
 
   tr_fn <- ifelse(log.l, log, I)
 
   plot(best_fit_penalized_aicc, log.l = log.l, ...)
-  title("PFs selected by AICc")
   abline(v = tr_fn(best_fit_penalized_aicc$lambda[which.min(AICc(best_fit_penalized_aicc))]))
   abline(v = tr_fn(best_fit_penalized_aicc$lambda[which.min(BIC(best_fit_penalized_aicc))]))
 
-  plot(best_fit_penalized_bic, log.l = log.l, ...)
-  title("PFs selected by BIC")
-  abline(v = tr_fn(best_fit_penalized_bic$lambda[which.min(AICc(best_fit_penalized_bic))]))
-  abline(v = tr_fn(best_fit_penalized_bic$lambda[which.min(BIC(best_fit_penalized_bic))]))
   invisible(x)
 }
 
-# plot(try1)
 
-
-coef.sparseR_ts <- function(object, choose = c("AICc", "BIC", "all"), ...) {
+#' @export
+coef.srlTS <- function(object, choose = c("AICc", "BIC", "all"), ...) {
 
   choose <- match.arg(choose)
 
@@ -150,9 +149,8 @@ coef.sparseR_ts <- function(object, choose = c("AICc", "BIC", "all"), ...) {
   predict(best_fit_penalized_aicc,  type = "coef", which = which.min(AICc(best_fit_penalized_aicc)))
 }
 
-# coef(try1)
-
-print.sparseR_ts <- function(x, ...) {
+#' @export
+print.srlTS <- function(x, ...) {
   gamma_summary <- data.frame(
     "PF_gamma" = x$gamma,
     best_AICc = apply(sapply(x$fits, AICc), 2, min),
@@ -164,5 +162,3 @@ print.sparseR_ts <- function(x, ...) {
   cat("\nTest-set prediction accuracy\n")
   print(x$oos_results, row.names = TRUE)
 }
-
-# print(try1)
