@@ -16,6 +16,8 @@ knitr::opts_chunk$set(
 # srlTS
 
 <!-- badges: start -->
+[![R-CMD-check](https://github.com/petersonR/srlTS/workflows/R-CMD-check/badge.svg)](https://github.com/petersonR/srlTS/actions)
+[![Codecov test coverage](https://codecov.io/gh/petersonR/srlTS/branch/main/graph/badge.svg)](https://app.codecov.io/gh/petersonR/srlTS?branch=main)
 <!-- badges: end -->
 
 The goal of srlTS is to ...
