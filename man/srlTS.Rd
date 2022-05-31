@@ -39,6 +39,28 @@ srlTS(
 
 \item{ncvreg_args}{additional args to pass through to ncvreg}
 }
+\value{
+A list of class \code{slrTS} with elements
+
+  \item{fits}{a list of lasso fits}
+  \item{ncvreg_args}{arguments passed to ncvreg}
+  \item{gamma}{the (negative) exponent on the penalty weights, one for each fit}
+  \item{oos_results}{results on test data using best of fits}
+  \item{relaxed_fit}{an \code{lm} object with the terms selected the best fit}
+}
 \description{
 Perform time series ranked sparsity methods
+}
+\details{
+Placeholder text for additional details here...
+}
+\references{
+Breheny, P. and Huang, J. (2011) Coordinate descent algorithms
+  for nonconvex penalized regression, with applications to biological feature
+  selection. Ann. Appl. Statist., 5: 232-253.
+
+  Peterson, R.A., Cavanaugh, J.E. Ranked sparsity: a cogent regularization
+  framework for selecting and estimating feature interactions and
+  polynomials. AStA Adv Stat Anal (2022).
+  https://doi.org/10.1007/s10182-021-00431-7
 }
