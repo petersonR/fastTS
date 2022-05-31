@@ -1,4 +1,10 @@
 url: https://petersonr.github.io/srlTS/
 template:
   bootstrap: 5
+articles:
+- title: Vignettes
+  contents:
+  - getting-started
+  - case_studies
+
 
