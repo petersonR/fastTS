@@ -4,7 +4,8 @@ Title: Sparsity-ranked lasso for time series
 Version: 0.1.0
 Authors@R: person("Ryan Andrew", "Peterson", 
                   email = "ryan.a.peterson@cuanschutz.edu", 
-                  role = c("aut", "cre"))
+                  role = c("aut", "cre"),
+                  comment = c(ORCID = "0000-0002-4650-5798"))
 Description: Fits sparsity-ranked lasso models to times series data.
     Especially useful for large time series with exogenous features 
     and/or complex seasonality.
@@ -14,6 +15,8 @@ LazyData: true
 RoxygenNote: 7.1.2
 Suggests: 
     covr,
+    knitr,
+    rmarkdown,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 URL: https://petersonr.github.io/srlTS/
@@ -24,3 +27,4 @@ Imports:
     butcher,
     yardstick,
     rlang
+VignetteBuilder: knitr

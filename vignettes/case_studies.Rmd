@@ -1,0 +1,83 @@
+---
+title: "Case Studies"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Case Studies}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(srlTS)
+```
+
+
+# Lake Huron data set
+
+```{r lakehuron}
+data("LakeHuron")
+
+fit_LH <- srlTS(LakeHuron)
+
+fit_LH
+coef(fit_LH)
+```
+
+# EuStockMarkets
+
+If you have a univariate time series with suspected trend, such as the EuStockMarkets data set,
+
+```{r stocks}
+data("EuStockMarkets")
+X <- as.numeric(time(EuStockMarkets))
+X_sp <- splines::bs(X-min(X), df = 9)
+
+fit_stock <- srlTS(log(EuStockMarkets[,1]), n_lags_max = 400, X = X_sp, w_exo = "unpenalized")
+tail(coef(fit_stock), 11)
+
+# insert plot? 
+```
+
+# Seasonal examples
+
+## Nottem 
+
+```{r nottem}
+data("nottem")
+fit_nt <- srlTS(nottem, n_lags_max = 24)
+coef(fit_nt)
+
+```
+
+## UKDriverDeaths
+
+```{r UKDriverDeaths}
+data("UKDriverDeaths")
+fit_ukdd <- srlTS(UKDriverDeaths, n_lags_max = 24)
+coef(fit_ukdd)
+
+```
+
+Adding holiday indicators...
+
+## sunspot
+
+```{r sunspot}
+
+data("sunspot.month")
+fit_ssm <- srlTS(sunspot.month)
+fit_ssm
+```
+
+Extracting unpenalized fit object
+
+```{r sunspot2}
+summary(fit_ssm$relaxed_fit)
+```
