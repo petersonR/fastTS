@@ -18,11 +18,17 @@
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="active nav-item">
+      <ul class="navbar-nav me-auto"><li class="nav-item">
+  <a class="nav-link" href="../articles/srlTS.html">Get started</a>
+</li>
+<li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
-<li class="nav-item">
-  <a class="nav-link" href="../articles/index.html">Articles</a>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/case_studies.html">Case Studies</a>
+  </div>
 </li>
 <li class="nav-item">
   <a class="nav-link" href="../news/index.html">Changelog</a>
@@ -82,6 +88,34 @@
 <dt>ncvreg_args</dt>
 <dd><p>additional args to pass through to ncvreg</p></dd>
 </dl></div>
+    <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <p>A list of class <code>slrTS</code> with elements</p>
+<dl><dt>fits</dt>
+<dd><p>a list of lasso fits</p></dd>
+<dt>ncvreg_args</dt>
+<dd><p>arguments passed to ncvreg</p></dd>
+<dt>gamma</dt>
+<dd><p>the (negative) exponent on the penalty weights, one for each fit</p></dd>
+<dt>oos_results</dt>
+<dd><p>results on test data using best of fits</p></dd>
+<dt>relaxed_fit</dt>
+<dd><p>an <code>lm</code> object with the terms selected the best fit</p></dd>
+</dl></div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>Placeholder text for additional details here...</p>
+    </div>
+    <div class="section level2">
+    <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
+    <p>Breheny, P. and Huang, J. (2011) Coordinate descent algorithms
+  for nonconvex penalized regression, with applications to biological feature
+  selection. Ann. Appl. Statist., 5: 232-253.</p>
+<p>Peterson, R.A., Cavanaugh, J.E. Ranked sparsity: a cogent regularization
+  framework for selecting and estimating feature interactions and
+  polynomials. AStA Adv Stat Anal (2022).
+  https://doi.org/10.1007/s10182-021-00431-7</p>
+    </div>
 
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>

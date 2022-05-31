@@ -35,11 +35,17 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
+<li class="active nav-item">
+  <a class="nav-link" href="../articles/srlTS.html">Get started</a>
+</li>
 <li class="nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
-<li class="active nav-item">
-  <a class="nav-link" href="../articles/index.html">Articles</a>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/case_studies.html">Case Studies</a>
+  </div>
 </li>
 <li class="nav-item">
   <a class="nav-link" href="../news/index.html">Changelog</a>
@@ -58,13 +64,13 @@
 
 
 
-<script src="getting-started_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+<script src="srlTS_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <main id="main"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Getting Started with srlTS</h1>
             
       
       
-      <div class="d-none name"><code>getting-started.Rmd</code></div>
+      <div class="d-none name"><code>srlTS.Rmd</code></div>
     </div>
 
     
@@ -77,19 +83,35 @@
 <div class="section level3">
 <h3 id="original-motivation">Original motivation<a class="anchor" aria-label="anchor" href="#original-motivation"></a>
 </h3>
+<p>The sparsity-ranked lasso (SRL) has been developed for model selection and estimation in the presence of interactions and polynomials (see <a href="https://doi.org/10.1007/s10182-021-00431-7" class="external-link">Peterson &amp; Cavanaugh 2022</a>). The main idea is that an algorithm should be more skeptical of higher-order polynomials and interactions a priori compared to main effects.</p>
 </div>
 <div class="section level3">
 <h3 id="proposed-usage-for-time-series-data">Proposed usage for time series data<a class="anchor" aria-label="anchor" href="#proposed-usage-for-time-series-data"></a>
 </h3>
+<p>In time series, the same idea of ranked prior skepticism can be applied to the autoregressive (AR) structure of the series during the model fitting process. For instance, AR(1) models are more common to arise in nature than AR(1000) models (this at least seems to be the case, given their relative popularity).</p>
+<p>Perhaps more usefully, in cases when seasonality exists with a known frequency, seasonal autoregressive (SAR) terms are frequently used to account for this seasonality in the model fit. There exist some methods for dealing with seasonal data, including SARIMA models and TBATs models, but only the latter of these can (straightforwardly) handle seasonal data with multiple modes of seasonality. Further, when the seasonal frequencies are unknown, it becomes unclear how to best proceed with either method.</p>
+<p>So, in cases when multiple modes of seasonality may exist, or when the seasonal frequency is unknown or imprecise, the SRL can be utilized. Thanks to fast computation of the lasso via coordinate descent, these fits are relatively quick even on large series, and they can easily account for a high-dimensional set of exogenous features.</p>
 </div>
 </div>
 <div class="section level2">
-<h2 id="using-prior-knowledge-based-parametric-models-for-penalty-weights">Using prior-knowledge based parametric models for penalty weights<a class="anchor" aria-label="anchor" href="#using-prior-knowledge-based-parametric-models-for-penalty-weights"></a>
+<h2 id="prior-knowledge-based-parametric-models-for-penalty-weights">Prior-knowledge-based parametric models for penalty weights<a class="anchor" aria-label="anchor" href="#prior-knowledge-based-parametric-models-for-penalty-weights"></a>
 </h2>
+<p>The weights applied to the penalty in the SRL will be based on series lags (for the endogenous components). One can build a weighting function based on a suspected trend, seasonality, or both.</p>
 </div>
 <div class="section level2">
 <h2 id="using-data-based-penalty-weights">Using data-based penalty weights<a class="anchor" aria-label="anchor" href="#using-data-based-penalty-weights"></a>
 </h2>
+<p>An alternative to the parametric version may be useful in cases when there is much uncertainty regarding the seasonality and trend components. In this formulation, the partial autocorrelation function (PACF) is used to estimate these weights, akin to the adaptive lasso approach.</p>
+</div>
+<div class="section level2">
+<h2 id="using-exogenous-features">Using exogenous features<a class="anchor" aria-label="anchor" href="#using-exogenous-features"></a>
+</h2>
+<p>The <code>srlTS</code> package allows for the specification of a (possibly large) matrix of exogenous features. These may be either penalized (useful if there are many features) or unpenalized (useful for unbiasedness in downstream inference).</p>
+</div>
+<div class="section level2">
+<h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
+</h2>
+<p>Please consult the next vignette for some case studies illustrating these features.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>

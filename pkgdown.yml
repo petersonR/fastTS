@@ -3,8 +3,8 @@ pkgdown: 2.0.3
 pkgdown_sha: ~
 articles:
   case_studies: case_studies.html
-  getting-started: getting-started.html
-last_built: 2022-05-31T15:45Z
+  srlTS: srlTS.html
+last_built: 2022-05-31T16:17Z
 urls:
   reference: https://petersonr.github.io/srlTS/reference
   article: https://petersonr.github.io/srlTS/articles
