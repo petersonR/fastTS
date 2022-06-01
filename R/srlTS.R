@@ -1,6 +1,6 @@
 #' Perform time series ranked sparsity methods
 #'
-#' @aliases plot.srlTS coef.srlTS predict.srlTS print.srlTS
+#' @aliases plot.srlTS coef.srlTS print.srlTS
 #'
 #' @param y univariate time series outcome
 #' @param X matrix of predictors (no intercept)
@@ -16,9 +16,11 @@
 #'   \item{fits}{a list of lasso fits}
 #'   \item{ncvreg_args}{arguments passed to ncvreg}
 #'   \item{gamma}{the (negative) exponent on the penalty weights, one for each fit}
+#'   \item{n_lags_max}{the maximum number of lags}
+#'   \item{y}{the time series}
+#'   \item{X}{the utilized matrix of exogenous features}
 #'   \item{oos_results}{results on test data using best of fits}
 #'   \item{relaxed_fit}{an \code{lm} object with the terms selected the best fit}
-#'
 #'
 #' @details Placeholder text for additional details here...
 #'
@@ -31,8 +33,9 @@
 #'   polynomials. AStA Adv Stat Anal (2022).
 #'   https://doi.org/10.1007/s10182-021-00431-7
 #'
+#' @seealso predict.srlTS
+#'
 #' @importFrom ncvreg ncvreg
-#' @importFrom dplyr lag
 #' @importFrom butcher axe_data
 #' @importFrom stats AIC BIC coef complete.cases lm logLik na.omit pacf predict ts
 #'
@@ -60,10 +63,7 @@ srlTS <- function(y, X = NULL, n_lags_max, gamma, ptrain = .8,
   ytrain <- y[train_idx]
 
 
-  ## SRL-pac
-  ylags <- sapply(1:n_lags_max, function(i) dplyr::lag(y, i))
-  colnames(ylags) <- paste0('lag', 1:n_lags_max)
-
+  ## if exogenous features supplied...
   if(!is.null(X)) {
     X <- as.matrix(X)
 
@@ -75,11 +75,11 @@ srlTS <- function(y, X = NULL, n_lags_max, gamma, ptrain = .8,
     if(any(is.na(X)))
       stop("Cannot have missing values in covariates; run imputation first?")
 
-    Xtest <- X[-train_idx,, drop = FALSE ]
+    Xfull <- get_model_matrix(y, X, n_lags_max)
     Xtrain <- X[train_idx,, drop = FALSE]
 
-    Xfulltrain <- na.omit(cbind(ylags, X)[train_idx,])
-    Xfulltest <- cbind(ylags, X)[-train_idx,]
+    Xfulltrain <- na.omit(Xfull[train_idx,])
+    Xfulltest <- Xfull[-train_idx,]
 
     # Use simple OLS for weights for exogenous features
     if(missing(w_exo))
@@ -88,13 +88,15 @@ srlTS <- function(y, X = NULL, n_lags_max, gamma, ptrain = .8,
     if(w_exo[1] == "unpenalized")
       w_exo <- rep(Inf, ncol(Xtrain))
 
-  } else {
-    Xfulltrain <- na.omit(ylags[train_idx,])
-    Xfulltest <- ylags[-train_idx,]
+  } else { # otherwise...
+    X <- NULL
+    Xfull <- get_model_matrix(y, n_lags_max = n_lags_max)
+    Xfulltrain <- na.omit(Xfull[train_idx,])
+    Xfulltest <- Xfull[-train_idx,]
     w_exo <- NULL
   }
 
-  y_cc_train <- ytrain[complete.cases(ylags)[train_idx]]
+  y_cc_train <- ytrain[complete.cases(Xfull)[train_idx]]
 
   if(missing(w_endo)) {
     pacfs <- pacf(ts(ytrain), lag.max = n_lags_max, plot = FALSE)
@@ -112,7 +114,6 @@ srlTS <- function(y, X = NULL, n_lags_max, gamma, ptrain = .8,
 
   ncvreg_args$X <- Xfulltrain
   ncvreg_args$y <- y_cc_train
-
 
   srl_fits <- apply(pfs, 2, function(x) {
     ncvreg_args$penalty.factor <- x
@@ -132,6 +133,8 @@ srlTS <- function(y, X = NULL, n_lags_max, gamma, ptrain = .8,
     fits = srl_fits,
     ncvreg_args = ncvreg_args,
     gamma = gamma,
+    n_lags_max = n_lags_max,
+    y = y, X = X,
     oos_results = oos_results,
     relaxed_fit = axe_data(relaxed_fit)
   )
@@ -180,4 +183,86 @@ print.srlTS <- function(x, ...) {
 
   cat("\nTest-set prediction accuracy\n")
   print(x$oos_results, row.names = TRUE)
+}
+
+#' Predict function for srlTS object
+#'
+#' @param object an srlTS object
+#' @param n_ahead number of times ahead to predict by iteration
+#' @param X_test a matrix exogenous features
+#' @param y_test the test series, for future predictions if n_ahead <
+#'   nrow(X_test) (optional)
+#' @param cumulative should cumulative (rolling) sums be returned (integer
+#'   indicating number of times to sum)
+#' @param ... currently unused
+#'
+#' @importFrom RcppRoll roll_sum
+#' @importFrom utils tail
+#'
+#' @export
+predict.srlTS <- function(object, n_ahead = 1, X_test, y_test, cumulative = 0, ...) {
+
+  aics <- sapply(object$fits, AICc)
+  best_idx <- which(aics == min(aics), arr.ind = TRUE)
+
+  fit <- object$fits[[best_idx[2]]]
+  n <- length(object$y)
+
+  X_orig <- get_model_matrix(object$y, X = object$X, n_lags_max = object$n_lags_max)
+
+  if(missing(X_test)) {
+    # get one-step predictions
+    p <- unname(predict(fit, X = X_orig, which = best_idx[1]))
+
+    if(n_ahead > 1) {
+      X_new <- X_orig
+      for(j in 2:n_ahead) {
+        X_new <- cbind(
+          c(NA, p[-length(p)]),
+          X_new[,-1]
+        )
+        colnames(X_new) <- colnames(X_orig)
+        p <- unname(predict(fit, X = X_new, which = best_idx[1]))
+      }
+    }
+
+    if(cumulative <= 1)
+      return(p)
+    if(cumulative > 1)
+      return(roll_sum(p, n = cumulative, align = "right", fill = NA))
+
+  } else {
+    stopifnot(isTRUE(ncol(object$X) == ncol(X_test)))
+
+    if(missing(y_test)) {
+      warning("setting n_ahead to ", nrow(X_test), ";, otherwise supply y_test")
+      n_ahead <- nrow(X_test)
+      full_y <- c(object$y, rep(NA, n_ahead))
+    } else {
+      full_y <- c(object$y, y_test)
+    }
+
+    X_new <- get_model_matrix(full_y, X = rbind(object$X, X_test), n_lags_max = object$n_lags_max)
+  }
+
+  if(n_ahead > 1) {
+    # Fill in lags for 1 through n_ahead with model predictions
+    for(j in 1:(n_ahead-1)) {
+      p_j <- unname(predict(fit, X = X_new[(n+1):(n+j),], which = best_idx[1]))
+      if(j < object$n_lags_max) {
+        X_new[n + j + 1, j:1] <- p_j
+      } else {
+        X_new[n + j + 1, object$n_lags_max:1] <- tail(p_j, object$n_lags_max)
+      }
+    }
+  }
+
+  p <- unname(predict(fit, X = X_new, which = best_idx[1]))
+
+  if(cumulative <= 1)
+    return(p[-(1:n)])
+
+  # Cumulatively add predictions
+  psum <- roll_sum(p, n = cumulative, align = "right", fill = NA)
+  psum[-(1:n)]
 }

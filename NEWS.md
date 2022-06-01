@@ -1,4 +1,7 @@
 
+# srlTS 0.1.0.900
+
+- Add `predict` functionality 
 
 # srlTS 0.1.0
 

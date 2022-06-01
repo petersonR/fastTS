@@ -37,3 +37,12 @@ get_oos_results <- function(fits, ytest, Xtest) {
 
   oos_results <- rbind("AIC" = oos_results_aic, "BIC" = oos_results_bic)
 }
+
+#' @importFrom dplyr lag
+get_model_matrix <- function(y, X = NULL, n_lags_max) {
+
+  ylags <- sapply(1:n_lags_max, function(i) lag(y, i))
+  colnames(ylags) <- paste0('lag', 1:n_lags_max)
+
+  cbind(ylags, X)
+}

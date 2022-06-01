@@ -1,7 +1,7 @@
 Package: srlTS
 Type: Package
 Title: Sparsity-ranked lasso for time series
-Version: 0.1.0
+Version: 0.1.0.900
 Authors@R: person("Ryan Andrew", "Peterson", 
                   email = "ryan.a.peterson@cuanschutz.edu", 
                   role = c("aut", "cre"),
@@ -26,5 +26,6 @@ Imports:
     magrittr,
     butcher,
     yardstick,
-    rlang
+    rlang,
+    RcppRoll
 VignetteBuilder: knitr

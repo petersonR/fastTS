@@ -4,7 +4,6 @@
 \alias{srlTS}
 \alias{plot.srlTS}
 \alias{coef.srlTS}
-\alias{predict.srlTS}
 \alias{print.srlTS}
 \title{Perform time series ranked sparsity methods}
 \usage{
@@ -45,6 +44,9 @@ A list of class \code{slrTS} with elements
   \item{fits}{a list of lasso fits}
   \item{ncvreg_args}{arguments passed to ncvreg}
   \item{gamma}{the (negative) exponent on the penalty weights, one for each fit}
+  \item{n_lags_max}{the maximum number of lags}
+  \item{y}{the time series}
+  \item{X}{the utilized matrix of exogenous features}
   \item{oos_results}{results on test data using best of fits}
   \item{relaxed_fit}{an \code{lm} object with the terms selected the best fit}
 }
@@ -63,4 +65,7 @@ Breheny, P. and Huang, J. (2011) Coordinate descent algorithms
   framework for selecting and estimating feature interactions and
   polynomials. AStA Adv Stat Anal (2022).
   https://doi.org/10.1007/s10182-021-00431-7
+}
+\seealso{
+predict.srlTS
 }
