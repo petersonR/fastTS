@@ -129,7 +129,8 @@ srlTS <- function(y, X = NULL, n_lags_max, gamma, ptrain = .8,
     ncvreg_args = ncvreg_args,
     gamma = gamma,
     n_lags_max = n_lags_max,
-    y = y, X = X,
+    y = y, X = X, y_cc_train = y_cc_train,
+    Xfulltrain = Xfulltrain,
     oos_results = oos_results
   )
 
@@ -264,7 +265,8 @@ predict.srlTS <- function(object, n_ahead = 1, X_test, y_test, cumulative = 0, .
 #' @export
 summary.srlTS <- function(x, ...) {
   aics <- sapply(x$fits, function(x) min(AICc(x)))
+  best_fit <- x$fits[[which.min(aics)]]
 
   cat("Model summary at optimal AICc\n")
-  summary(x, which = which.min(aics))
+  summary(best_fit, which = which(AICc(best_fit) == min(aics)), X = x$Xfulltrain, y = x$y_cc_train, ...)
 }
