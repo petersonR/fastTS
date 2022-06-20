@@ -48,7 +48,6 @@ A list of class \code{slrTS} with elements
   \item{y}{the time series}
   \item{X}{the utilized matrix of exogenous features}
   \item{oos_results}{results on test data using best of fits}
-  \item{relaxed_fit}{an \code{lm} object with the terms selected the best fit}
 }
 \description{
 Perform time series ranked sparsity methods

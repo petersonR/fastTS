@@ -20,7 +20,6 @@
 #'   \item{y}{the time series}
 #'   \item{X}{the utilized matrix of exogenous features}
 #'   \item{oos_results}{results on test data using best of fits}
-#'   \item{relaxed_fit}{an \code{lm} object with the terms selected the best fit}
 #'
 #' @details Placeholder text for additional details here...
 #'
@@ -125,18 +124,13 @@ srlTS <- function(y, X = NULL, n_lags_max, gamma, ptrain = .8,
 
   oos_results <- get_oos_results(srl_fits, ytest=ytest, Xtest=Xfulltest)
 
-  b <- coef(best_fit_penalized_aicc, which = which.min(AICc(best_fit_penalized_aicc)))[-1]
-  df <- data.frame(y=y_cc_train, Xfulltrain[,b!=0])
-  relaxed_fit <- lm(y ~ ., data = df)
-
   results <- list(
     fits = srl_fits,
     ncvreg_args = ncvreg_args,
     gamma = gamma,
     n_lags_max = n_lags_max,
     y = y, X = X,
-    oos_results = oos_results,
-    relaxed_fit = axe_data(relaxed_fit)
+    oos_results = oos_results
   )
 
   class(results) <- "srlTS"
@@ -265,4 +259,12 @@ predict.srlTS <- function(object, n_ahead = 1, X_test, y_test, cumulative = 0, .
   # Cumulatively add predictions
   psum <- roll_sum(p, n = cumulative, align = "right", fill = NA)
   psum[-(1:n)]
+}
+
+#' @export
+summary.srlTS <- function(x, ...) {
+  aics <- sapply(x$fits, function(x) min(AICc(x)))
+
+  cat("Model summary at optimal AICc\n")
+  summary(x, which = which.min(aics))
 }
