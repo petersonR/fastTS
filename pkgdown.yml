@@ -1,10 +1,10 @@
 pandoc: 2.7.3
-pkgdown: 2.0.3
+pkgdown: 2.0.4
 pkgdown_sha: ~
 articles:
   case_studies: case_studies.html
   srlTS: srlTS.html
-last_built: 2022-06-01T17:30Z
+last_built: 2022-06-20T19:49Z
 urls:
   reference: https://petersonr.github.io/srlTS/reference
   article: https://petersonr.github.io/srlTS/articles

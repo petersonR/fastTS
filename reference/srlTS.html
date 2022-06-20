@@ -71,42 +71,66 @@
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>y</dt>
 <dd><p>univariate time series outcome</p></dd>
+
+
 <dt>X</dt>
 <dd><p>matrix of predictors (no intercept)</p></dd>
+
+
 <dt>n_lags_max</dt>
 <dd><p>maximum number of lags to consider</p></dd>
+
+
 <dt>gamma</dt>
 <dd><p>vector of exponent for weights</p></dd>
+
+
 <dt>ptrain</dt>
 <dd><p>prop. to leave out for test data</p></dd>
+
+
 <dt>pf_eps</dt>
 <dd><p>penalty factors below this will be set to zero</p></dd>
+
+
 <dt>w_endo</dt>
 <dd><p>optional pre-specified weights for endogenous terms</p></dd>
+
+
 <dt>w_exo</dt>
 <dd><p>optional pre-specified weights for exogenous terms</p></dd>
+
+
 <dt>ncvreg_args</dt>
 <dd><p>additional args to pass through to ncvreg</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A list of class <code>slrTS</code> with elements</p>
+    
+
+<p>A list of class <code>slrTS</code> with elements</p>
 <dl><dt>fits</dt>
 <dd><p>a list of lasso fits</p></dd>
-<dt>ncvreg_args</dt>
+
+  <dt>ncvreg_args</dt>
 <dd><p>arguments passed to ncvreg</p></dd>
-<dt>gamma</dt>
+
+  <dt>gamma</dt>
 <dd><p>the (negative) exponent on the penalty weights, one for each fit</p></dd>
-<dt>n_lags_max</dt>
+
+  <dt>n_lags_max</dt>
 <dd><p>the maximum number of lags</p></dd>
-<dt>y</dt>
+
+  <dt>y</dt>
 <dd><p>the time series</p></dd>
-<dt>X</dt>
+
+  <dt>X</dt>
 <dd><p>the utilized matrix of exogenous features</p></dd>
-<dt>oos_results</dt>
+
+  <dt>oos_results</dt>
 <dd><p>results on test data using best of fits</p></dd>
-<dt>relaxed_fit</dt>
-<dd><p>an <code>lm</code> object with the terms selected the best fit</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -136,7 +160,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
     </footer></div>
