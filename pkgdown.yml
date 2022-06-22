@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   case_studies: case_studies.html
   srlTS: srlTS.html
-last_built: 2022-06-20T20:26Z
+last_built: 2022-06-22T16:20Z
 urls:
   reference: https://petersonr.github.io/srlTS/reference
   article: https://petersonr.github.io/srlTS/articles
