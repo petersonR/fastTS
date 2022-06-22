@@ -21,15 +21,15 @@ get_oos_results <- function(fits, ytest, Xtest) {
     fc_sra = predict(best_fit_penalized_aicc, X = Xtest, which = which.min(AICc(best_fit_penalized_aicc)))
   )
 
-  oos_results_aic <- predictions %>%
-    summarize(
+  oos_results_aic <- summarize(
+      predictions,
       rmse = rmse_vec(.data$y, .data$fc_sra),
       rsq = rsq_vec(.data$y, .data$fc_sra),
       mae = mae_vec(.data$y, .data$fc_sra),
     )
 
-  oos_results_bic <- predictions %>%
-    summarize(
+  oos_results_bic <- summarize(
+      predictions,
       rmse = rmse_vec(.data$y, .data$fc_srb),
       rsq = rsq_vec(.data$y, .data$fc_srb),
       mae = mae_vec(.data$y, .data$fc_srb)

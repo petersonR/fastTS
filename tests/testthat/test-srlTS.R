@@ -40,36 +40,3 @@ test_that("srlTS stops with missings", {
   expect_error(fit <- srlTS(y, X=X2, gamma = c(0, .5)))
 })
 
-test_that("predict.srlTS works as intended when X not supplied", {
-  expect_silent(p <- predict(fit))
-  expect_gt(cor(p, y, use = "pairwise.complete"), .95)
-  expect_silent(p2 <- predict(fit, n_ahead = 2))
-
-  expect_length(p, length(y))
-  expect_length(p2, length(y))
-
-  expect_gt(cor(p, y, use = "pairwise.complete"), .95)
-  expect_gt(cor(p2, y, use = "pairwise.complete"), .9)
-  expect_gt(cor(p, p2, use = "pairwise.complete"), .97)
-
-})
-
-X_test <- X[12:1,]
-test_that("predict.srlTS works as intended when X_test supplied", {
-  expect_warning(p <- predict(fit, X_test = X_test))
-  expect_length(p, nrow(X_test))
-
-  expect_silent(p <- predict(fit, X_test = X_test, y_test = y[12:1]))
-  expect_length(p, nrow(X_test))
-
-  expect_silent(p2 <- predict(fit, X_test = X_test, y_test = y[12:1], n_ahead = 2))
-  expect_length(p2, nrow(X_test))
-  expect_gt(cor(p2, p), .88)
-
-  expect_silent(pc <- predict(fit, X_test = X_test, y_test = y[12:1], cumulative = 12))
-  expect_length(pc, nrow(X_test))
-  expect_equal(pc[12], sum(p))
-
-  expect_silent(p <- predict(fit, X_test = X_test, y_test = y[12:1], cumulative = 2, n_ahead = 2))
-  expect_length(p, nrow(X_test))
-})

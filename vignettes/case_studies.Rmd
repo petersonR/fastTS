@@ -16,6 +16,7 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(srlTS)
+library(magrittr) # for pipe
 ```
 
 
@@ -76,8 +77,8 @@ fit_ssm <- srlTS(sunspot.month)
 fit_ssm
 ```
 
-Extracting unpenalized fit object
+Model summaries
 
 ```{r sunspot2}
-summary(fit_ssm$relaxed_fit)
+summary(fit_ssm)
 ```

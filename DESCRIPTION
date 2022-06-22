@@ -17,15 +17,16 @@ Suggests:
     covr,
     knitr,
     rmarkdown,
+    magrittr,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 URL: https://petersonr.github.io/srlTS/
 Imports: 
     dplyr,
     ncvreg,
-    magrittr,
     butcher,
     yardstick,
     rlang,
-    RcppRoll
+    RcppRoll,
+    methods
 VignetteBuilder: knitr
