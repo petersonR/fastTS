@@ -11,7 +11,7 @@ srlTS(
   y,
   X = NULL,
   n_lags_max,
-  gamma,
+  gamma = c(0, 2^(-2:4)),
   ptrain = 0.8,
   pf_eps = 0.01,
   w_endo,

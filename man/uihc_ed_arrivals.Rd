@@ -5,7 +5,7 @@
 \alias{uihc_ed_arrivals}
 \title{Hourly arrivals into the University of Iowa Hospital Emergency Department}
 \format{
-data frames with 17 columns:
+a data frame with 17 columns and 41640 rows:
 \describe{
   \item{Year}{Calendar year}
   \item{Quarter}{Fiscal year quarter}

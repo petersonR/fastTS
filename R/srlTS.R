@@ -47,16 +47,13 @@
 #' @importFrom methods is
 #'
 #' @export
-srlTS <- function(y, X = NULL, n_lags_max, gamma, ptrain = .8,
+srlTS <- function(y, X = NULL, n_lags_max, gamma = c(0, 2^(-2:4)), ptrain = .8,
                        pf_eps = 0.01, w_endo, w_exo,
                   ncvreg_args = list(penalty = "lasso", returnX = FALSE, lambda.min = .001)) {
   n <- length(y)
 
   if(missing(n_lags_max))
      n_lags_max <- min(1000, n/10)
-
-  if(missing(gamma))
-    gamma <- c(0, .25, .5, 1, 2, 4, 8, 16)
 
   train_idx <- 1:floor(n*ptrain)
 
