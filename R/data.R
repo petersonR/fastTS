@@ -3,7 +3,7 @@
 #' A data set containing the 17 columns described below. There are 41640
 #' observations running from 2013 to 2018. Data set are already sorted by time.
 #'
-#' @format data frames with 17 columns:
+#' @format a data frame with 17 columns and 41640 rows:
 #' \describe{
 #'   \item{Year}{Calendar year}
 #'   \item{Quarter}{Fiscal year quarter}

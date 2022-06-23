@@ -1,5 +1,5 @@
 ---
-title: "Modeling multi-modal hourly data"
+title: "Modeling Multi-Modal Hourly Data"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Modeling multi-modal hourly data}
