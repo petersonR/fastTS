@@ -9,19 +9,25 @@
 #' @param ptrain prop. to leave out for test data
 #' @param pf_eps penalty factors below this will be set to zero
 #' @param w_endo optional pre-specified weights for endogenous terms
-#' @param w_exo optional pre-specified weights for exogenous terms
+#' @param w_exo optional pre-specified weights for exogenous terms (see details)
 #' @param ncvreg_args additional args to pass through to ncvreg
 #' @return A list of class \code{slrTS} with elements
 #'
 #'   \item{fits}{a list of lasso fits}
 #'   \item{ncvreg_args}{arguments passed to ncvreg}
-#'   \item{gamma}{the (negative) exponent on the penalty weights, one for each fit}
+#'   \item{gamma}{the (negative) exponent on the penalty weights, one
+#'   for each fit}
 #'   \item{n_lags_max}{the maximum number of lags}
 #'   \item{y}{the time series}
 #'   \item{X}{the utilized matrix of exogenous features}
 #'   \item{oos_results}{results on test data using best of fits}
+#'   \item{train_idx}{index of observations used in training data}
 #'
-#' @details Placeholder text for additional details here...
+#' @details The default weights for exogenous features will be chosen based on
+#' a simliar approach to the adaptive lasso (using bivariate OLS estimates). For
+#' lower dimensional X, it's advised to set \code{w_exo="unpenalized"}, because
+#' this allows for statistical inference on exogenous variable coefficients
+#' via the \code{summary} function.
 #'
 #' @references Breheny, P. and Huang, J. (2011) Coordinate descent algorithms
 #'   for nonconvex penalized regression, with applications to biological feature
@@ -36,7 +42,8 @@
 #'
 #' @importFrom ncvreg ncvreg
 #' @importFrom butcher axe_data
-#' @importFrom stats AIC BIC coef complete.cases lm logLik na.omit pacf predict ts
+#' @importFrom stats AIC BIC coef complete.cases lm logLik na.omit pacf predict
+#'   ts
 #' @importFrom methods is
 #'
 #' @export
@@ -132,7 +139,8 @@ srlTS <- function(y, X = NULL, n_lags_max, gamma, ptrain = .8,
     n_lags_max = n_lags_max,
     y = y, X = X, y_cc_train = y_cc_train,
     Xfulltrain = Xfulltrain,
-    oos_results = oos_results
+    oos_results = oos_results,
+    train_idx = train_idx
   )
 
   class(results) <- "srlTS"

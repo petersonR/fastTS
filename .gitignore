@@ -6,3 +6,4 @@ docs
 inst/doc
 
 tests/testthat/*.pdf
+.DS_Store

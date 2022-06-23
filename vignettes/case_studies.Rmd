@@ -1,5 +1,5 @@
 ---
-title: "Case Studies"
+title: "Simple Case Studies"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Case Studies}

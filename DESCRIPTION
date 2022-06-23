@@ -18,7 +18,8 @@ Suggests:
     knitr,
     rmarkdown,
     magrittr,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    kableExtra
 Config/testthat/edition: 3
 URL: https://petersonr.github.io/srlTS/
 Imports: 

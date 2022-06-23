@@ -34,7 +34,7 @@ srlTS(
 
 \item{w_endo}{optional pre-specified weights for endogenous terms}
 
-\item{w_exo}{optional pre-specified weights for exogenous terms}
+\item{w_exo}{optional pre-specified weights for exogenous terms (see details)}
 
 \item{ncvreg_args}{additional args to pass through to ncvreg}
 }
@@ -43,17 +43,23 @@ A list of class \code{slrTS} with elements
 
   \item{fits}{a list of lasso fits}
   \item{ncvreg_args}{arguments passed to ncvreg}
-  \item{gamma}{the (negative) exponent on the penalty weights, one for each fit}
+  \item{gamma}{the (negative) exponent on the penalty weights, one
+  for each fit}
   \item{n_lags_max}{the maximum number of lags}
   \item{y}{the time series}
   \item{X}{the utilized matrix of exogenous features}
   \item{oos_results}{results on test data using best of fits}
+  \item{train_idx}{index of observations used in training data}
 }
 \description{
 Perform time series ranked sparsity methods
 }
 \details{
-Placeholder text for additional details here...
+The default weights for exogenous features will be chosen based on
+a simliar approach to the adaptive lasso (using bivariate OLS estimates). For
+lower dimensional X, it's advised to set \code{w_exo="unpenalized"}, because
+this allows for statistical inference on exogenous variable coefficients
+via the \code{summary} function.
 }
 \references{
 Breheny, P. and Huang, J. (2011) Coordinate descent algorithms

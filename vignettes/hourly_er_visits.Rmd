@@ -1,0 +1,252 @@
+---
+title: "Modeling multi-modal hourly data"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Modeling multi-modal hourly data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>", 
+  fig.width = 7, 
+  fig.height = 5
+)
+pvalr <- function(pvals, sig.limit = .001, digits = 3, html = FALSE) {
+  
+  roundr <- function(x, digits = 1) {
+    res <- sprintf(paste0('%.', digits, 'f'), x)
+    zzz <- paste0('0.', paste(rep('0', digits), collapse = ''))
+    res[res == paste0('-', zzz)] <- zzz
+    res
+  }
+  
+  sapply(pvals, function(x, sig.limit) {
+    if(is.na(x))
+      return(x)
+    if (x < sig.limit)
+      if (html)
+        return(sprintf('&lt; %s', format(sig.limit))) else
+      return(sprintf('< %s', format(sig.limit)))
+    if (x > .1)
+      return(roundr(x, digits = 2)) else
+    return(roundr(x, digits = digits))
+  }, sig.limit = sig.limit)
+}
+```
+
+```{r setup, include = FALSE}
+library(dplyr)
+library(kableExtra)
+library(yardstick)
+library(srlTS)
+```
+
+# The `uihc_ed_arrivals` data set
+
+The University of Iowa Hospitals and Clinics (UIHC) Emergency Department Arrivals data set is included as a component of this package, and consists of 41,640 hourly counts of number of new arrivals into the ED spanning the years 2013-2018. See the data set documentation, `?uihc_ed_arrivals`, for more information. 
+
+# Modeling the data 
+
+## Endogenous model (SRLPAC)
+
+First we'll load and summarize the data. Note that although we have plenty of information on year, month, and day, the data set has already been sorted by time.
+
+```{r getdata}
+data("uihc_ed_arrivals")
+str(uihc_ed_arrivals)
+```
+
+Let's pull out our outcome and look at it.
+
+```{r plot_outcome}
+y <- uihc_ed_arrivals$Arrivals
+plot(y, type = "l")
+```
+
+OK, not too helpful visually. Such is the trap of being so close to asymptopia. Let's look a bit closer at the partial autocorrelation function to see what kind of seasonality and autoregressive (AR) structure we could be dealing with.
+
+```{r plot_pacf}
+# number of maximum lags to consider
+n_lags_max <- 24*7*5 # consider 5 weeks' data lags
+pacfs <- pacf(ts(y), lag.max = n_lags_max, plot = F)
+plot(pacfs)
+```
+
+Clearly we have multiple modes of seasonality in this hourly data, likely corresponding to observed shift-based, daily, and weekly patterns. Thankfully the sparsity ranked lasso (SRL) time series fitting procedure can handle this situation in stride. 
+
+We can fit an endogenous SRLPAC model using one line of code which might take 1-2 minutes to run: 
+
+```{r fit_endo}
+srlpac <- srlTS(y, n_lags_max = n_lags_max)
+```
+
+We can investigate the performance of the SRLPAC model using associated `print`, `coef`, `summary`, and `plot` functions. 
+
+```{r print_endo}
+srlpac
+```
+
+By default, `srlTS` used 8 possible tuning parameters for $\gamma$, the penalty weight exponent, and using AICc as a judge it appears the best value is 0.5. By default, the argument `p_train` is set to 0.8, which means we also get prediction accuracy for a left-out 20% of the data, and revealing an R-squared of 53.1%, meaning that about half of the variance in hourly visits to the ED can be explained by multi-modal seasonal and local autoregressive patterns. 
+
+The lasso's solution path for these lags can be seen via the `plot` function. 
+
+```{r plot_endo}
+plot(srlpac)
+```
+
+To see the (long) list of selected coefficients, the `summary` function can be used. 
+
+<details><summary>Expand to see output</summary>
+
+```{r summary_endo}
+summary(srlpac)
+```
+
+</details>
+
+## Exogenous model (SRLPACx)
+
+It's slightly more work to add exogenous features, which might help us add in fixed effects of weekday, temperature, and holiday indicators. The extra work is setting up the matrix of exogenous features. 
+
+```{r getX}
+X_day <- as.matrix(dplyr::select(uihc_ed_arrivals, xmas:game_day))
+X_month <- model.matrix(~relevel(factor(Month), ref = 3) + I(temp/10), 
+                        data = uihc_ed_arrivals)[,-1]
+X <- cbind(X_month, X_day)
+colnames(X) <- gsub("relevel.factor.Month., ref = 3.", "Month", colnames(X))
+head(X)
+```
+
+The result is a model matrix with month indicators (reference is March), a scaled temperature covariate, and holiday indicator variables. Now that we have our matrix of exogenous features, we can pass this to `srlTS` to get our SRLPACx model. We also set `w_exo="unpenalized"` which will allow us to conduct statistical inference on the exogenous variable coefficients (by default, they will be penalized using adaptive-lasso-style penalty weights, which makes formal inference more difficult).
+
+```{r fit_exo}
+srlpacx <- srlTS(y, X=X, n_lags_max = n_lags_max, w_exo = "unpenalized")
+```
+
+The same S3 methods apply and can be used to investigate the performance of the SLRPACx model. 
+
+```{r print_exo}
+srlpacx
+```
+
+Again, `srlTS` used 8 possible tuning parameters for $\gamma$, and it appears the best value is 0.5. The addition of exogenous features has slightly improved the prediction accuracy on the left-out test data, with an R-squared of 53.3%. This may appear to be a very small increase, but it could add up (as we will see shortly) when predictions are made multiple steps ahead, or when the cumulative sum of predictions is of interest.  
+
+The lasso's solution path for these lags can be seen via the `plot` function. 
+
+```{r plot_exo}
+plot(srlpacx)
+```
+
+To see the (long) list of selected coefficients, the `summary` function can be used. In this case, we're most interested in the exogenous features, which can be extracted via the `unpenTable` object in the results returned from `summary` (this is thanks in large part to the `ncvreg` package).  
+
+```{r summary_exo, results="hide"}
+s <- summary(srlpacx)
+s$unpenTable 
+```
+
+```{r format_exo_table, echo = FALSE}
+s$unpenTable%>% 
+  mutate(p.value = pvalr(p.value)) %>% 
+  kable(digits = 2) %>% 
+  kable_minimal(full_width = FALSE)
+```
+
+Or we can make a nice looking figure. 
+
+```{r plot_exo_coefs}
+b <- s$unpenTable[,1]
+se_b <- s$unpenTable[,2]
+
+ci_lb <- b - se_b * 1.96
+ci_ub <- b + se_b * 1.96
+
+par(mar = c(5,9,4,2) + .1)
+plot(b, length(se_b):1, xlim = range(ci_lb, ci_ub), pch = 20,
+     col = 4, yaxt = "n", ylab = "", xlab = "Coefficient (Change in Hourly ER visits)")
+abline(v = 0, lty = 2)
+segments(x0 = ci_lb, x1 = ci_ub, y0 = length(se_b):1, lty = 2)
+labs <- gsub("factor\\(Month\\)", "", names(b))
+labs <- c(month.name[-3], "10-degree (F)", "Christmas", "Christmas+1",
+          "New Year's Eve", "New Years Day",
+          "Thanksgiving", "Thanksgiving+1", "Independence Day",
+          "Hawkeye Gameday")
+axis(2, length(se_b):1, labs, las = 2)
+```
+
+# Making predictions
+
+For time series models such as the ones we fit with SRLPAC, it is straightforward to get 1-step-ahead predictions.
+
+```{r get_1s_predictions}
+p_1step_endo <- predict(srlpac)
+p_1step_exo <- predict(srlpacx)
+```
+
+## k-step ahead predictions
+
+It's a bit more involved of a process to get 2, 3, or $k$-step ahead predictions computationally, as the the 1-step through $k-1$-step predictions must be computed iteratively in order to get $k$-step ahead predictions. From a user's perspective, it's still straightforward though.
+
+```{r get_ks_preds}
+p_2step_endo <- predict(srlpac, n_ahead = 2)
+p_2step_exo <- predict(srlpacx, n_ahead = 2)
+
+p_10step_endo <- predict(srlpac, n_ahead = 10)
+p_10step_exo <- predict(srlpacx, n_ahead = 10)
+```
+
+```{r pcors}
+preds <- cbind(p_1step_endo, p_2step_endo, p_10step_endo, 
+               p_1step_exo, p_2step_exo, p_10step_exo)
+cor(preds, use = "pairwise")
+```
+
+Evidently (and as expected) these predictions are all very highly correlated with each other. Note that there are going to be missing (NA) values at the front end of the prediction vector, since some observations are eaten up by lags in the fitting procedure. 
+
+## Cumulative predictions
+
+From an applied perspective, it's not very useful to predict how many visits an ED might see in the next hour, or in the next 10 hours. It's much more useful to be able to predict how many patients might come in in a given 10 hour (shift-length) period. The `predict.srlTS` function provides some functionality for $k$-step ahead *cumulative* (rolling sum) predictions via the `cumulative` argument. 
+
+Let's calculate 10-hour rolling sum predictions using the 1-10 step ahead predictions using both models. 
+
+```{r pred_cumulative}
+y_c10hr <- RcppRoll::roll_sum(y, 10, align = "right", fill = NA)
+p_10step_csum_endo <- predict(srlpac, n_ahead = 10, cumulative = 10)
+p_10step_csum_exo <- predict(srlpacx, n_ahead = 10, cumulative = 10)
+```
+
+We can compute mean absolute error (MAE) (and other similar metrics) using the functionality from the `yardstick` package. 
+
+```{r mae_overall}
+mae_vec(y_c10hr, p_10step_csum_endo)
+mae_vec(y_c10hr, p_10step_csum_exo)
+```
+
+So the SRLPAC(x) methods were able to predict the number of patients who arrive in a given 10-hour window to within an average of about 6.8 patients. 
+
+It may be pertinent to investigate this predictive accuracy only on the test data set, which can be done by extracting the `train_idx` object from the `srlTS` object. 
+
+```{r mae_test}
+mae_vec(y_c10hr[-srlpac$train_idx], p_10step_csum_endo[-srlpac$train_idx])
+mae_vec(y_c10hr[-srlpacx$train_idx], p_10step_csum_exo[-srlpacx$train_idx])
+```
+
+We can also compute the overall R-squared: 
+
+```{r rsq_overall}
+rsq_vec(y_c10hr, p_10step_csum_endo)
+rsq_vec(y_c10hr, p_10step_csum_exo)
+```
+
+And the R-squared just for the test data. 
+
+```{r rsq_test}
+rsq_vec(y_c10hr[-srlpac$train_idx], p_10step_csum_endo[-srlpac$train_idx])
+rsq_vec(y_c10hr[-srlpacx$train_idx], p_10step_csum_exo[-srlpacx$train_idx])
+```
+
+# Conclusions
+
+In ongoing work we are comparing the SRL-based approaches to other competing approaches. 
