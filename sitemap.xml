@@ -10,6 +10,9 @@
     <loc>https://petersonr.github.io/srlTS/articles/case_studies.html</loc>
   </url>
   <url>
+    <loc>https://petersonr.github.io/srlTS/articles/hourly_er_visits.html</loc>
+  </url>
+  <url>
     <loc>https://petersonr.github.io/srlTS/articles/index.html</loc>
   </url>
   <url>
@@ -32,5 +35,8 @@
   </url>
   <url>
     <loc>https://petersonr.github.io/srlTS/reference/srlTS.html</loc>
+  </url>
+  <url>
+    <loc>https://petersonr.github.io/srlTS/reference/uihc_ed_arrivals.html</loc>
   </url>
 </urlset>

@@ -27,7 +27,8 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/case_studies.html">Case Studies</a>
+    <a class="dropdown-item" href="../articles/case_studies.html">Simple Case Studies</a>
+    <a class="dropdown-item" href="../articles/hourly_er_visits.html">Modeling multi-modal hourly data</a>
   </div>
 </li>
 <li class="nav-item">
@@ -98,7 +99,7 @@
 
 
 <dt>w_exo</dt>
-<dd><p>optional pre-specified weights for exogenous terms</p></dd>
+<dd><p>optional pre-specified weights for exogenous terms (see details)</p></dd>
 
 
 <dt>ncvreg_args</dt>
@@ -117,7 +118,8 @@
 <dd><p>arguments passed to ncvreg</p></dd>
 
   <dt>gamma</dt>
-<dd><p>the (negative) exponent on the penalty weights, one for each fit</p></dd>
+<dd><p>the (negative) exponent on the penalty weights, one
+  for each fit</p></dd>
 
   <dt>n_lags_max</dt>
 <dd><p>the maximum number of lags</p></dd>
@@ -131,10 +133,17 @@
   <dt>oos_results</dt>
 <dd><p>results on test data using best of fits</p></dd>
 
+  <dt>train_idx</dt>
+<dd><p>index of observations used in training data</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Placeholder text for additional details here...</p>
+    <p>The default weights for exogenous features will be chosen based on
+a simliar approach to the adaptive lasso (using bivariate OLS estimates). For
+lower dimensional X, it's advised to set <code>w_exo="unpenalized"</code>, because
+this allows for statistical inference on exogenous variable coefficients
+via the <code>summary</code> function.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
@@ -160,7 +169,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
     </footer></div>

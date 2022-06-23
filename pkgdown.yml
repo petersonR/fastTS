@@ -1,10 +1,11 @@
 pandoc: 2.7.3
-pkgdown: 2.0.4
+pkgdown: 2.0.5
 pkgdown_sha: ~
 articles:
   case_studies: case_studies.html
+  hourly_er_visits: hourly_er_visits.html
   srlTS: srlTS.html
-last_built: 2022-06-22T16:20Z
+last_built: 2022-06-23T16:25Z
 urls:
   reference: https://petersonr.github.io/srlTS/reference
   article: https://petersonr.github.io/srlTS/articles
