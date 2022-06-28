@@ -144,6 +144,8 @@ srlTS <- function(y, X = NULL, n_lags_max, gamma = c(0, 2^(-2:4)), ptrain = .8,
   results
 }
 
+#' @rdname srlTS
+#' @method plot srlTS
 #' @importFrom graphics abline
 #' @export
 plot.srlTS <- function(x, log.l = TRUE, ...){
@@ -159,7 +161,8 @@ plot.srlTS <- function(x, log.l = TRUE, ...){
   invisible(x)
 }
 
-
+#' @rdname srlTS
+#' @method coef srlTS
 #' @export
 coef.srlTS <- function(object, choose = c("AICc", "BIC", "all"), ...) {
 
@@ -172,6 +175,8 @@ coef.srlTS <- function(object, choose = c("AICc", "BIC", "all"), ...) {
   predict(best_fit_penalized_aicc,  type = "coef", which = which.min(AICc(best_fit_penalized_aicc)))
 }
 
+#' @rdname srlTS
+#' @method print srlTS
 #' @export
 print.srlTS <- function(x, ...) {
   gamma_summary <- data.frame(
@@ -186,11 +191,21 @@ print.srlTS <- function(x, ...) {
   print(x$oos_results, row.names = TRUE)
 }
 
+#' @rdname srlTS
+#' @method summary srlTS
 #' @export
 summary.srlTS <- function(object, ...) {
-  aics <- sapply(object$fits, function(x) min(AICc(x)))
-  best_fit <- object$fits[[which.min(aics)]]
+  aics <- sapply(object$fits, function(x) AICc(x))
+  best_idx <- which(aics == min(aics),arr.ind = TRUE)
 
-  cat("Model summary at optimal AICc\n")
-  summary(best_fit, which = which(AICc(best_fit) == min(aics)), X = object$Xfulltrain, y = object$y_cc_train, ...)
+  best_fit <- object$fits[[best_idx[2]]]
+  best_gamma <- object$gamma[best_idx[2]]
+  best_lambda <- best_fit$lambda[best_idx[1]]
+
+  s <- summary(best_fit, which = which(AICc(best_fit) == min(aics)), X = object$Xfulltrain, y = object$y_cc_train, ...)
+  cat("Model summary at optimal AICc (lambda=", round(best_lambda, 4),
+      "; gamma=", round(best_gamma, 4), ")\n\n", sep = "")
+  s
 }
+
+

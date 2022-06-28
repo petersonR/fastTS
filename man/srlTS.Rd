@@ -5,6 +5,7 @@
 \alias{plot.srlTS}
 \alias{coef.srlTS}
 \alias{print.srlTS}
+\alias{summary.srlTS}
 \title{Perform time series ranked sparsity methods}
 \usage{
 srlTS(
@@ -18,6 +19,14 @@ srlTS(
   w_exo,
   ncvreg_args = list(penalty = "lasso", returnX = FALSE, lambda.min = 0.001)
 )
+
+\method{plot}{srlTS}(x, log.l = TRUE, ...)
+
+\method{coef}{srlTS}(object, choose = c("AICc", "BIC", "all"), ...)
+
+\method{print}{srlTS}(x, ...)
+
+\method{summary}{srlTS}(object, ...)
 }
 \arguments{
 \item{y}{univariate time series outcome}
