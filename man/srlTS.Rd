@@ -46,6 +46,16 @@ srlTS(
 \item{w_exo}{optional pre-specified weights for exogenous terms (see details)}
 
 \item{ncvreg_args}{additional args to pass through to ncvreg}
+
+\item{x}{a srlTS object}
+
+\item{log.l}{Should the x-axis (lambda) be logged?}
+
+\item{...}{passed to downstream functions}
+
+\item{object}{a srlTS object}
+
+\item{choose}{which criterion to use for lambda selection (AICc, BIC, or all)}
 }
 \value{
 A list of class \code{slrTS} with elements

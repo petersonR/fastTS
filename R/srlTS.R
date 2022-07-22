@@ -11,6 +11,8 @@
 #' @param w_endo optional pre-specified weights for endogenous terms
 #' @param w_exo optional pre-specified weights for exogenous terms (see details)
 #' @param ncvreg_args additional args to pass through to ncvreg
+#' @param ... passed to downstream functions
+#'
 #' @return A list of class \code{slrTS} with elements
 #'
 #'   \item{fits}{a list of lasso fits}
@@ -145,6 +147,9 @@ srlTS <- function(y, X = NULL, n_lags_max, gamma = c(0, 2^(-2:4)), ptrain = .8,
 }
 
 #' @rdname srlTS
+#'
+#' @param x a srlTS object
+#' @param log.l Should the x-axis (lambda) be logged?
 #' @method plot srlTS
 #' @importFrom graphics abline
 #' @export
@@ -162,6 +167,8 @@ plot.srlTS <- function(x, log.l = TRUE, ...){
 }
 
 #' @rdname srlTS
+#' @param object a srlTS object
+#' @param choose which criterion to use for lambda selection (AICc, BIC, or all)
 #' @method coef srlTS
 #' @export
 coef.srlTS <- function(object, choose = c("AICc", "BIC", "all"), ...) {
@@ -176,6 +183,7 @@ coef.srlTS <- function(object, choose = c("AICc", "BIC", "all"), ...) {
 }
 
 #' @rdname srlTS
+#' @param x a srlTS object
 #' @method print srlTS
 #' @export
 print.srlTS <- function(x, ...) {
