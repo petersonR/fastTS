@@ -110,7 +110,7 @@ srlTS <- function(y, X = NULL, n_lags_max, gamma = c(0, 2^(-2:4)), ptrain = .8,
       w_exo
     )
   } else
-    w <- w_endo
+    w <- c(w_endo, w_exo)
 
   pfs <- sapply(1:length(gamma), function(g) w^-gamma[g])
   pfs[pfs < pf_eps] <- 0
