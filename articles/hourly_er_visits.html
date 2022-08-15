@@ -804,7 +804,7 @@ game_day
 <div class="section level2">
 <h2 id="making-predictions">Making predictions<a class="anchor" aria-label="anchor" href="#making-predictions"></a>
 </h2>
-<p>For time series models such as the ones we fit with SRLPAC, it is straightforward to get 1-step-ahead predictions.</p>
+<p>For time series models such as the ones we fit with SRLPAC, it is straightforward to get 1-step-ahead predictions. By default, these predictions will include both in-sample and out-of-sample (test set) predictions; see below for how to delineate between these two.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p_1step_endo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">srlpac</span><span class="op">)</span></span>
 <span><span class="va">p_1step_exo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">srlpacx</span><span class="op">)</span></span></code></pre></div>
@@ -872,6 +872,7 @@ game_day
 <span><span class="co">#&gt; [1] 0.8522335</span></span>
 <span><span class="fu">rsq_vec</span><span class="op">(</span><span class="va">y_c10hr</span><span class="op">[</span><span class="op">-</span><span class="va">srlpacx</span><span class="op">$</span><span class="va">train_idx</span><span class="op">]</span>, <span class="va">p_10step_csum_exo</span><span class="op">[</span><span class="op">-</span><span class="va">srlpacx</span><span class="op">$</span><span class="va">train_idx</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 0.8529352</span></span></code></pre></div>
+<p>It’s interesting that R-squared increases as the horizon for the cumulative predictions increases: it’s about 0.85 for the 10-hour cumulative predictions yet only about 0.53 for the standard 1-step predictions. It seems to imply some predictive gains in the process of aggregating to longer periods of time. More investigation may be warranted here.</p>
 </div>
 </div>
 <div class="section level2">
