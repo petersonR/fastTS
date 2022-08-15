@@ -178,7 +178,7 @@ axis(2, length(se_b):1, labs, las = 2)
 
 # Making predictions
 
-For time series models such as the ones we fit with SRLPAC, it is straightforward to get 1-step-ahead predictions.
+For time series models such as the ones we fit with SRLPAC, it is straightforward to get 1-step-ahead predictions. By default, these predictions will include both in-sample and out-of-sample (test set) predictions; see below for how to delineate between these two. 
 
 ```{r get_1s_predictions}
 p_1step_endo <- predict(srlpac)
@@ -246,6 +246,8 @@ And the R-squared just for the test data.
 rsq_vec(y_c10hr[-srlpac$train_idx], p_10step_csum_endo[-srlpac$train_idx])
 rsq_vec(y_c10hr[-srlpacx$train_idx], p_10step_csum_exo[-srlpacx$train_idx])
 ```
+
+It's interesting that R-squared increases as the horizon for the cumulative predictions increases: it’s about 0.85 for the 10-hour cumulative predictions yet only about 0.53 for the standard 1-step predictions. It seems to imply some predictive gains in the process of aggregating to longer periods of time. More investigation may be warranted here. 
 
 # Conclusions
 
