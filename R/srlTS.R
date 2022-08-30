@@ -81,6 +81,11 @@ srlTS <- function(y, X = NULL, n_lags_max, gamma = c(0, 2^(-2:4)), ptrain = .8,
     if(any(is.na(X)))
       stop("Cannot have missing values in covariates; run imputation first?")
 
+    if(any(is_intercept <- apply(X, 2, function(x) all(x == 1)))) {
+      warning("Detected intercept; dropping")
+      X <- X[,!is_intercept]
+    }
+
     Xfull <- get_model_matrix(y, X, n_lags_max)
     Xtrain <- X[train_idx,, drop = FALSE]
 
