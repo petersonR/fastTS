@@ -74,8 +74,8 @@
 
 
 <dt>y_test</dt>
-<dd><p>the test series, for future predictions if n_ahead &lt;
-nrow(X_test) (optional)</p></dd>
+<dd><p>the test series; needed for future predictions (optional; see
+details)</p></dd>
 
 
 <dt>cumulative</dt>
@@ -87,6 +87,16 @@ indicating number of times to sum)</p></dd>
 <dd><p>currently unused</p></dd>
 
 </dl></div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>The `y_test` argument must be supplied if forecasts are desired or if
+`n_ahead` &lt; `nrow(X_test)`. This is because in order to obtain 1-step
+forecast for, say, the 10th observation in the test data set, the 9th
+observation of `y_test` is required. The length of `y_test` will determine
+how many forecasts to produce. In order to get true forecasts for the first
+30 observations after the training set, one must (currently) produce the set
+of 1-step, 2-step, 3-step, ..., 30-step ahead predictions.</p>
+    </div>
 
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
