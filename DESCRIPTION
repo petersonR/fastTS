@@ -12,7 +12,7 @@ Description: Fits sparsity-ranked lasso models to times series data.
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.2.0
+RoxygenNote: 7.2.1
 Suggests: 
     covr,
     knitr,

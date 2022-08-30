@@ -1,7 +1,7 @@
 
 # srlTS 0.1.0.900
 
-- Improve `predict` functionality 
+- Improve `predict` functionality, documentation for forecasting
 - UIHC Emergency Department arrivals data and vignette. 
 - unit tests, improved coverage
 - Getting started vignette

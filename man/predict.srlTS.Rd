@@ -13,8 +13,8 @@
 
 \item{X_test}{a matrix exogenous features}
 
-\item{y_test}{the test series, for future predictions if n_ahead <
-nrow(X_test) (optional)}
+\item{y_test}{the test series; needed for future predictions (optional; see
+details)}
 
 \item{cumulative}{should cumulative (rolling) sums be returned (integer
 indicating number of times to sum)}
@@ -23,4 +23,13 @@ indicating number of times to sum)}
 }
 \description{
 Predict function for srlTS object
+}
+\details{
+The `y_test` argument must be supplied if forecasts are desired or if
+`n_ahead` < `nrow(X_test)`. This is because in order to obtain 1-step
+forecast for, say, the 10th observation in the test data set, the 9th
+observation of `y_test` is required. The length of `y_test` will determine
+how many forecasts to produce. In order to get true forecasts for the first
+30 observations after the training set, one must (currently) produce the set
+of 1-step, 2-step, 3-step, ..., 30-step ahead predictions.
 }
