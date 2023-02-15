@@ -1,6 +1,7 @@
 
 # srlTS 0.1.0.900
 
+- remove warning when `ptrain = 1`
 - Improve `predict` functionality, documentation for forecasting
 - UIHC Emergency Department arrivals data and vignette. 
 - unit tests, improved coverage
