@@ -8,6 +8,7 @@
 [![R-CMD-check](https://github.com/petersonR/srlTS/workflows/R-CMD-check/badge.svg)](https://github.com/petersonR/srlTS/actions)
 [![Codecov test
 coverage](https://codecov.io/gh/petersonR/srlTS/branch/main/graph/badge.svg)](https://app.codecov.io/gh/petersonR/srlTS?branch=main)
+[![R-CMD-check](https://github.com/petersonR/srlTS/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/petersonR/srlTS/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The goal of srlTS is to fit the sparsity-ranked lasso to time series
@@ -34,11 +35,11 @@ fit <- srlTS(y, gamma = c(0, .5))
 
 fit
 #>  PF_gamma best_AICc best_BIC
-#>       0.0  188.4958 194.8777
-#>       0.5  188.1214 194.5033
+#>       0.0  194.7813 201.1632
+#>       0.5  194.7074 201.0893
 #> 
 #> Test-set prediction accuracy
-#>         rmse      rsq       mae
-#> AIC 1.005835 0.679604 0.8435354
-#> BIC 1.005835 0.679604 0.8435354
+#>         rmse       rsq      mae
+#> AIC 1.181149 0.4454082 0.937286
+#> BIC 1.181149 0.4454082 0.937286
 ```

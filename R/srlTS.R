@@ -180,11 +180,16 @@ coef.srlTS <- function(object, choose = c("AICc", "BIC", "all"), ...) {
 
   choose <- match.arg(choose)
 
-  if(choose != "AICc")
-    stop("non-AICc options not yet supported")
+  if(!(choose %in% c("BIC", "AICc")))
+    stop("choose option not yet supported")
 
-  best_fit_penalized_aicc <- object$fits[[which.min(apply(sapply(object$fits, AICc), 2, min))]]
-  predict(best_fit_penalized_aicc,  type = "coef", which = which.min(AICc(best_fit_penalized_aicc)))
+  pen_fn <- AICc
+
+  if(choose == "BIC")
+    pen_fn <- BIC
+
+  best_fit_penalized <- object$fits[[which.min(apply(sapply(object$fits, pen_fn), 2, min))]]
+  predict(best_fit_penalized,  type = "coef", which = which.min(pen_fn(best_fit_penalized)))
 }
 
 #' @rdname srlTS
