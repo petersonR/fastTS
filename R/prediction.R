@@ -27,7 +27,7 @@
 predict.srlTS <- function(object, n_ahead = 1, X_test, y_test, cumulative = 0, ...) {
 
   aics <- sapply(object$fits, AICc)
-  best_idx <- which(aics == min(aics), arr.ind = TRUE)
+  best_idx <- which(aics == min(aics), arr.ind = TRUE)[1,]
 
   fit <- object$fits[[best_idx[2]]]
   n <- length(object$y)
