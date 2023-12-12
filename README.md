@@ -5,7 +5,6 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/petersonR/srlTS/workflows/R-CMD-check/badge.svg)](https://github.com/petersonR/srlTS/actions)
 [![Codecov test
 coverage](https://codecov.io/gh/petersonR/srlTS/branch/main/graph/badge.svg)](https://app.codecov.io/gh/petersonR/srlTS?branch=main)
 [![R-CMD-check](https://github.com/petersonR/srlTS/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/petersonR/srlTS/actions/workflows/R-CMD-check.yaml)
@@ -43,11 +42,11 @@ fit <- srlTS(y, gamma = c(0, .5))
 
 fit
 #>  PF_gamma best_AICc best_BIC
-#>       0.0  195.5445 201.9263
-#>       0.5  194.4889 200.8708
+#>       0.0  209.4454 216.8027
+#>       0.5  207.5736 213.9554
 #> 
 #> Test-set prediction accuracy
-#>          rmse       rsq       mae
-#> AIC 0.8864155 0.6393453 0.7842268
-#> BIC 0.8864155 0.6393453 0.7842268
+#>         rmse       rsq      mae
+#> AIC 1.260535 0.7849037 1.041486
+#> BIC 1.260535 0.7849037 1.041486
 ```
