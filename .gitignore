@@ -7,3 +7,5 @@ inst/doc
 
 tests/testthat/*.pdf
 .DS_Store
+/doc/
+/Meta/

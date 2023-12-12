@@ -1,8 +1,8 @@
 ---
-title: "Modeling Multi-Modal Hourly Data"
+title: "Time Series Modeling with Multiple Modes"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Modeling multi-modal hourly data}
+  %\VignetteIndexEntry{Time Series Modeling with Multiple Modes}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
