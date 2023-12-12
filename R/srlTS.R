@@ -47,10 +47,19 @@
 #'   ts
 #' @importFrom methods is
 #'
+#' @examples
+#' data("LakeHuron")
+#' fit_LH <- srlTS(LakeHuron)
+#' fit_LH
+#' coef(fit_LH)
+#' plot(fit_LH)
+#'
 #' @export
-srlTS <- function(y, X = NULL, n_lags_max, gamma = c(0, 2^(-2:4)), ptrain = .8,
-                       pf_eps = 0.01, w_endo, w_exo,
-                  ncvreg_args = list(penalty = "lasso", returnX = FALSE, lambda.min = .001)) {
+srlTS <- function(
+  y, X = NULL, n_lags_max, gamma = c(0, 2^(-2:4)),
+  ptrain = .8, pf_eps = 0.01, w_endo, w_exo,
+  ncvreg_args = list(penalty = "lasso", returnX = FALSE, lambda.min = .001)) {
+
   n <- length(y)
 
   if(missing(n_lags_max))
@@ -130,8 +139,10 @@ srlTS <- function(y, X = NULL, n_lags_max, gamma = c(0, 2^(-2:4)), ptrain = .8,
     do.call(ncvreg::ncvreg, ncvreg_args)
   })
 
-  best_fit_penalized_bic <- srl_fits[[which.min(apply(sapply(srl_fits, BIC), 2, min))]]
-  best_fit_penalized_aicc <- srl_fits[[which.min(apply(sapply(srl_fits, AICc), 2, min))]]
+  best_fit_penalized_bic <-
+    srl_fits[[which.min(apply(sapply(srl_fits, BIC), 2, min))]]
+  best_fit_penalized_aicc <-
+    srl_fits[[which.min(apply(sapply(srl_fits, AICc), 2, min))]]
 
   oos_results <- get_oos_results(srl_fits, ytest=ytest, Xtest=Xfulltest)
 
@@ -157,16 +168,23 @@ srlTS <- function(y, X = NULL, n_lags_max, gamma = c(0, 2^(-2:4)), ptrain = .8,
 #' @method plot srlTS
 #' @importFrom graphics abline
 #' @export
+#'
+#' @return x invisibly
+#'
 plot.srlTS <- function(x, log.l = TRUE, ...){
 
-  best_fit_penalized_aicc <- x$fits[[which.min(apply(sapply(x$fits, AICc), 2, min))]]
+  best_fit_penalized_aicc <-
+    x$fits[[which.min(apply(sapply(x$fits, AICc), 2, min))]]
 
   tr_fn <- ifelse(log.l, log, I)
 
   plot(best_fit_penalized_aicc, log.l = log.l, ...)
-  abline(v = tr_fn(best_fit_penalized_aicc$lambda[which.min(AICc(best_fit_penalized_aicc))]))
-  abline(v = tr_fn(best_fit_penalized_aicc$lambda[which.min(BIC(best_fit_penalized_aicc))]))
-
+  abline(v = tr_fn(
+    best_fit_penalized_aicc$lambda[which.min(AICc(best_fit_penalized_aicc))]
+    ))
+  abline(v = tr_fn(
+    best_fit_penalized_aicc$lambda[which.min(BIC(best_fit_penalized_aicc))]
+    ))
   invisible(x)
 }
 
@@ -174,6 +192,8 @@ plot.srlTS <- function(x, log.l = TRUE, ...){
 #' @param object a srlTS object
 #' @param choose which criterion to use for lambda selection (AICc, BIC, or all)
 #' @method coef srlTS
+#' @return a vector of model coefficients
+#'
 #' @export
 coef.srlTS <- function(object, choose = c("AICc", "BIC", "all"), ...) {
 
@@ -187,13 +207,17 @@ coef.srlTS <- function(object, choose = c("AICc", "BIC", "all"), ...) {
   if(choose == "BIC")
     pen_fn <- BIC
 
-  best_fit_penalized <- object$fits[[which.min(apply(sapply(object$fits, pen_fn), 2, min))]]
-  predict(best_fit_penalized,  type = "coef", which = which.min(pen_fn(best_fit_penalized)))
+  best_fit_penalized <-
+    object$fits[[which.min(apply(sapply(object$fits, pen_fn), 2, min))]]
+  predict(best_fit_penalized,
+          type = "coef",
+          which = which.min(pen_fn(best_fit_penalized)))
 }
 
 #' @rdname srlTS
 #' @param x a srlTS object
 #' @method print srlTS
+#' @returns x (invisibly)
 #' @export
 print.srlTS <- function(x, ...) {
   gamma_summary <- data.frame(
@@ -210,6 +234,9 @@ print.srlTS <- function(x, ...) {
 
 #' @rdname srlTS
 #' @method summary srlTS
+#' @returns the summary object produced by ncvreg
+#'   evaluated at the best tuning parameter combination
+#'   (best AICc).
 #' @export
 summary.srlTS <- function(object, ...) {
   aics <- sapply(object$fits, function(x) AICc(x))
@@ -219,7 +246,8 @@ summary.srlTS <- function(object, ...) {
   best_gamma <- object$gamma[best_idx[2]]
   best_lambda <- best_fit$lambda[best_idx[1]]
 
-  s <- summary(best_fit, which = which(AICc(best_fit) == min(aics)), X = object$Xfulltrain, y = object$y_cc_train, ...)
+  s <- summary(best_fit, which = which(AICc(best_fit) == min(aics)),
+               X = object$Xfulltrain, y = object$y_cc_train, ...)
   cat("Model summary at optimal AICc (lambda=", round(best_lambda, 4),
       "; gamma=", round(best_gamma, 4), ")\n\n", sep = "")
   s

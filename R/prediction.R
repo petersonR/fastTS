@@ -22,6 +22,12 @@
 #' 30 observations after the training set, one must (currently) produce the set
 #' of 1-step, 2-step, 3-step, ..., 30-step ahead predictions.
 #'
+#' @returns a vector of predictions
+#'
+#' @examples
+#' data("LakeHuron")
+#' fit_LH <- srlTS(LakeHuron)
+#' predict(fit_LH)
 #'
 #' @export
 predict.srlTS <- function(object, n_ahead = 1, X_test, y_test, cumulative = 0, ...) {
@@ -97,7 +103,9 @@ predict.srlTS <- function(object, n_ahead = 1, X_test, y_test, cumulative = 0, .
       full_y <- c(object$y, y_test)
     }
 
-    X_new <- get_model_matrix(full_y, X = rbind(object$X, X_test), n_lags_max = object$n_lags_max)
+    X_new <- get_model_matrix(
+      full_y, X = rbind(object$X, X_test), n_lags_max = object$n_lags_max
+    )
   }
 
   if(n_ahead > 1) {

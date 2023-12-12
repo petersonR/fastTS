@@ -1,4 +1,6 @@
-## AICc function for lasso models
+
+#' internal AICc function for lasso models
+#' @rdname internal
 AICc <- function(fit, eps = 1) {
   ll <- logLik(fit)
   k <- attr(ll, "df")
@@ -7,6 +9,8 @@ AICc <- function(fit, eps = 1) {
   AIC(fit) + (2 * k^2 + 2*k) / (n - k_star - 1)
 }
 
+#' Internal function for obtaining oos results
+#' @rdname internal
 #' @importFrom dplyr summarize
 #' @importFrom yardstick rmse_vec rsq_vec mae_vec
 #' @importFrom rlang .data
@@ -38,6 +42,8 @@ get_oos_results <- function(fits, ytest, Xtest) {
   oos_results <- rbind("AIC" = oos_results_aic, "BIC" = oos_results_bic)
 }
 
+#' Internal function for converting time series into model matrix of lags
+#' @rdname internal
 #' @importFrom dplyr lag
 get_model_matrix <- function(y, X = NULL, n_lags_max) {
 

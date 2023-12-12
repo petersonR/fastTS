@@ -1,5 +1,5 @@
 
-# srlTS 0.1.0.900
+# srlTS 0.1.1
 
 - remove warning when `ptrain = 1`
 - Improve `predict` functionality, documentation for forecasting
@@ -7,6 +7,7 @@
 - unit tests, improved coverage
 - Getting started vignette
 - Simple case studies vignette
+- Adding minor examples to roxygen, improving documentation
 
 # srlTS 0.1.0
 

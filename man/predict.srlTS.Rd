@@ -21,6 +21,9 @@ indicating number of times to sum)}
 
 \item{...}{currently unused}
 }
+\value{
+a vector of predictions
+}
 \description{
 Predict function for srlTS object
 }
@@ -32,4 +35,10 @@ observation of `y_test` is required. The length of `y_test` will determine
 how many forecasts to produce. In order to get true forecasts for the first
 30 observations after the training set, one must (currently) produce the set
 of 1-step, 2-step, 3-step, ..., 30-step ahead predictions.
+}
+\examples{
+data("LakeHuron")
+fit_LH <- srlTS(LakeHuron)
+predict(fit_LH)
+
 }

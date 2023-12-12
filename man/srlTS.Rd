@@ -69,6 +69,16 @@ A list of class \code{slrTS} with elements
   \item{X}{the utilized matrix of exogenous features}
   \item{oos_results}{results on test data using best of fits}
   \item{train_idx}{index of observations used in training data}
+
+x invisibly
+
+a vector of model coefficients
+
+x (invisibly)
+
+the summary object produced by ncvreg
+  evaluated at the best tuning parameter combination
+  (best AICc).
 }
 \description{
 Perform time series ranked sparsity methods
@@ -79,6 +89,14 @@ a simliar approach to the adaptive lasso (using bivariate OLS estimates). For
 lower dimensional X, it's advised to set \code{w_exo="unpenalized"}, because
 this allows for statistical inference on exogenous variable coefficients
 via the \code{summary} function.
+}
+\examples{
+data("LakeHuron")
+fit_LH <- srlTS(LakeHuron)
+fit_LH
+coef(fit_LH)
+plot(fit_LH)
+
 }
 \references{
 Breheny, P. and Huang, J. (2011) Coordinate descent algorithms
