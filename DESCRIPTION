@@ -17,11 +17,12 @@ Description: An implementation of sparsity-ranked lasso for
     for time series data with complex seasonality, as shown in Peterson and 
     Cavanaugh (2023+) <doi:10.48550/arXiv.2211.01492>, which also describes 
     this package in greater detail. The Sparsity-Ranked Lasso for Time Series 
-    (SRL-TS) method can fit large/complex/high-frequency time 
-    series quickly, even with a high-dimensional exogenous feature set. 
-    The SRL is considerably faster than its competitors, while often producing more 
-    accurate predictions. Also included is a long hourly series of arrivals into
-    the University of Iowa Emergency Department with concurrent local temperature.
+    ('SRLTS') method can fit large/complex/high-frequency time series 
+    quickly, even with a high-dimensional exogenous feature set. The 'SRL' is
+    considerably faster than its competitors, while often producing more 
+    accurate predictions. Also included is a long hourly series of arrivals 
+    into the University of Iowa Emergency Department with concurrent local 
+    temperature.
 Suggests: 
     covr,
     kableExtra, 
@@ -45,6 +46,6 @@ RoxygenNote: 7.2.3
 Config/testthat/edition: 3
 VignetteBuilder: knitr
 URL: https://petersonr.github.io/srlTS/, 
-    https://github.com/petersonR/srlTS/VignetteBuilder: knitr
+    https://github.com/petersonR/srlTS/
 BugReports: https://github.com/petersonR/srlTS/issues
 Date: 2023-12-12

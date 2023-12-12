@@ -1,5 +1,9 @@
 
 #' internal AICc function for lasso models
+#'
+#' @param fit an object with logLik method,
+#' @param eps minimum df used in computation
+#'
 #' @rdname internal
 AICc <- function(fit, eps = 1) {
   ll <- logLik(fit)
@@ -11,6 +15,10 @@ AICc <- function(fit, eps = 1) {
 
 #' Internal function for obtaining oos results
 #' @rdname internal
+#' @param fits a list of fits with different tuning parameters
+#' @param ytest validation data
+#' @param Xtest new X data, including lags
+#'
 #' @importFrom dplyr summarize
 #' @importFrom yardstick rmse_vec rsq_vec mae_vec
 #' @importFrom rlang .data
@@ -21,8 +29,11 @@ get_oos_results <- function(fits, ytest, Xtest) {
 
   predictions <- data.frame(
     y = ytest,
-    fc_srb = predict(best_fit_penalized_bic, X = Xtest, which = which.min(BIC(best_fit_penalized_bic))),
-    fc_sra = predict(best_fit_penalized_aicc, X = Xtest, which = which.min(AICc(best_fit_penalized_aicc)))
+    fc_srb = predict(best_fit_penalized_bic, X = Xtest,
+                     which = which.min(BIC(best_fit_penalized_bic))
+    ),
+    fc_sra = predict(best_fit_penalized_aicc, X = Xtest,
+                     which = which.min(AICc(best_fit_penalized_aicc)))
   )
 
   oos_results_aic <- suppressWarnings(summarize(
@@ -44,6 +55,11 @@ get_oos_results <- function(fits, ytest, Xtest) {
 
 #' Internal function for converting time series into model matrix of lags
 #' @rdname internal
+#'
+#' @param y time series vector
+#' @param X Additional exogenous features
+#' @param n_lags_max Maximum number of lags to add
+#'
 #' @importFrom dplyr lag
 get_model_matrix <- function(y, X = NULL, n_lags_max) {
 

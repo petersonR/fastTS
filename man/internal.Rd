@@ -12,6 +12,23 @@ get_oos_results(fits, ytest, Xtest)
 
 get_model_matrix(y, X = NULL, n_lags_max)
 }
+\arguments{
+\item{fit}{an object with logLik method,}
+
+\item{eps}{minimum df used in computation}
+
+\item{fits}{a list of fits with different tuning parameters}
+
+\item{ytest}{validation data}
+
+\item{Xtest}{new X data, including lags}
+
+\item{y}{time series vector}
+
+\item{X}{Additional exogenous features}
+
+\item{n_lags_max}{Maximum number of lags to add}
+}
 \description{
 internal AICc function for lasso models
 
