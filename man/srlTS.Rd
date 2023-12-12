@@ -85,7 +85,7 @@ Perform time series ranked sparsity methods
 }
 \details{
 The default weights for exogenous features will be chosen based on
-a simliar approach to the adaptive lasso (using bivariate OLS estimates). For
+a similar approach to the adaptive lasso (using bivariate OLS estimates). For
 lower dimensional X, it's advised to set \code{w_exo="unpenalized"}, because
 this allows for statistical inference on exogenous variable coefficients
 via the \code{summary} function.
