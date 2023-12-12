@@ -1,6 +1,6 @@
 Package: srlTS
 Type: Package
-Title: Sparsity-ranked lasso for time series
+Title: Sparsity-Ranked Lasso for Time Series
 Version: 0.1.1
 Authors@R: person("Ryan Andrew", "Peterson", 
                   email = "ryan.a.peterson@cuanschutz.edu", 
