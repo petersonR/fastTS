@@ -8,3 +8,4 @@
 ^\.github$
 ^codecov\.yml$
 ^tests/testthat/*.pdf
+^cran-comments\.md$

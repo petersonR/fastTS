@@ -43,7 +43,6 @@
 #' @seealso predict.srlTS
 #'
 #' @importFrom ncvreg ncvreg
-#' @importFrom butcher axe_data
 #' @importFrom stats AIC BIC coef complete.cases lm logLik na.omit pacf predict
 #'   ts
 #' @importFrom methods is

@@ -1,33 +1,49 @@
 Package: srlTS
 Type: Package
 Title: Sparsity-ranked lasso for time series
-Version: 0.1.0.900
+Version: 0.1.1
 Authors@R: person("Ryan Andrew", "Peterson", 
                   email = "ryan.a.peterson@cuanschutz.edu", 
                   role = c("aut", "cre"),
                   comment = c(ORCID = "0000-0002-4650-5798"))
-Description: Fits sparsity-ranked lasso models to times series data.
-    Especially useful for large time series with exogenous features 
-    and/or complex seasonality.
+Description: An implementation of sparsity-ranked lasso for 
+    time series data. This methodology is especially useful for 
+    large time series with exogenous features and/or complex 
+    seasonality. Originally described in Peterson and Cavanaugh 
+    (2022) <doi:10.1007/s10182-021-00431-7> in the context of variable 
+    selection with interactions and/or polynomials, ranked sparsity is 
+    a philosophy with methods useful for variable selection in the 
+    presence of prior informational asymmetry. This situation exists
+    for time series data with complex seasonality, as shown in Peterson and 
+    Cavanaugh (2023+) <doi:10.48550/arXiv.2211.01492>, which also describes 
+    this package in greater detail. The Sparsity-Ranked Lasso for Time Series 
+    (SRL-TS) method can fit large/complex/high-frequency time 
+    series quickly, even with a high-dimensional exogenous feature set. 
+    The SRL is considerably faster than its competitors, while often producing more 
+    accurate predictions. Also included is a long hourly series of arrivals into
+    the University of Iowa Emergency Department with concurrent local temperature.
+Suggests: 
+    covr,
+    kableExtra, 
+    knitr,
+    magrittr,
+    rmarkdown,
+    testthat (>= 3.0.0)
+Imports: 
+    dplyr,
+    methods,
+    ncvreg,
+    RcppRoll,
+    rlang,
+    yardstick
+Depends: 
+    R (>= 3.5)
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.2.1
-Suggests: 
-    covr,
-    knitr,
-    rmarkdown,
-    magrittr,
-    testthat (>= 3.0.0),
-    kableExtra
+RoxygenNote: 7.2.3
 Config/testthat/edition: 3
-URL: https://petersonr.github.io/srlTS/
-Imports: 
-    dplyr,
-    ncvreg,
-    butcher,
-    yardstick,
-    rlang,
-    RcppRoll,
-    methods
-VignetteBuilder: knitr
+URL: https://petersonr.github.io/srlTS/, 
+    https://github.com/petersonR/srlTS/VignetteBuilder: knitr
+BugReports: https://github.com/petersonR/srlTS/issues
+Date: 2023-12-12

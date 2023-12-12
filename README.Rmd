@@ -19,6 +19,7 @@ knitr::opts_chunk$set(
 [![R-CMD-check](https://github.com/petersonR/srlTS/workflows/R-CMD-check/badge.svg)](https://github.com/petersonR/srlTS/actions)
 [![Codecov test coverage](https://codecov.io/gh/petersonR/srlTS/branch/main/graph/badge.svg)](https://app.codecov.io/gh/petersonR/srlTS?branch=main)
 [![R-CMD-check](https://github.com/petersonR/srlTS/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/petersonR/srlTS/actions/workflows/R-CMD-check.yaml)
+[![CRAN status](https://www.r-pkg.org/badges/version/srlTS)](https://CRAN.R-project.org/package=srlTS)
 <!-- badges: end -->
 
 The goal of srlTS is to fit the sparsity-ranked lasso to time series data. 
@@ -30,6 +31,12 @@ You can install the development version of srlTS like so:
 ```{r install, eval = FALSE}
 # install.packages("remotes")
 remotes::install_github("PetersonR/srlTS")
+```
+
+Or, install from CRAN with:
+
+```{r install_cran, eval = FALSE}
+install.packages("srlTS")
 ```
 
 ## Example
