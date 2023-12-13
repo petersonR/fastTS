@@ -12,11 +12,11 @@
     (2022) &lt;doi:10.1007/s10182-021-00431-7&gt; in the context of variable 
     selection with interactions and/or polynomials, ranked sparsity is 
     a philosophy with methods useful for variable selection in the 
-    presence of prior informational asymmetry. This situation exists
-    for time series data with complex seasonality, as shown in Peterson and 
-    Cavanaugh (2023+) &lt;doi:10.48550/arXiv.2211.01492&gt;, which also describes 
-    this package in greater detail. The Sparsity-Ranked Lasso for Time Series 
-    (SRLTS) method can fit large/complex/high-frequency time series 
+    presence of prior informational asymmetry. This situation exists for time 
+    series data with complex seasonality, as shown in Peterson and Cavanaugh 
+    (2023+) &lt;doi:10.48550/arXiv.2211.01492&gt;, which also describes this package
+    in greater detail. The Sparsity-Ranked Lasso (SRL) for Time Series  
+    implemented in srlTS can fit large/complex/high-frequency time series
     quickly, even with a high-dimensional exogenous feature set. The SRL is
     considerably faster than its competitors, while often producing more 
     accurate predictions. Also included is a long hourly series of arrivals 
@@ -35,11 +35,11 @@
     (2022) &lt;doi:10.1007/s10182-021-00431-7&gt; in the context of variable 
     selection with interactions and/or polynomials, ranked sparsity is 
     a philosophy with methods useful for variable selection in the 
-    presence of prior informational asymmetry. This situation exists
-    for time series data with complex seasonality, as shown in Peterson and 
-    Cavanaugh (2023+) &lt;doi:10.48550/arXiv.2211.01492&gt;, which also describes 
-    this package in greater detail. The Sparsity-Ranked Lasso for Time Series 
-    (SRLTS) method can fit large/complex/high-frequency time series 
+    presence of prior informational asymmetry. This situation exists for time 
+    series data with complex seasonality, as shown in Peterson and Cavanaugh 
+    (2023+) &lt;doi:10.48550/arXiv.2211.01492&gt;, which also describes this package
+    in greater detail. The Sparsity-Ranked Lasso (SRL) for Time Series  
+    implemented in srlTS can fit large/complex/high-frequency time series
     quickly, even with a high-dimensional exogenous feature set. The SRL is
     considerably faster than its competitors, while often producing more 
     accurate predictions. Also included is a long hourly series of arrivals 
@@ -74,7 +74,6 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="articles/case_studies.html">Simple Case Studies</a>
-    <a class="dropdown-item" href="articles/getting_started.html">Getting Started with srlTS</a>
     <a class="dropdown-item" href="articles/hourly_er_visits.html">Time Series Modeling with Multiple Modes</a>
   </div>
 </li>
@@ -105,11 +104,17 @@
 </h1></div>
 <!-- badges: start -->
 
-<p>The goal of srlTS is to fit the sparsity-ranked lasso to time series data.</p>
+<div class="section level2">
+<h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
+</h2>
+<p>The Sparsity-Ranked Lasso (SRL) for Time Series implemented in <code>srlTS</code> efficiently fits long, high-frequency time series with complex seasonality, even with a high-dimensional exogenous feature set.</p>
+<p>Originally described in <a href="https://doi.org/10.1007/s10182-021-00431-7" class="external-link">Peterson and Cavanaugh (2022)</a> in the context of variable selection with interactions and/or polynomials, <em>ranked sparsity</em> is a philosophy of variable selection in the presence of prior informational asymmetry.</p>
+<p>In time series data with complex seasonality or exogenous features; see <a href="https://doi.org/10.48550/arXiv.2211.01492" class="external-link">Peterson and Cavanaugh (2023+)</a>, which also describes this package in greater detail. The basic premise is to utilize the sparsity-ranked lasso to be less skeptical of more recent lags, and suspected seasonal relationships.</p>
+</div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>You can install the development version of srlTS like so:</p>
+<p>You can install the development version of <code>srlTS</code> like so:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"PetersonR/srlTS"</span><span class="op">)</span></span></code></pre></div>
@@ -129,13 +134,23 @@
 <span></span>
 <span><span class="va">fit</span></span>
 <span><span class="co">#&gt;  PF_gamma best_AICc best_BIC</span></span>
-<span><span class="co">#&gt;       0.0  209.4454 216.8027</span></span>
-<span><span class="co">#&gt;       0.5  207.5736 213.9554</span></span>
+<span><span class="co">#&gt;       0.0  209.9610 216.3429</span></span>
+<span><span class="co">#&gt;       0.5  208.1509 214.5327</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Test-set prediction accuracy</span></span>
 <span><span class="co">#&gt;         rmse       rsq      mae</span></span>
-<span><span class="co">#&gt; AIC 1.260535 0.7849037 1.041486</span></span>
-<span><span class="co">#&gt; BIC 1.260535 0.7849037 1.041486</span></span></code></pre></div>
+<span><span class="co">#&gt; AIC 1.518106 0.9478941 1.286608</span></span>
+<span><span class="co">#&gt; BIC 1.518106 0.9478941 1.286608</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="learn-more">Learn more<a class="anchor" aria-label="anchor" href="#learn-more"></a>
+</h2>
+<p>To learn more and to see this methodology in action, see:</p>
+<ul>
+<li><a href="https://petersonr.github.io/srlTS/articles/case_studies.html">Simple case studies vignette</a></li>
+<li><a href="https://petersonr.github.io/srlTS/articles/hourly_er_visits.html">Modeling hourly ER arrival data with complex seasonality</a></li>
+<li><a href="https://data-diction.com/posts/did-denver-zero-fare-policy-work/#modeling" class="external-link">Did Denver’s 2022 ‘Zero Fare for Cleaner Air’ campaign actually work?</a></li>
+</ul>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
