@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   case_studies: case_studies.html
   hourly_er_visits: hourly_er_visits.html
-last_built: 2023-12-13T22:29Z
+last_built: 2023-12-14T17:58Z
 urls:
   reference: https://petersonr.github.io/srlTS/reference
   article: https://petersonr.github.io/srlTS/articles
