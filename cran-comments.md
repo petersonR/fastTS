@@ -1,12 +1,10 @@
-## srlTS 0.1.1 release summary
+## fastTS 0.1.2 release summary
 
-In this revision I have addressed requests from CRAN:
+This is a renaming and otherwise minor update to the existing srlTS R package.
 
-* Reset to user's options(), working directory or par() after
-  changed in examples and vignettes and demos.
-
-* Only single quote package and software names in your description. 
-  omit the around SRL and SRLTS.
+We are seeking to rename because: 1) srlTS is too specific as our package 
+can implement the sparsity-ranked MCP and SCAD methods in addition 
+to the SRL, and 2) better visibility. 
 
 ## R CMD check results
 

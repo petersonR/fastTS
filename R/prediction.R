@@ -1,6 +1,6 @@
-#' Predict function for srlTS object
+#' Predict function for fastTS object
 #'
-#' @param object an srlTS object
+#' @param object an fastTS object
 #' @param n_ahead number of times ahead to predict by iteration
 #' @param X_test a matrix exogenous features
 #' @param y_test the test series; needed for future predictions (optional; see
@@ -26,11 +26,11 @@
 #'
 #' @examples
 #' data("LakeHuron")
-#' fit_LH <- srlTS(LakeHuron)
+#' fit_LH <- fastTS(LakeHuron)
 #' predict(fit_LH)
 #'
 #' @export
-predict.srlTS <- function(object, n_ahead = 1, X_test, y_test, cumulative = 0, ...) {
+predict.fastTS <- function(object, n_ahead = 1, X_test, y_test, cumulative = 0, ...) {
 
   aics <- sapply(object$fits, AICc)
   best_idx <- which(aics == min(aics), arr.ind = TRUE)[1,]

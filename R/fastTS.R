@@ -1,6 +1,6 @@
 #' Perform time series ranked sparsity methods
 #'
-#' @aliases plot.srlTS coef.srlTS print.srlTS
+#' @aliases plot.fastTS coef.fastTS print.fastTS
 #'
 #' @param y univariate time series outcome
 #' @param X matrix of predictors (no intercept)
@@ -40,7 +40,7 @@
 #'   polynomials. AStA Adv Stat Anal (2022).
 #'   https://doi.org/10.1007/s10182-021-00431-7
 #'
-#' @seealso predict.srlTS
+#' @seealso predict.fastTS
 #'
 #' @importFrom ncvreg ncvreg
 #' @importFrom stats AIC BIC coef complete.cases lm logLik na.omit pacf predict
@@ -49,13 +49,13 @@
 #'
 #' @examples
 #' data("LakeHuron")
-#' fit_LH <- srlTS(LakeHuron)
+#' fit_LH <- fastTS(LakeHuron)
 #' fit_LH
 #' coef(fit_LH)
 #' plot(fit_LH)
 #'
 #' @export
-srlTS <- function(
+fastTS <- function(
   y, X = NULL, n_lags_max, gamma = c(0, 2^(-2:4)),
   ptrain = .8, pf_eps = 0.01, w_endo, w_exo,
   ncvreg_args = list(penalty = "lasso", returnX = FALSE, lambda.min = .001)) {
@@ -160,21 +160,21 @@ srlTS <- function(
     train_idx = train_idx
   )
 
-  class(results) <- "srlTS"
+  class(results) <- "fastTS"
   results
 }
 
-#' @rdname srlTS
+#' @rdname fastTS
 #'
-#' @param x a srlTS object
+#' @param x a fastTS object
 #' @param log.l Should the x-axis (lambda) be logged?
-#' @method plot srlTS
+#' @method plot fastTS
 #' @importFrom graphics abline
 #' @export
 #'
 #' @return x invisibly
 #'
-plot.srlTS <- function(x, log.l = TRUE, ...){
+plot.fastTS <- function(x, log.l = TRUE, ...){
 
   best_fit_penalized_aicc <-
     x$fits[[which.min(apply(sapply(x$fits, AICc), 2, min))]]
@@ -191,14 +191,14 @@ plot.srlTS <- function(x, log.l = TRUE, ...){
   invisible(x)
 }
 
-#' @rdname srlTS
-#' @param object a srlTS object
+#' @rdname fastTS
+#' @param object a fastTS object
 #' @param choose which criterion to use for lambda selection (AICc, BIC, or all)
-#' @method coef srlTS
+#' @method coef fastTS
 #' @return a vector of model coefficients
 #'
 #' @export
-coef.srlTS <- function(object, choose = c("AICc", "BIC", "all"), ...) {
+coef.fastTS <- function(object, choose = c("AICc", "BIC", "all"), ...) {
 
   choose <- match.arg(choose)
 
@@ -217,12 +217,12 @@ coef.srlTS <- function(object, choose = c("AICc", "BIC", "all"), ...) {
           which = which.min(pen_fn(best_fit_penalized)))
 }
 
-#' @rdname srlTS
-#' @param x a srlTS object
-#' @method print srlTS
+#' @rdname fastTS
+#' @param x a fastTS object
+#' @method print fastTS
 #' @returns x (invisibly)
 #' @export
-print.srlTS <- function(x, ...) {
+print.fastTS <- function(x, ...) {
   gamma_summary <- data.frame(
     "PF_gamma" = x$gamma,
     best_AICc = apply(sapply(x$fits, AICc), 2, min),
@@ -235,13 +235,13 @@ print.srlTS <- function(x, ...) {
   print(x$oos_results, row.names = TRUE)
 }
 
-#' @rdname srlTS
-#' @method summary srlTS
+#' @rdname fastTS
+#' @method summary fastTS
 #' @returns the summary object produced by ncvreg
 #'   evaluated at the best tuning parameter combination
 #'   (best AICc).
 #' @export
-summary.srlTS <- function(object, ...) {
+summary.fastTS <- function(object, ...) {
   aics <- sapply(object$fits, function(x) AICc(x))
   best_idx <- which(aics == min(aics),arr.ind = TRUE)
 

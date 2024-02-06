@@ -1,13 +1,13 @@
-Package: srlTS
+Package: fastTS
 Type: Package
-Title: Sparsity-Ranked Lasso for Time Series
-Version: 0.1.1.9000
+Title: Fast Time Series Modeling with the Sparsity Ranked Lasso
+Version: 0.1.2
 Authors@R: person("Ryan Andrew", "Peterson", 
                   email = "ryan.a.peterson@cuanschutz.edu", 
                   role = c("aut", "cre", "cph"),
                   comment = c(ORCID = "0000-0002-4650-5798"))
-Description: An implementation of sparsity-ranked lasso for 
-    time series data. This methodology is especially useful for 
+Description: An implementation of sparsity-ranked lasso and related methods 
+    for time series data. This methodology is especially useful for 
     large time series with exogenous features and/or complex 
     seasonality. Originally described in Peterson and Cavanaugh 
     (2022) <doi:10.1007/s10182-021-00431-7> in the context of variable 
@@ -17,7 +17,7 @@ Description: An implementation of sparsity-ranked lasso for
     series data with complex seasonality, as shown in Peterson and Cavanaugh 
     (2023+) <doi:10.48550/arXiv.2211.01492>, which also describes this package
     in greater detail. The Sparsity-Ranked Lasso (SRL) for Time Series  
-    implemented in 'srlTS' can fit large/complex/high-frequency time series
+    implemented in 'fastTS' can fit large/complex/high-frequency time series
     quickly, even with a high-dimensional exogenous feature set. The SRL is
     considerably faster than its competitors, while often producing more 
     accurate predictions. Also included is a long hourly series of arrivals 
@@ -42,10 +42,10 @@ Depends:
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 Config/testthat/edition: 3
 VignetteBuilder: knitr
-URL: https://petersonr.github.io/srlTS/, 
-    https://github.com/petersonR/srlTS/
-BugReports: https://github.com/petersonR/srlTS/issues
-Date: 2023-12-14
+URL: https://petersonr.github.io/fastTS/, 
+    https://github.com/petersonR/fastTS/
+BugReports: https://github.com/petersonR/fastTS/issues
+Date: 2024-01-06

@@ -41,7 +41,7 @@ pvalr <- function(pvals, sig.limit = .001, digits = 3, html = FALSE) {
 library(dplyr)
 library(kableExtra)
 library(yardstick)
-library(srlTS)
+library(fastTS)
 ```
 
 # The `uihc_ed_arrivals` data set
@@ -80,7 +80,7 @@ Clearly we have multiple modes of seasonality in this hourly data, likely corres
 We can fit an endogenous SRLPAC model using one line of code which might take 1-2 minutes to run: 
 
 ```{r fit_endo}
-srlpac <- srlTS(y, n_lags_max = n_lags_max)
+srlpac <- fastTS(y, n_lags_max = n_lags_max)
 ```
 
 We can investigate the performance of the SRLPAC model using associated `print`, `coef`, `summary`, and `plot` functions. 
@@ -89,7 +89,7 @@ We can investigate the performance of the SRLPAC model using associated `print`,
 srlpac
 ```
 
-By default, `srlTS` used 8 possible tuning parameters for $\gamma$, the penalty weight exponent, and using AICc as a judge it appears the best value is 0.5. By default, the argument `p_train` is set to 0.8, which means we also get prediction accuracy for a left-out 20% of the data, and revealing an R-squared of 53.1%, meaning that about half of the variance in hourly visits to the ED can be explained by multi-modal seasonal and local autoregressive patterns. 
+By default, `fastTS` used 8 possible tuning parameters for $\gamma$, the penalty weight exponent, and using AICc as a judge it appears the best value is 0.5. By default, the argument `p_train` is set to 0.8, which means we also get prediction accuracy for a left-out 20% of the data, and revealing an R-squared of 53.1%, meaning that about half of the variance in hourly visits to the ED can be explained by multi-modal seasonal and local autoregressive patterns. 
 
 The lasso's solution path for these lags can be seen via the `plot` function. 
 
@@ -120,10 +120,10 @@ colnames(X) <- gsub("relevel.factor.Month., ref = 3.", "Month", colnames(X))
 head(X)
 ```
 
-The result is a model matrix with month indicators (reference is March), a scaled temperature covariate, and holiday indicator variables. Now that we have our matrix of exogenous features, we can pass this to `srlTS` to get our SRLPACx model. We also set `w_exo="unpenalized"` which will allow us to conduct statistical inference on the exogenous variable coefficients (by default, they will be penalized using adaptive-lasso-style penalty weights, which makes formal inference more difficult).
+The result is a model matrix with month indicators (reference is March), a scaled temperature covariate, and holiday indicator variables. Now that we have our matrix of exogenous features, we can pass this to `fastTS` to get our SRLPACx model. We also set `w_exo="unpenalized"` which will allow us to conduct statistical inference on the exogenous variable coefficients (by default, they will be penalized using adaptive-lasso-style penalty weights, which makes formal inference more difficult).
 
 ```{r fit_exo}
-srlpacx <- srlTS(y, X=X, n_lags_max = n_lags_max, w_exo = "unpenalized")
+srlpacx <- fastTS(y, X=X, n_lags_max = n_lags_max, w_exo = "unpenalized")
 ```
 
 The same S3 methods apply and can be used to investigate the performance of the SLRPACx model. 
@@ -132,7 +132,7 @@ The same S3 methods apply and can be used to investigate the performance of the 
 srlpacx
 ```
 
-Again, `srlTS` used 8 possible tuning parameters for $\gamma$, and it appears the best value is 0.5. The addition of exogenous features has slightly improved the prediction accuracy on the left-out test data, with an R-squared of 53.3%. This may appear to be a very small increase, but it could add up (as we will see shortly) when predictions are made multiple steps ahead, or when the cumulative sum of predictions is of interest.  
+Again, `fastTS` used 8 possible tuning parameters for $\gamma$, and it appears the best value is 0.5. The addition of exogenous features has slightly improved the prediction accuracy on the left-out test data, with an R-squared of 53.3%. This may appear to be a very small increase, but it could add up (as we will see shortly) when predictions are made multiple steps ahead, or when the cumulative sum of predictions is of interest.  
 
 The lasso's solution path for these lags can be seen via the `plot` function. 
 
@@ -208,7 +208,7 @@ Evidently (and as expected) these predictions are all very highly correlated wit
 
 ## Cumulative predictions
 
-From an applied perspective, it's not very useful to predict how many visits an ED might see in the next hour, or in the next 10 hours. It's much more useful to be able to predict how many patients might come in in a given 10 hour (shift-length) period. The `predict.srlTS` function provides some functionality for $k$-step ahead *cumulative* (rolling sum) predictions via the `cumulative` argument. 
+From an applied perspective, it's not very useful to predict how many visits an ED might see in the next hour, or in the next 10 hours. It's much more useful to be able to predict how many patients might come in in a given 10 hour (shift-length) period. The `predict.fastTS` function provides some functionality for $k$-step ahead *cumulative* (rolling sum) predictions via the `cumulative` argument. 
 
 Let's calculate 10-hour rolling sum predictions using the 1-10 step ahead predictions using both models. 
 
@@ -227,7 +227,7 @@ mae_vec(y_c10hr, p_10step_csum_exo)
 
 So the SRLPAC(x) methods were able to predict the number of patients who arrive in a given 10-hour window to within an average of about 6.8 patients. 
 
-It may be pertinent to investigate this predictive accuracy only on the test data set, which can be done by extracting the `train_idx` object from the `srlTS` object. 
+It may be pertinent to investigate this predictive accuracy only on the test data set, which can be done by extracting the `train_idx` object from the `fastTS` object. 
 
 ```{r mae_test}
 mae_vec(y_c10hr[-srlpac$train_idx], p_10step_csum_endo[-srlpac$train_idx])

@@ -1,4 +1,4 @@
 library(testthat)
-library(srlTS)
+library(fastTS)
 
-test_check("srlTS")
+test_check("fastTS")

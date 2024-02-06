@@ -1,6 +1,7 @@
-# srlTS 0.1.1.9000
+# fastTS 0.1.2
 
-- Add unit tests for `srlTS` function
+- Renaming package to `fastTS`, and functions
+- Add unit tests for `srlTS` (`fastTS`) function
 
 # srlTS 0.1.1
 

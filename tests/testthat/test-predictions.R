@@ -4,17 +4,17 @@ lh_train <- LakeHuron[1:80]
 lh_test <- LakeHuron[-(1:80)]
 
 # endogenous model
-fit <- srlTS(lh_train)
+fit <- fastTS(lh_train)
 
 # exogenous model
 X <- rnorm(98)
 X_train <- X[1:80]
 X_test <- X[-(1:80)]
 
-fitX <- srlTS(lh_train, X = X_train)
+fitX <- fastTS(lh_train, X = X_train)
 
 
-test_that("predict.srlTS when neither X_test nor y_test supplied", {
+test_that("predict.fastTS when neither X_test nor y_test supplied", {
 
   # endogenous model
   expect_silent(p <- predict(fit))
@@ -43,7 +43,7 @@ test_that("predict.srlTS when neither X_test nor y_test supplied", {
   expect_gt(rho_1step, rho_2step)
 })
 
-test_that("predict.srlTS when X_test not supplied, y_test supplied", {
+test_that("predict.fastTS when X_test not supplied, y_test supplied", {
   expect_silent(p <- predict(fit, y_test = lh_test))
   expect_length(p, length(lh_test))
 
@@ -59,7 +59,7 @@ test_that("predict.srlTS when X_test not supplied, y_test supplied", {
                "Detected exogenous model; for future predictions, you must supply X_test")
 })
 
-test_that("predict.srlTS when X_test supplied", {
+test_that("predict.fastTS when X_test supplied", {
 
   # should fail with endogenous model
   expect_error(p <- predict(fit, X_test = X_test))
@@ -93,16 +93,16 @@ ss_train <- sunspot.month[1:ntrain]
 ss_test <- sunspot.month[-(1:ntrain)]
 
 # endogenous model
-fit <- srlTS(ss_train)
+fit <- fastTS(ss_train)
 
 # exogenous model
 X <- rnorm(length(sunspot.month))
 X_train <- X[1:ntrain]
 X_test <- X[-(1:ntrain)]
 
-fitX <- srlTS(ss_train, X = X_train)
+fitX <- fastTS(ss_train, X = X_train)
 
-test_that("cumulative predict.srlTS when X_test not supplied", {
+test_that("cumulative predict.fastTS when X_test not supplied", {
 
   # On existing data (endogenous)
   p <- predict(fit)
@@ -158,7 +158,7 @@ test_that("cumulative predict.srlTS when X_test not supplied", {
 
 })
 
-test_that("cumulative predict.srlTS when X_test supplied", {
+test_that("cumulative predict.fastTS when X_test supplied", {
 
   # should fail with endogenous model
   expect_error(p <- predict(fit, X_test = X_test, cumulative = 10))
@@ -193,7 +193,7 @@ test_that("cumulative predict.srlTS when X_test supplied", {
   expect_gt(rho_c10_p1, rho_c10_p2)
 })
 
-test_that("cumulative predict.srlTS when X_test not supplied, y_test supplied", {
+test_that("cumulative predict.fastTS when X_test not supplied, y_test supplied", {
   y_c10 <- roll_sum(ss_test, n = 10, align = "right", fill = NA)
 
   expect_silent(p <- predict(fit, y_test = ss_test, cumulative = 10))
