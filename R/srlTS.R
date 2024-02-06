@@ -65,10 +65,18 @@ srlTS <- function(
   if(missing(n_lags_max))
      n_lags_max <- min(1000, n/10)
 
-  train_idx <- 1:floor(n*ptrain)
+  # Parameter checks
+  parameter_checks(y, X, n_lags_max, gamma, ptrain)
+  if(!missing(w_endo)) {
+    stopifnot("if specified, w_endo must be nonmissing" = !any(is.na(w_endo)))
+    stopifnot("w_endo must be [0, Inf)" = (all(w_endo >= 0)))
+  }
+  if(!missing(w_exo)) {
+    stopifnot("if specified, w_exo must be nonmissing" = !any(is.na(w_exo)))
+    stopifnot("w_exo must be [0, Inf) or 'unpenalized'" = all(w_exo == "unpenalized") || (all(w_exo >= 0)))
+  }
 
-  if(any(is.na(y)))
-    stop("Cannot have missing values in outcome; run imputation first?")
+  train_idx <- 1:floor(n*ptrain)
 
   if(any(is(y) == "ts"))
     y <- as.numeric(y)
@@ -81,13 +89,8 @@ srlTS <- function(
   if(!is.null(X)) {
     X <- as.matrix(X)
 
-    stopifnot(is.numeric(X))
-
     if(is.null(colnames(X)))
       colnames(X) <- paste0("X", 1:ncol(X))
-
-    if(any(is.na(X)))
-      stop("Cannot have missing values in covariates; run imputation first?")
 
     if(any(is_intercept <- apply(X, 2, function(x) all(x == 1)))) {
       warning("Detected intercept; dropping")
@@ -253,4 +256,23 @@ summary.srlTS <- function(object, ...) {
   s
 }
 
+parameter_checks <- function(y, X, n_lags_max, gamma, ptrain) {
+  stopifnot("y must be numeric" = is.numeric(y))
+  stopifnot("n_lags_max must be numeric" = is.numeric(n_lags_max))
+  stopifnot("gamma must be numeric" = is.numeric(gamma))
+  stopifnot("ptrain must be numeric" = is.numeric(ptrain))
+  stopifnot("X must be NULL or numeric" = is.null(X) | is.numeric(X))
 
+  stopifnot("y cannot have missing values; run imputation first?" = !any(is.na(y)))
+  stopifnot("n_lags_max must be a single number" = length(n_lags_max) == 1)
+  stopifnot("n_lags_max must be (1, length(y))" = n_lags_max > 1 & n_lags_max < length(y))
+  stopifnot("ptrain must be a single number" = length(ptrain) == 1)
+  stopifnot("ptrain must be (0, 1]" = ptrain > 0 & ptrain <= 1)
+
+  if(!is.null(X)) {
+    stopifnot("X cannot have missing values; run imputation first?" = !any(is.na(X)))
+  }
+
+  stopifnot("not enough training data, update n_lags_max or ptrain?" = length(y)*ptrain > n_lags_max+1)
+
+}

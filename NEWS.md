@@ -1,5 +1,7 @@
 # srlTS 0.1.1.9000
 
+- Add unit tests for `srlTS` function
+
 # srlTS 0.1.1
 
 - remove warning when `ptrain = 1`
