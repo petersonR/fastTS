@@ -5,8 +5,8 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="An implementation of sparsity-ranked lasso for 
-    time series data. This methodology is especially useful for 
+<meta name="description" content="An implementation of sparsity-ranked lasso and related methods 
+    for time series data. This methodology is especially useful for 
     large time series with exogenous features and/or complex 
     seasonality. Originally described in Peterson and Cavanaugh 
     (2022) &lt;doi:10.1007/s10182-021-00431-7&gt; in the context of variable 
@@ -16,20 +16,20 @@
     series data with complex seasonality, as shown in Peterson and Cavanaugh 
     (2023+) &lt;doi:10.48550/arXiv.2211.01492&gt;, which also describes this package
     in greater detail. The Sparsity-Ranked Lasso (SRL) for Time Series  
-    implemented in srlTS can fit large/complex/high-frequency time series
+    implemented in fastTS can fit large/complex/high-frequency time series
     quickly, even with a high-dimensional exogenous feature set. The SRL is
     considerably faster than its competitors, while often producing more 
     accurate predictions. Also included is a long hourly series of arrivals 
     into the University of Iowa Emergency Department with concurrent local 
     temperature.">
-<title>Sparsity-Ranked Lasso for Time Series • srlTS</title>
+<title>Fast Time Series Modeling with the Sparsity Ranked Lasso • fastTS</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Sparsity-Ranked Lasso for Time Series">
-<meta property="og:description" content="An implementation of sparsity-ranked lasso for 
-    time series data. This methodology is especially useful for 
+<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Fast Time Series Modeling with the Sparsity Ranked Lasso">
+<meta property="og:description" content="An implementation of sparsity-ranked lasso and related methods 
+    for time series data. This methodology is especially useful for 
     large time series with exogenous features and/or complex 
     seasonality. Originally described in Peterson and Cavanaugh 
     (2022) &lt;doi:10.1007/s10182-021-00431-7&gt; in the context of variable 
@@ -39,7 +39,7 @@
     series data with complex seasonality, as shown in Peterson and Cavanaugh 
     (2023+) &lt;doi:10.48550/arXiv.2211.01492&gt;, which also describes this package
     in greater detail. The Sparsity-Ranked Lasso (SRL) for Time Series  
-    implemented in srlTS can fit large/complex/high-frequency time series
+    implemented in fastTS can fit large/complex/high-frequency time series
     quickly, even with a high-dimensional exogenous feature set. The SRL is
     considerably faster than its competitors, while often producing more 
     accurate predictions. Also included is a long hourly series of arrivals 
@@ -56,9 +56,9 @@
 
     <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light"><div class="container">
     
-    <a class="navbar-brand me-2" href="index.html">srlTS</a>
+    <a class="navbar-brand me-2" href="index.html">fastTS</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -87,7 +87,7 @@
 
       <ul class="navbar-nav">
 <li class="nav-item">
-  <a class="external-link nav-link" href="https://github.com/petersonR/srlTS/" aria-label="github">
+  <a class="external-link nav-link" href="https://github.com/petersonR/fastTS/" aria-label="github">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -100,55 +100,55 @@
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="srlts">srlTS<a class="anchor" aria-label="anchor" href="#srlts"></a>
+<div class="page-header"><h1 id="fastts">fastTS<a class="anchor" aria-label="anchor" href="#fastts"></a>
 </h1></div>
 <!-- badges: start -->
 
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
-<p>The Sparsity-Ranked Lasso (SRL) for Time Series implemented in <code>srlTS</code> efficiently fits long, high-frequency time series with complex seasonality, even with a high-dimensional exogenous feature set.</p>
+<p>The <code>fastTS</code> package efficiently fits long, high-frequency time series with complex seasonality, even with a high-dimensional exogenous feature set. It implements the sparsity-ranked lasso (and similar methods) for time series data.</p>
 <p>Originally described in <a href="https://doi.org/10.1007/s10182-021-00431-7" class="external-link">Peterson and Cavanaugh (2022)</a> in the context of variable selection with interactions and/or polynomials, <em>ranked sparsity</em> is a philosophy of variable selection in the presence of prior informational asymmetry.</p>
-<p>In time series data with complex seasonality or exogenous features; see <a href="https://doi.org/10.48550/arXiv.2211.01492" class="external-link">Peterson and Cavanaugh (2023+)</a>, which also describes this package in greater detail. The basic premise is to utilize the sparsity-ranked lasso to be less skeptical of more recent lags, and suspected seasonal relationships.</p>
+<p>In time series data with complex seasonality or exogenous features; see <a href="https://doi.org/10.48550/arXiv.2211.01492" class="external-link">Peterson and Cavanaugh (2023+)</a>, which also describes this package in greater detail. The basic premise is to utilize the sparsity-ranked lasso (or similar) to be less skeptical of more recent lags, and suspected seasonal relationships.</p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>You can install the development version of <code>srlTS</code> like so:</p>
+<p>You can install the development version of <code>fastTS</code> like so:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
-<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"PetersonR/srlTS"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"PetersonR/fastTS"</span><span class="op">)</span></span></code></pre></div>
 <p>Or, install from CRAN with:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"srlTS"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"fastTS"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
 <p>This is a basic example.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://petersonr.github.io/srlTS/">srlTS</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://petersonr.github.io/fastTS/">fastTS</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cumsum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/srlTS.html">srlTS</a></span><span class="op">(</span><span class="va">y</span>, gamma <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">.5</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/fastTS.html">fastTS</a></span><span class="op">(</span><span class="va">y</span>, gamma <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">.5</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">fit</span></span>
 <span><span class="co">#&gt;  PF_gamma best_AICc best_BIC</span></span>
-<span><span class="co">#&gt;       0.0  209.9610 216.3429</span></span>
-<span><span class="co">#&gt;       0.5  208.1509 214.5327</span></span>
+<span><span class="co">#&gt;       0.0  178.4453 189.6189</span></span>
+<span><span class="co">#&gt;       0.5  175.3748 185.6797</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Test-set prediction accuracy</span></span>
-<span><span class="co">#&gt;         rmse       rsq      mae</span></span>
-<span><span class="co">#&gt; AIC 1.518106 0.9478941 1.286608</span></span>
-<span><span class="co">#&gt; BIC 1.518106 0.9478941 1.286608</span></span></code></pre></div>
+<span><span class="co">#&gt;          rmse       rsq      mae</span></span>
+<span><span class="co">#&gt; AIC 0.7375194 0.4263235 0.598126</span></span>
+<span><span class="co">#&gt; BIC 0.7375194 0.4263235 0.598126</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="learn-more">Learn more<a class="anchor" aria-label="anchor" href="#learn-more"></a>
 </h2>
 <p>To learn more and to see this methodology in action, see:</p>
 <ul>
-<li><a href="https://petersonr.github.io/srlTS/articles/case_studies.html">Simple case studies vignette</a></li>
-<li><a href="https://petersonr.github.io/srlTS/articles/hourly_er_visits.html">Modeling hourly ER arrival data with complex seasonality</a></li>
+<li><a href="https://petersonr.github.io/fastTS/articles/case_studies.html">Simple case studies vignette</a></li>
+<li><a href="https://petersonr.github.io/fastTS/articles/hourly_er_visits.html">Modeling hourly ER arrival data with complex seasonality</a></li>
 <li><a href="https://data-diction.com/posts/did-denver-zero-fare-policy-work/#modeling" class="external-link">Did Denver’s 2022 ‘Zero Fare for Cleaner Air’ campaign actually work?</a></li>
 </ul>
 </div>
@@ -156,9 +156,8 @@
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li><a href="https://cloud.r-project.org/package=srlTS" class="external-link">View on CRAN</a></li>
-<li><a href="https://github.com/petersonR/srlTS/" class="external-link">Browse source code</a></li>
-<li><a href="https://github.com/petersonR/srlTS/issues" class="external-link">Report a bug</a></li>
+<li><a href="https://github.com/petersonR/fastTS/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/petersonR/fastTS/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
@@ -174,7 +173,7 @@
 <div class="citation">
 <h2 data-toc-skip>Citation</h2>
 <ul class="list-unstyled">
-<li><a href="authors.html#citation">Citing srlTS</a></li>
+<li><a href="authors.html#citation">Citing fastTS</a></li>
 </ul>
 </div>
 
@@ -188,9 +187,9 @@
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://app.codecov.io/gh/petersonR/srlTS?branch=main" class="external-link"><img src="https://codecov.io/gh/petersonR/srlTS/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
-<li><a href="https://github.com/petersonR/srlTS/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/petersonR/srlTS/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
-<li><a href="https://CRAN.R-project.org/package=srlTS" class="external-link"><img src="https://www.r-pkg.org/badges/version/srlTS" alt="CRAN status"></a></li>
+<li><a href="https://app.codecov.io/gh/petersonR/fastTS?branch=main" class="external-link"><img src="https://codecov.io/gh/petersonR/fastTS/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
+<li><a href="https://github.com/petersonR/fastTS/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/petersonR/fastTS/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://CRAN.R-project.org/package=fastTS" class="external-link"><img src="https://www.r-pkg.org/badges/version/fastTS" alt="CRAN status"></a></li>
 </ul>
 </div>
 
