@@ -1,10 +1,15 @@
 ## fastTS 0.1.2 release summary
 
-This is a re-naming and otherwise minor update to the existing srlTS R package.
+This is a resubmission that fixes an incorrectly formatted
+DOI link that was caught in the previous submission. 
+
+The previous submission was a re-naming and otherwise minor update 
+to the existing srlTS R package.
 
 We are seeking to rename because: 1) srlTS is too specific as our package 
 can implement the sparsity-ranked MCP and SCAD methods in addition 
 to the SRL, and 2) better visibility. 
+
 
 ## R CMD check results
 
