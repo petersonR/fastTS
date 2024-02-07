@@ -1,3 +1,5 @@
+# fastTS 0.1.2.9000
+
 # fastTS 0.1.2
 
 - Renaming package to `fastTS`, and functions
