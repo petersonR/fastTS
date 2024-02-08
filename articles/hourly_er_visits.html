@@ -148,20 +148,22 @@ associated <code>print</code>, <code>coef</code>, <code>summary</code>,
 and <code>plot</code> functions.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">srlpac</span></span>
-<span><span class="co">#&gt;  PF_gamma best_AICc best_BIC</span></span>
-<span><span class="co">#&gt;      0.00  155231.7 156254.6</span></span>
-<span><span class="co">#&gt;      0.25  155195.8 155964.1</span></span>
-<span><span class="co">#&gt;      0.50  155190.4 155939.0</span></span>
-<span><span class="co">#&gt;      1.00  155457.4 155943.7</span></span>
-<span><span class="co">#&gt;      2.00  157625.4 157826.7</span></span>
-<span><span class="co">#&gt;      4.00  162570.0 162637.1</span></span>
-<span><span class="co">#&gt;      8.00  169220.7 169245.9</span></span>
-<span><span class="co">#&gt;     16.00  169220.7 169245.9</span></span>
+<span><span class="co">#&gt;  PF_gamma   AICc_d    BIC_d</span></span>
+<span><span class="co">#&gt;      0.00    41.33   315.63</span></span>
+<span><span class="co">#&gt;      0.25      5.4    25.13</span></span>
+<span><span class="co">#&gt;      0.50      *0*      *0*</span></span>
+<span><span class="co">#&gt;      1.00   266.95     4.67</span></span>
+<span><span class="co">#&gt;      2.00  2434.97  1887.67</span></span>
+<span><span class="co">#&gt;      4.00  7379.55  6698.07</span></span>
+<span><span class="co">#&gt;      8.00 14030.32 13306.91</span></span>
+<span><span class="co">#&gt;     16.00 14030.32 13306.91</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Note: AICc_d and BIC_d are the difference from the minimum; *0* is best.</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Test-set prediction accuracy</span></span>
-<span><span class="co">#&gt;         rmse       rsq      mae</span></span>
-<span><span class="co">#&gt; AIC 2.661505 0.5310037 2.059681</span></span>
-<span><span class="co">#&gt; BIC 2.664962 0.5298691 2.064657</span></span></code></pre></div>
+<span><span class="co">#&gt;          rmse       rsq      mae</span></span>
+<span><span class="co">#&gt; AICc 2.661505 0.5309945 2.059681</span></span>
+<span><span class="co">#&gt; BIC  2.664962 0.5297754 2.064657</span></span></code></pre></div>
 <p>By default, <code>fastTS</code> used 8 possible tuning parameters for
 <span class="math inline">\(\gamma\)</span>, the penalty weight
 exponent, and using AICc as a judge it appears the best value is 0.5. By
@@ -435,20 +437,22 @@ weights, which makes formal inference more difficult).</p>
 performance of the SLRPACx model.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">srlpacx</span></span>
-<span><span class="co">#&gt;  PF_gamma best_AICc best_BIC</span></span>
-<span><span class="co">#&gt;      0.00  155062.8 156237.2</span></span>
-<span><span class="co">#&gt;      0.25  155023.3 155978.9</span></span>
-<span><span class="co">#&gt;      0.50  155007.5 155974.7</span></span>
-<span><span class="co">#&gt;      1.00  155300.0 155997.0</span></span>
-<span><span class="co">#&gt;      2.00  157356.9 157742.6</span></span>
-<span><span class="co">#&gt;      4.00  162064.9 162308.1</span></span>
-<span><span class="co">#&gt;      8.00  168573.6 168766.5</span></span>
-<span><span class="co">#&gt;     16.00  168573.6 168766.5</span></span>
+<span><span class="co">#&gt;  PF_gamma   AICc_d    BIC_d</span></span>
+<span><span class="co">#&gt;      0.00     55.3   262.49</span></span>
+<span><span class="co">#&gt;      0.25    15.88      4.2</span></span>
+<span><span class="co">#&gt;      0.50      *0*      *0*</span></span>
+<span><span class="co">#&gt;      1.00   292.55    22.27</span></span>
+<span><span class="co">#&gt;      2.00  2349.39  1767.88</span></span>
+<span><span class="co">#&gt;      4.00  7057.48  6333.44</span></span>
+<span><span class="co">#&gt;      8.00 13566.17 12791.83</span></span>
+<span><span class="co">#&gt;     16.00 13566.17 12791.83</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Note: AICc_d and BIC_d are the difference from the minimum; *0* is best.</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Test-set prediction accuracy</span></span>
-<span><span class="co">#&gt;         rmse       rsq      mae</span></span>
-<span><span class="co">#&gt; AIC 2.656204 0.5328857 2.054256</span></span>
-<span><span class="co">#&gt; BIC 2.658211 0.5321868 2.057566</span></span></code></pre></div>
+<span><span class="co">#&gt;          rmse       rsq      mae</span></span>
+<span><span class="co">#&gt; AICc 2.656204 0.5328608 2.054256</span></span>
+<span><span class="co">#&gt; BIC  2.658211 0.5321548 2.057566</span></span></code></pre></div>
 <p>Again, <code>fastTS</code> used 8 possible tuning parameters for
 <span class="math inline">\(\gamma\)</span>, and it appears the best
 value is 0.5. The addition of exogenous features has slightly improved

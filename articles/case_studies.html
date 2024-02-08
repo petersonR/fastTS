@@ -93,20 +93,22 @@
 <span><span class="va">fit_LH</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fastTS.html">fastTS</a></span><span class="op">(</span><span class="va">LakeHuron</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">fit_LH</span></span>
-<span><span class="co">#&gt;  PF_gamma best_AICc best_BIC</span></span>
-<span><span class="co">#&gt;      0.00  147.2053 159.8118</span></span>
-<span><span class="co">#&gt;      0.25  146.3811 156.7937</span></span>
-<span><span class="co">#&gt;      0.50  146.0177 156.4739</span></span>
-<span><span class="co">#&gt;      1.00  144.1002 154.4967</span></span>
-<span><span class="co">#&gt;      2.00  143.0362 153.2544</span></span>
-<span><span class="co">#&gt;      4.00  149.8227 156.1558</span></span>
-<span><span class="co">#&gt;      8.00  149.8227 156.1558</span></span>
-<span><span class="co">#&gt;     16.00  149.8227 156.1558</span></span>
+<span><span class="co">#&gt;  PF_gamma AICc_d BIC_d</span></span>
+<span><span class="co">#&gt;      0.00   4.17  6.56</span></span>
+<span><span class="co">#&gt;      0.25   3.34  3.54</span></span>
+<span><span class="co">#&gt;      0.50   2.98  3.22</span></span>
+<span><span class="co">#&gt;      1.00   1.06  1.24</span></span>
+<span><span class="co">#&gt;      2.00    *0*   *0*</span></span>
+<span><span class="co">#&gt;      4.00   6.79   2.9</span></span>
+<span><span class="co">#&gt;      8.00   6.79   2.9</span></span>
+<span><span class="co">#&gt;     16.00   6.79   2.9</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Note: AICc_d and BIC_d are the difference from the minimum; *0* is best.</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Test-set prediction accuracy</span></span>
-<span><span class="co">#&gt;       rmse       rsq       mae</span></span>
-<span><span class="co">#&gt; AIC 0.7751 0.6203825 0.5888855</span></span>
-<span><span class="co">#&gt; BIC 0.7751 0.6203825 0.5888855</span></span>
+<span><span class="co">#&gt;        rmse       rsq       mae</span></span>
+<span><span class="co">#&gt; AICc 0.7751 0.6043019 0.5888855</span></span>
+<span><span class="co">#&gt; BIC  0.7751 0.6043019 0.5888855</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">fit_LH</span><span class="op">)</span></span>
 <span><span class="co">#&gt;                 0.00069</span></span>
 <span><span class="co">#&gt; (Intercept) 111.8740292</span></span>
@@ -131,6 +133,23 @@ the EuStockMarkets data set,</p>
 <span><span class="va">X_sp</span> <span class="op">&lt;-</span> <span class="fu">splines</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/splines/bs.html" class="external-link">bs</a></span><span class="op">(</span><span class="va">X</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span>, df <span class="op">=</span> <span class="fl">9</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">fit_stock</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fastTS.html">fastTS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">EuStockMarkets</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span>, n_lags_max <span class="op">=</span> <span class="fl">400</span>, X <span class="op">=</span> <span class="va">X_sp</span>, w_exo <span class="op">=</span> <span class="st">"unpenalized"</span><span class="op">)</span></span>
+<span><span class="va">fit_stock</span></span>
+<span><span class="co">#&gt;  PF_gamma AICc_d BIC_d</span></span>
+<span><span class="co">#&gt;      0.00  11.36 28.22</span></span>
+<span><span class="co">#&gt;      0.25   2.18  4.41</span></span>
+<span><span class="co">#&gt;      0.50    *0*  0.74</span></span>
+<span><span class="co">#&gt;      1.00   6.46 &lt;0.01</span></span>
+<span><span class="co">#&gt;      2.00   6.46   *0*</span></span>
+<span><span class="co">#&gt;      4.00   6.46 &lt;0.01</span></span>
+<span><span class="co">#&gt;      8.00   6.46 &lt;0.01</span></span>
+<span><span class="co">#&gt;     16.00   6.46 &lt;0.01</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Note: AICc_d and BIC_d are the difference from the minimum; *0* is best.</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Test-set prediction accuracy</span></span>
+<span><span class="co">#&gt;            rmse       rsq       mae</span></span>
+<span><span class="co">#&gt; AICc 0.09071464 0.7328887 0.0758487</span></span>
+<span><span class="co">#&gt; BIC  0.09292579 0.7197084 0.0780460</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">fit_stock</span><span class="op">)</span>, <span class="fl">11</span><span class="op">)</span></span>
 <span><span class="co">#&gt;           0.0000096</span></span>
 <span><span class="co">#&gt; lag399  0.000000000</span></span>
@@ -156,6 +175,23 @@ the EuStockMarkets data set,</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"nottem"</span><span class="op">)</span></span>
 <span><span class="va">fit_nt</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fastTS.html">fastTS</a></span><span class="op">(</span><span class="va">nottem</span>, n_lags_max <span class="op">=</span> <span class="fl">24</span><span class="op">)</span></span>
+<span><span class="va">fit_nt</span></span>
+<span><span class="co">#&gt;  PF_gamma AICc_d  BIC_d</span></span>
+<span><span class="co">#&gt;      0.00   3.86   13.5</span></span>
+<span><span class="co">#&gt;      0.25   0.43    *0*</span></span>
+<span><span class="co">#&gt;      0.50    *0*   3.74</span></span>
+<span><span class="co">#&gt;      1.00   2.49   3.91</span></span>
+<span><span class="co">#&gt;      2.00  29.29  33.52</span></span>
+<span><span class="co">#&gt;      4.00  83.31  75.53</span></span>
+<span><span class="co">#&gt;      8.00 106.95  99.16</span></span>
+<span><span class="co">#&gt;     16.00 212.75 201.97</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Note: AICc_d and BIC_d are the difference from the minimum; *0* is best.</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Test-set prediction accuracy</span></span>
+<span><span class="co">#&gt;          rmse       rsq      mae</span></span>
+<span><span class="co">#&gt; AICc 2.324769 0.9223185 1.747609</span></span>
+<span><span class="co">#&gt; BIC  2.376213 0.9188426 1.815714</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">fit_nt</span><span class="op">)</span></span>
 <span><span class="co">#&gt;                  0.0393</span></span>
 <span><span class="co">#&gt; (Intercept) 11.89830169</span></span>
@@ -190,6 +226,23 @@ the EuStockMarkets data set,</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"UKDriverDeaths"</span><span class="op">)</span></span>
 <span><span class="va">fit_ukdd</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fastTS.html">fastTS</a></span><span class="op">(</span><span class="va">UKDriverDeaths</span>, n_lags_max <span class="op">=</span> <span class="fl">24</span><span class="op">)</span></span>
+<span><span class="va">fit_ukdd</span></span>
+<span><span class="co">#&gt;  PF_gamma AICc_d BIC_d</span></span>
+<span><span class="co">#&gt;      0.00   5.97   7.9</span></span>
+<span><span class="co">#&gt;      0.25   3.91  3.91</span></span>
+<span><span class="co">#&gt;      0.50   2.25  2.25</span></span>
+<span><span class="co">#&gt;      1.00   0.77  0.77</span></span>
+<span><span class="co">#&gt;      2.00   0.02  0.02</span></span>
+<span><span class="co">#&gt;      4.00    *0*   *0*</span></span>
+<span><span class="co">#&gt;      8.00  10.21  7.55</span></span>
+<span><span class="co">#&gt;     16.00  39.18 33.83</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Note: AICc_d and BIC_d are the difference from the minimum; *0* is best.</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Test-set prediction accuracy</span></span>
+<span><span class="co">#&gt;          rmse       rsq      mae</span></span>
+<span><span class="co">#&gt; AICc 170.9203 0.5776374 131.9969</span></span>
+<span><span class="co">#&gt; BIC  170.9203 0.5776374 131.9969</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">fit_ukdd</span><span class="op">)</span></span>
 <span><span class="co">#&gt;                  0.0282</span></span>
 <span><span class="co">#&gt; (Intercept) 198.6573213</span></span>
@@ -217,7 +270,6 @@ the EuStockMarkets data set,</p>
 <span><span class="co">#&gt; lag22         0.0000000</span></span>
 <span><span class="co">#&gt; lag23         0.0000000</span></span>
 <span><span class="co">#&gt; lag24         0.0000000</span></span></code></pre></div>
-<p>Adding holiday indicators…</p>
 </div>
 <div class="section level3">
 <h3 id="sunspot">sunspot<a class="anchor" aria-label="anchor" href="#sunspot"></a>
@@ -227,20 +279,22 @@ the EuStockMarkets data set,</p>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"sunspot.month"</span><span class="op">)</span></span>
 <span><span class="va">fit_ssm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fastTS.html">fastTS</a></span><span class="op">(</span><span class="va">sunspot.month</span><span class="op">)</span></span>
 <span><span class="va">fit_ssm</span></span>
-<span><span class="co">#&gt;  PF_gamma best_AICc best_BIC</span></span>
-<span><span class="co">#&gt;      0.00  18373.20 18506.04</span></span>
-<span><span class="co">#&gt;      0.25  18356.15 18467.11</span></span>
-<span><span class="co">#&gt;      0.50  18348.28 18467.59</span></span>
-<span><span class="co">#&gt;      1.00  18417.42 18502.81</span></span>
-<span><span class="co">#&gt;      2.00  18569.61 18598.12</span></span>
-<span><span class="co">#&gt;      4.00  18782.77 18799.88</span></span>
-<span><span class="co">#&gt;      8.00  18782.77 18799.88</span></span>
-<span><span class="co">#&gt;     16.00  18782.77 18799.88</span></span>
+<span><span class="co">#&gt;  PF_gamma AICc_d  BIC_d</span></span>
+<span><span class="co">#&gt;      0.00  24.92  38.93</span></span>
+<span><span class="co">#&gt;      0.25   7.88    *0*</span></span>
+<span><span class="co">#&gt;      0.50    *0*   0.48</span></span>
+<span><span class="co">#&gt;      1.00  69.15   35.7</span></span>
+<span><span class="co">#&gt;      2.00 221.33 131.01</span></span>
+<span><span class="co">#&gt;      4.00 434.49 332.77</span></span>
+<span><span class="co">#&gt;      8.00 434.49 332.77</span></span>
+<span><span class="co">#&gt;     16.00 434.49 332.77</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Note: AICc_d and BIC_d are the difference from the minimum; *0* is best.</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Test-set prediction accuracy</span></span>
-<span><span class="co">#&gt;         rmse       rsq      mae</span></span>
-<span><span class="co">#&gt; AIC 15.94153 0.8920872 11.85384</span></span>
-<span><span class="co">#&gt; BIC 16.04978 0.8906613 11.99382</span></span></code></pre></div>
+<span><span class="co">#&gt;          rmse       rsq      mae</span></span>
+<span><span class="co">#&gt; AICc 15.94153 0.8920102 11.85384</span></span>
+<span><span class="co">#&gt; BIC  16.04978 0.8905385 11.99382</span></span></code></pre></div>
 <p>Model summaries</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">fit_ssm</span><span class="op">)</span></span>
