@@ -1,5 +1,9 @@
 # fastTS 0.1.2.9000
 
+- Improved handling of out-of-sample error estimation
+- Using `rsq_trad_vec` instead of `rsq_vec`
+- Improved print method for `fastTS` objects
+
 # fastTS 0.1.2
 
 - Renaming package to `fastTS`, and functions

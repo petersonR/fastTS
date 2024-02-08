@@ -147,7 +147,9 @@ fastTS <- function(
   best_fit_penalized_aicc <-
     srl_fits[[which.min(apply(sapply(srl_fits, AICc), 2, min))]]
 
-  oos_results <- get_oos_results(srl_fits, ytest=ytest, Xtest=Xfulltest)
+  oos_results <- data.frame(rmse = NA, rsq = NA, mae = NA)
+  if(ptrain < 1)
+    oos_results <- get_oos_results(srl_fits, ytest=ytest, Xtest=Xfulltest)
 
   results <- list(
     fits = srl_fits,
@@ -223,13 +225,37 @@ coef.fastTS <- function(object, choose = c("AICc", "BIC", "all"), ...) {
 #' @returns x (invisibly)
 #' @export
 print.fastTS <- function(x, ...) {
+
+  best_AICc = apply(sapply(x$fits, AICc), 2, min)
+  best_BIC = apply(sapply(x$fits, BIC), 2, min)
+
+  # If there are ties, point out the one with lowest gamma
+  best_AICc[which(best_AICc == min(best_AICc))[1]] <- min(best_AICc) - .0001
+  best_BIC[which(best_BIC == min(best_BIC))[1]] <- min(best_BIC) - .0001
+
+  AICc_d <- best_AICc - min(best_AICc)
+  BIC_d <- best_BIC - min(best_BIC)
+
+  aic_pretty <- round(AICc_d, 2)
+  bic_pretty <- round(BIC_d, 2)
+
+  aic_pretty[AICc_d < 0.01] <- "<0.01"
+  bic_pretty[BIC_d < 0.01] <- "<0.01"
+
+  aic_pretty[AICc_d == 0] <- "*0*"
+  bic_pretty[BIC_d == 0] <- "*0*"
+
+
   gamma_summary <- data.frame(
     "PF_gamma" = x$gamma,
-    best_AICc = apply(sapply(x$fits, AICc), 2, min),
-    best_BIC = apply(sapply(x$fits, BIC), 2, min)
+    AICc_d = aic_pretty,
+    BIC_d = bic_pretty,
+    check.names = FALSE
   )
 
   print(gamma_summary, row.names = FALSE)
+
+  cat("\nNote: AICc_d and BIC_d are the difference from the minimum; *0* is best.\n")
 
   cat("\nTest-set prediction accuracy\n")
   print(x$oos_results, row.names = TRUE)

@@ -20,7 +20,7 @@ AICc <- function(fit, eps = 1) {
 #' @param Xtest new X data, including lags
 #'
 #' @importFrom dplyr summarize
-#' @importFrom yardstick rmse_vec rsq_vec mae_vec
+#' @importFrom yardstick rmse_vec rsq_trad_vec mae_vec
 #' @importFrom rlang .data
 get_oos_results <- function(fits, ytest, Xtest) {
 
@@ -36,21 +36,21 @@ get_oos_results <- function(fits, ytest, Xtest) {
                      which = which.min(AICc(best_fit_penalized_aicc)))
   )
 
-  oos_results_aic <- suppressWarnings(summarize(
+  oos_results_aic <- summarize(
       predictions,
       rmse = rmse_vec(.data$y, .data$fc_sra),
-      rsq = rsq_vec(.data$y, .data$fc_sra),
+      rsq = rsq_trad_vec(.data$y, .data$fc_sra),
       mae = mae_vec(.data$y, .data$fc_sra),
-    ))
+    )
 
-  oos_results_bic <- suppressWarnings(summarize(
+  oos_results_bic <- summarize(
       predictions,
       rmse = rmse_vec(.data$y, .data$fc_srb),
-      rsq = rsq_vec(.data$y, .data$fc_srb),
+      rsq = rsq_trad_vec(.data$y, .data$fc_srb),
       mae = mae_vec(.data$y, .data$fc_srb)
-    ))
+    )
 
-  oos_results <- rbind("AIC" = oos_results_aic, "BIC" = oos_results_bic)
+  oos_results <- rbind("AICc" = oos_results_aic, "BIC" = oos_results_bic)
 }
 
 #' Internal function for converting time series into model matrix of lags
