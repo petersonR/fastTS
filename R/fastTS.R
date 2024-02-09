@@ -1,4 +1,9 @@
-#' Perform time series ranked sparsity methods
+#'  Fast time series modeling with ranked sparsity
+#'
+#' @description
+#' Uses penalized regression to quickly fit time series models with
+#' potentially complex seasonal patterns and exogenous variables.
+#' Based on methods described in Peterson & Cavanaugh (2024).
 #'
 #' @aliases plot.fastTS coef.fastTS print.fastTS
 #'
@@ -9,36 +14,56 @@
 #' @param ptrain prop. to leave out for test data
 #' @param pf_eps penalty factors below this will be set to zero
 #' @param w_endo optional pre-specified weights for endogenous terms
-#' @param w_exo optional pre-specified weights for exogenous terms (see details)
+#' @param w_exo optional pre-specified weights for exogenous terms (details)
+#' @param weight_type type of weights to use for endogenous terms
+#' @param m mode(s) for seasonal lags (used if weight_type = "parametric")
+#' @param r penalty factors for seasonal + local scaling functions (used if
+#'   weight_type = "parametric")
+#' @param plot logical; whether to plot the penalty functions
 #' @param ncvreg_args additional args to pass through to ncvreg
 #' @param ... passed to downstream functions
 #'
 #' @return A list of class \code{slrTS} with elements
 #'
-#'   \item{fits}{a list of lasso fits}
-#'   \item{ncvreg_args}{arguments passed to ncvreg}
+#'   \item{fits}{a list of lasso fits} \item{ncvreg_args}{arguments passed to
+#'   ncvreg}
 #'   \item{gamma}{the (negative) exponent on the penalty weights, one
 #'   for each fit}
-#'   \item{n_lags_max}{the maximum number of lags}
-#'   \item{y}{the time series}
+#'   \item{n_lags_max}{the maximum number of lags} \item{y}{the time series}
 #'   \item{X}{the utilized matrix of exogenous features}
 #'   \item{oos_results}{results on test data using best of fits}
 #'   \item{train_idx}{index of observations used in training data}
+#'   \item{weight_type}{the type of weights used for endogenous terms}
+#'   \item{m}{the mode(s) for seasonal lags (used if weight_type =
+#'   "parametric")} \item{r}{penalty factors for seasonal + local scaling
+#'   functions}
 #'
-#' @details The default weights for exogenous features will be chosen based on
-#' a similar approach to the adaptive lasso (using bivariate OLS estimates). For
-#' lower dimensional X, it's advised to set \code{w_exo="unpenalized"}, because
-#' this allows for statistical inference on exogenous variable coefficients
-#' via the \code{summary} function.
+#' @details The default weights for exogenous features will be chosen based on a
+#'   similar approach to the adaptive lasso (using bivariate OLS estimates). For
+#'   lower dimensional X, it's advised to set \code{w_exo="unpenalized"},
+#'   because this allows for statistical inference on exogenous variable
+#'   coefficients via the \code{summary} function.
+#'
+#'   By default, a seasonal frequency \code{m} must not be specified and the
+#'   PACF is used to estimate the weights for endogenous terms. A parametric
+#'   version is also available, which allows for a penalty scaling function that
+#'   penalizes seasonal and recent lags less according to the penalty scaling
+#'   functions described in Peterson & Cavanaugh (2024). See the
+#'   \code{penalty_scaler} function for more details, and to plot the penalty
+#'   function for various values of \code{m} and \code{r}.
 #'
 #' @references Breheny, P. and Huang, J. (2011) Coordinate descent algorithms
 #'   for nonconvex penalized regression, with applications to biological feature
 #'   selection. Ann. Appl. Statist., 5: 232-253.
 #'
-#'   Peterson, R.A., Cavanaugh, J.E. Ranked sparsity: a cogent regularization
-#'   framework for selecting and estimating feature interactions and
-#'   polynomials. AStA Adv Stat Anal (2022).
+#'   Peterson, R.A., Cavanaugh, J.E. (2022) Ranked sparsity: a cogent
+#'   regularization framework for selecting and estimating feature interactions
+#'   and polynomials. AStA Adv Stat Anal.
 #'   https://doi.org/10.1007/s10182-021-00431-7
+#'
+#'   Peterson, R.A., Cavanaugh, J.E. (2024). Fast, effective, and coherent time
+#'   series modeling using the sparsity-ranked lasso. Statistical Modelling
+#'   (accepted). DOI: https://doi.org/10.48550/arXiv.2211.01492
 #'
 #' @seealso predict.fastTS
 #'
@@ -58,6 +83,9 @@
 fastTS <- function(
   y, X = NULL, n_lags_max, gamma = c(0, 2^(-2:4)),
   ptrain = .8, pf_eps = 0.01, w_endo, w_exo,
+  weight_type = c("pacf", "parametric"),
+  m = NULL, r = c(rep(.1, length(m)), .01),
+  plot = FALSE,
   ncvreg_args = list(penalty = "lasso", returnX = FALSE, lambda.min = .001)) {
 
   n <- length(y)
@@ -121,14 +149,18 @@ fastTS <- function(
   y_cc_train <- ytrain[complete.cases(Xfull)[train_idx]]
 
   if(missing(w_endo)) {
-    pacfs <- pacf(ts(ytrain), lag.max = n_lags_max, plot = FALSE)
+    weight_type <- match.arg(weight_type)
+    if(weight_type == "pacf") {
+      pacfs <- pacf(ts(ytrain), lag.max = n_lags_max, plot = plot)
+      w_endo <- abs(pacfs$acf)
+      if(length(m))
+        warning("m is ignored when weight_type = 'pacf'")
+    } else if(weight_type == "parametric") {
+      w_endo <- 1/exp(penalty_scaler(1:n_lags_max, m, r, plot = plot))
+    }
+  }
 
-    w <- c(
-      as.vector(abs(pacfs$acf)),
-      w_exo
-    )
-  } else
-    w <- c(w_endo, w_exo)
+  w <- c(w_endo, w_exo)
 
   pfs <- sapply(1:length(gamma), function(g) w^-gamma[g])
   pfs[pfs < pf_eps] <- 0
@@ -159,7 +191,9 @@ fastTS <- function(
     y = y, X = X, y_cc_train = y_cc_train,
     Xfulltrain = Xfulltrain,
     oos_results = oos_results,
-    train_idx = train_idx
+    train_idx = train_idx,
+    weight_type = weight_type,
+    m = m, r = r
   )
 
   class(results) <- "fastTS"
@@ -195,17 +229,14 @@ plot.fastTS <- function(x, log.l = TRUE, ...){
 
 #' @rdname fastTS
 #' @param object a fastTS object
-#' @param choose which criterion to use for lambda selection (AICc, BIC, or all)
+#' @param choose which criterion to use for lambda selection (AICc or BIC)
 #' @method coef fastTS
 #' @return a vector of model coefficients
 #'
 #' @export
-coef.fastTS <- function(object, choose = c("AICc", "BIC", "all"), ...) {
+coef.fastTS <- function(object, choose = c("AICc", "BIC"), ...) {
 
   choose <- match.arg(choose)
-
-  if(!(choose %in% c("BIC", "AICc")))
-    stop("choose option not yet supported")
 
   pen_fn <- AICc
 
@@ -267,18 +298,26 @@ print.fastTS <- function(x, ...) {
 #'   evaluated at the best tuning parameter combination
 #'   (best AICc).
 #' @export
-summary.fastTS <- function(object, ...) {
-  aics <- sapply(object$fits, function(x) AICc(x))
-  best_idx <- which(aics == min(aics),arr.ind = TRUE)
+summary.fastTS <- function(object, choose = c("AICc", "BIC"), ...) {
+
+  choose <- match.arg(choose)
+  pen_fn <- AICc
+  if(choose == "BIC")
+    pen_fn <- BIC
+
+  ics <- sapply(object$fits, pen_fn)
+  best_idx <- which(ics == min(ics), arr.ind = TRUE)
 
   best_fit <- object$fits[[best_idx[2]]]
   best_gamma <- object$gamma[best_idx[2]]
   best_lambda <- best_fit$lambda[best_idx[1]]
 
-  s <- summary(best_fit, which = which(AICc(best_fit) == min(aics)),
-               X = object$Xfulltrain, y = object$y_cc_train, ...)
-  cat("Model summary at optimal AICc (lambda=", round(best_lambda, 4),
-      "; gamma=", round(best_gamma, 4), ")\n\n", sep = "")
+  s <- summary(best_fit, which = which(pen_fn(best_fit) == min(ics)),
+               X = object$Xfulltrain, y = object$y_cc_train, method = "kernel",
+               ...)
+  cat("Model summary (ncvreg) at optimal ", choose, " (lambda=",
+      round(best_lambda, 4), "; gamma=", round(best_gamma, 4),
+      ")\n\n", sep = "")
   s
 }
 

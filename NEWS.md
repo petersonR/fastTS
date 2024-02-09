@@ -3,6 +3,11 @@
 - Improved handling of out-of-sample error estimation
 - Using `rsq_trad_vec` instead of `rsq_vec`
 - Improved print method for `fastTS` objects
+- Improved documentation
+- Improved unit tests, ensuring method fits at least decently well on 
+  a few time series example data sets
+- Adding `fastTS` parametric penalty scaling functionality via `weight_type`, 
+  `m`, and `r`, and `penalty_scaler` function. 
 
 # fastTS 0.1.2
 
