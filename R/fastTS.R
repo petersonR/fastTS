@@ -23,7 +23,7 @@
 #' @param ncvreg_args additional args to pass through to ncvreg
 #' @param ... passed to downstream functions
 #'
-#' @return A list of class \code{slrTS} with elements
+#' @return A list of class \code{fastTS} with elements
 #'
 #'   \item{fits}{a list of lasso fits} \item{ncvreg_args}{arguments passed to
 #'   ncvreg}
@@ -169,22 +169,22 @@ fastTS <- function(
   ncvreg_args$X <- Xfulltrain
   ncvreg_args$y <- y_cc_train
 
-  srl_fits <- apply(pfs, 2, function(x) {
+  fits <- apply(pfs, 2, function(x) {
     ncvreg_args$penalty.factor <- x
     do.call(ncvreg::ncvreg, ncvreg_args)
   })
 
   best_fit_penalized_bic <-
-    srl_fits[[which.min(apply(sapply(srl_fits, BIC), 2, min))]]
+    fits[[which.min(apply(sapply(fits, BIC), 2, min))]]
   best_fit_penalized_aicc <-
-    srl_fits[[which.min(apply(sapply(srl_fits, AICc), 2, min))]]
+    fits[[which.min(apply(sapply(fits, AICc), 2, min))]]
 
   oos_results <- data.frame(rmse = NA, rsq = NA, mae = NA)
   if(ptrain < 1)
-    oos_results <- get_oos_results(srl_fits, ytest=ytest, Xtest=Xfulltest)
+    oos_results <- get_oos_results(fits, ytest=ytest, Xtest=Xfulltest)
 
   results <- list(
-    fits = srl_fits,
+    fits = fits,
     ncvreg_args = ncvreg_args,
     gamma = gamma,
     n_lags_max = n_lags_max,

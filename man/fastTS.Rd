@@ -71,7 +71,7 @@ weight_type = "parametric")}
 \item{choose}{which criterion to use for lambda selection (AICc or BIC)}
 }
 \value{
-A list of class \code{slrTS} with elements
+A list of class \code{fastTS} with elements
 
   \item{fits}{a list of lasso fits} \item{ncvreg_args}{arguments passed to
   ncvreg}
