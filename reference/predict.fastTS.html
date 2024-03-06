@@ -65,9 +65,9 @@
 <span>  n_ahead <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  <span class="va">X_test</span>,</span>
 <span>  <span class="va">y_test</span>,</span>
-<span>  cumulative <span class="op">=</span> <span class="fl">0</span>,</span>
-<span>  keep_forecasts <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  keep_train <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  cumulative <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  forecast_ahead <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  return_intermediate <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -79,31 +79,29 @@
 
 
 <dt>n_ahead</dt>
-<dd><p>number of times ahead to predict by iteration</p></dd>
+<dd><p>the look-ahead period for predictions</p></dd>
 
 
 <dt>X_test</dt>
-<dd><p>a matrix exogenous features</p></dd>
+<dd><p>a matrix exogenous features for future predictions (optional)</p></dd>
 
 
 <dt>y_test</dt>
-<dd><p>the test series; needed for future predictions (optional; see
-details)</p></dd>
+<dd><p>the test series for future predictions (optional)</p></dd>
 
 
 <dt>cumulative</dt>
-<dd><p>should cumulative (rolling) sums be returned (integer
-indicating number of times to sum)</p></dd>
+<dd><p>cumulative (rolling) sums of 1-, 2-, 3-, ..., k-step-ahead
+predictions.</p></dd>
 
 
-<dt>keep_forecasts</dt>
-<dd><p>should forecasts be kept in the output (only when
-`y_test`, `X_test` not supplied)</p></dd>
+<dt>forecast_ahead</dt>
+<dd><p>returns forecasted values for end of training series</p></dd>
 
 
-<dt>keep_train</dt>
-<dd><p>should the training set predictions be returned, only
-relevant if `y_test` or `X_test` supplied</p></dd>
+<dt>return_intermediate</dt>
+<dd><p>if TRUE, returns the intermediate predictions between
+the 1st and n_ahead predictions, as data frame.</p></dd>
 
 
 <dt>...</dt>
@@ -114,17 +112,21 @@ relevant if `y_test` or `X_test` supplied</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>a vector of predictions</p>
+<p>a vector of predictions, or a matrix of 1- through n_ahead predictions.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>The `y_test` argument must be supplied if forecasts are desired or if
+    <p>The `y_test` argument must be supplied if predictions are desired or if
 `n_ahead` &lt; `nrow(X_test)`. This is because in order to obtain 1-step
 forecast for, say, the 10th observation in the test data set, the 9th
-observation of `y_test` is required. The length of `y_test` will determine
-how many forecasts to produce. In order to get true forecasts for the first
-30 observations after the training set, one must (currently) produce the set
-of 1-step, 2-step, 3-step, ..., 30-step ahead predictions.</p>
+observation of `y_test` is required.</p>
+<p>Forecasts for the first
+`n_ahead` observations after the training set can be obtained by setting
+`forecast_ahead` to TRUE, which will return the forecasted values at
+the end of the training data. it produces the 1-step-ahead prediction,
+the 2-step-ahead prediction, ... through the `n_ahead`-step prediction.
+The `cumulative` argument is similar but will return the cumulative (rolling)
+sums of 1-, 2-, 3=, ..., `n_ahead`-step-ahead predictions.</p>
     </div>
 
     <div class="section level2">
