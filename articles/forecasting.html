@@ -120,16 +120,21 @@ the <span class="math inline">\(k\)</span>-step-ahead prediction for
 <span class="math inline">\(y_t\)</span>.</p>
 <p>The predicted value returned at any time point <span class="math inline">\(t\)</span> is the model’s prediction for that
 point <span class="math inline">\(\hat y_t\)</span>, given the model and
-all data up to $t - $<code>n_ahead</code>. This means that</p>
+all data up to <span class="math inline">\(t -\)</span>
+<code>n_ahead</code>. This means that</p>
 <ul>
 <li><p>The 1-step prediction <span class="math inline">\(\hat
 y_t^{(1)}\)</span> is computed by using lags of <span class="math inline">\(y_t\)</span> deemed important by the fitting
 process.</p></li>
 <li><p>The 2-step prediction <span class="math inline">\(\hat
 y_t^{(2)}\)</span> is computed by using important lags of <span class="math inline">\(y_t\)</span>, but replacing the first lag <span class="math inline">\(y_{t-1}\)</span> with <span class="math inline">\(\hat y_{t-1}^{(1)}\)</span>.</p></li>
-<li><p>The <span class="math inline">\(k\)</span>-step prediction <span class="math inline">\(\hat y_t^{(k)}\)</span> is similarly computed by
-replacing lags of <span class="math inline">\(y_t\)</span> with
-predicted values as necessary.</p></li>
+<li><p>The 3-step prediction <span class="math inline">\(\hat
+y_t^{(3)}\)</span> is computed by replacing the first lag <span class="math inline">\(y_{t-1}\)</span> with <span class="math inline">\(\hat y_{t-1}^{(2)}\)</span> and the second lag
+<span class="math inline">\(y_{t-2}\)</span> with <span class="math inline">\(\hat y_{t-2}^{(1)}\)</span>.</p></li>
+<li><p>And so on until the <span class="math inline">\(k\)</span>-step
+prediction <span class="math inline">\(\hat y_t^{(k)}\)</span> is
+similarly computed by replacing lags of <span class="math inline">\(y_t\)</span> with predicted values as
+necessary.</p></li>
 </ul>
 <p>Here is an example with the <code>LakeHuron</code> data set.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -170,6 +175,13 @@ in 1883, is 581.1087408.</li>
 <li>The 7-step prediction for 1884, the one “made” in 1877, is
 579.6492458.</li>
 </ul>
+<p>Note: there is a “burn-in” component to <code>fastTS</code> objects
+that means the first <code>n_lags_max</code> observations are
+back-filled in.</p>
+</div>
+<div class="section level3">
+<h3 id="forecasting">Forecasting<a class="anchor" aria-label="anchor" href="#forecasting"></a>
+</h3>
 <p>By default, the <code>predict</code> function does
 <strong>not</strong> produce forecasts. In order to get forecasts, we
 need to set <code>forecast_ahead = TRUE</code>, which will return
@@ -193,9 +205,6 @@ forecasted values at the tail end of the returned vector.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>  <span style="text-decoration: underline;">1</span>977  579.</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>  <span style="text-decoration: underline;">1</span>978  579.</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span>  <span style="text-decoration: underline;">1</span>979  579.</span></span></code></pre></div>
-<p>Note: there is a “burn-in” component to <code>fastTS</code> objects
-that means the first <code>n_lags_max</code> observations are
-back-filled in.</p>
 <p>Finally, the <code>return_intermediate</code> option allows users to
 collect all of the step-ahead predictions up to <span class="math inline">\(k\)</span>:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
