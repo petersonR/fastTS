@@ -36,13 +36,15 @@ fit
 
 Let $y_t$ refer to our outcome series, and $\hat y_t^{(k)}$ refer to the $k$-step-ahead prediction for $y_t$. 
 
-The predicted value returned at any time point $t$ is the model's prediction for that point $\hat y_t$, given the model and all data up to $t - $`n_ahead`. This means that
+The predicted value returned at any time point $t$ is the model's prediction for that point $\hat y_t$, given the model and all data up to $t -$ `n_ahead`. This means that
 
 - The 1-step prediction $\hat y_t^{(1)}$ is computed by using lags of $y_t$ deemed important by the fitting process. 
 
 - The 2-step prediction $\hat y_t^{(2)}$ is computed by using important lags of $y_t$, but replacing the first lag $y_{t-1}$ with $\hat y_{t-1}^{(1)}$. 
 
-- The $k$-step prediction $\hat y_t^{(k)}$ is similarly computed by replacing lags of $y_t$ with predicted values as necessary.   
+- The 3-step prediction $\hat y_t^{(3)}$ is computed by replacing the first lag $y_{t-1}$ with $\hat y_{t-1}^{(2)}$ and the second lag $y_{t-2}$ with $\hat y_{t-2}^{(1)}$. 
+
+- And so on until the $k$-step prediction $\hat y_t^{(k)}$ is similarly computed by replacing lags of $y_t$ with predicted values as necessary.   
 
 Here is an example with the `LakeHuron` data set. 
 
@@ -58,6 +60,10 @@ tail(predictions)
 - In 1884, the model's 1-step prediction, the one that would be made in 1883, is `r p1[10]`. 
 - The 7-step prediction for 1884, the one "made" in 1877, is `r p7[10]`.
 
+Note: there is a "burn-in" component to `fastTS` objects that means the first `n_lags_max` observations are back-filled in.
+
+## Forecasting 
+
 By default, the `predict` function does **not** produce forecasts. In order to get forecasts, we need to set `forecast_ahead = TRUE`, which will return forecasted values at the tail end of the returned vector. 
 
 ```{r forecasting}
@@ -70,8 +76,6 @@ p7 <- predict(fit, n_ahead = 7, forecast_ahead = TRUE)
 predictions <- tibble(time = c(1973:1979), p7)
 predictions
 ```
-
-Note: there is a "burn-in" component to `fastTS` objects that means the first `n_lags_max` observations are back-filled in.
 
 Finally, the `return_intermediate` option allows users to collect all of the step-ahead predictions up to $k$: 
 
