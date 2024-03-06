@@ -9,47 +9,50 @@
   n_ahead = 1,
   X_test,
   y_test,
-  cumulative = 0,
-  keep_forecasts = FALSE,
-  keep_train = FALSE,
+  cumulative = FALSE,
+  forecast_ahead = FALSE,
+  return_intermediate = FALSE,
   ...
 )
 }
 \arguments{
 \item{object}{an fastTS object}
 
-\item{n_ahead}{number of times ahead to predict by iteration}
+\item{n_ahead}{the look-ahead period for predictions}
 
-\item{X_test}{a matrix exogenous features}
+\item{X_test}{a matrix exogenous features for future predictions (optional)}
 
-\item{y_test}{the test series; needed for future predictions (optional; see
-details)}
+\item{y_test}{the test series for future predictions (optional)}
 
-\item{cumulative}{should cumulative (rolling) sums be returned (integer
-indicating number of times to sum)}
+\item{cumulative}{cumulative (rolling) sums of 1-, 2-, 3-, ..., k-step-ahead
+predictions.}
 
-\item{keep_forecasts}{should forecasts be kept in the output (only when
-`y_test`, `X_test` not supplied)}
+\item{forecast_ahead}{returns forecasted values for end of training series}
 
-\item{keep_train}{should the training set predictions be returned, only
-relevant if `y_test` or `X_test` supplied}
+\item{return_intermediate}{if TRUE, returns the intermediate predictions between
+the 1st and n_ahead predictions, as data frame.}
 
 \item{...}{currently unused}
 }
 \value{
-a vector of predictions
+a vector of predictions, or a matrix of 1- through n_ahead predictions.
 }
 \description{
 Predict function for fastTS object
 }
 \details{
-The `y_test` argument must be supplied if forecasts are desired or if
+The `y_test` argument must be supplied if predictions are desired or if
 `n_ahead` < `nrow(X_test)`. This is because in order to obtain 1-step
 forecast for, say, the 10th observation in the test data set, the 9th
-observation of `y_test` is required. The length of `y_test` will determine
-how many forecasts to produce. In order to get true forecasts for the first
-30 observations after the training set, one must (currently) produce the set
-of 1-step, 2-step, 3-step, ..., 30-step ahead predictions.
+observation of `y_test` is required.
+
+Forecasts for the first
+`n_ahead` observations after the training set can be obtained by setting
+`forecast_ahead` to TRUE, which will return the forecasted values at
+the end of the training data. it produces the 1-step-ahead prediction,
+the 2-step-ahead prediction, ... through the `n_ahead`-step prediction.
+The `cumulative` argument is similar but will return the cumulative (rolling)
+sums of 1-, 2-, 3=, ..., `n_ahead`-step-ahead predictions.
 }
 \examples{
 data("LakeHuron")
