@@ -80,7 +80,7 @@ Clearly we have multiple modes of seasonality in this hourly data, likely corres
 We can fit an endogenous SRLPAC model using one line of code which might take 1-2 minutes to run: 
 
 ```{r fit_endo}
-srlpac <- fastTS(y, n_lags_max = n_lags_max)
+srlpac <- fastTS(y, n_lags_max = n_lags_max, ptrain = 0.9)
 ```
 
 We can investigate the performance of the SRLPAC model using associated `print`, `coef`, `summary`, and `plot` functions. 
@@ -123,7 +123,7 @@ head(X)
 The result is a model matrix with month indicators (reference is March), a scaled temperature covariate, and holiday indicator variables. Now that we have our matrix of exogenous features, we can pass this to `fastTS` to get our SRLPACx model. We also set `w_exo="unpenalized"` which will allow us to conduct statistical inference on the exogenous variable coefficients (by default, they will be penalized using adaptive-lasso-style penalty weights, which makes formal inference more difficult).
 
 ```{r fit_exo}
-srlpacx <- fastTS(y, X=X, n_lags_max = n_lags_max, w_exo = "unpenalized")
+srlpacx <- fastTS(y, X=X, n_lags_max = n_lags_max, w_exo = "unpenalized", ptrain = .9)
 ```
 
 The same S3 methods apply and can be used to investigate the performance of the SLRPACx model. 
@@ -214,8 +214,8 @@ Let's calculate 10-hour rolling sum predictions using the 1-10 step ahead predic
 
 ```{r pred_cumulative}
 y_c10hr <- RcppRoll::roll_sum(y, 10, align = "right", fill = NA)
-p_10step_csum_endo <- predict(srlpac, n_ahead = 10, cumulative = 10)
-p_10step_csum_exo <- predict(srlpacx, n_ahead = 10, cumulative = 10)
+p_10step_csum_endo <- predict(srlpac, n_ahead = 10, cumulative = TRUE)
+p_10step_csum_exo <- predict(srlpacx, n_ahead = 10, cumulative = TRUE)
 ```
 
 We can compute mean absolute error (MAE) (and other similar metrics) using the functionality from the `yardstick` package. 
@@ -225,7 +225,7 @@ mae_vec(y_c10hr, p_10step_csum_endo)
 mae_vec(y_c10hr, p_10step_csum_exo)
 ```
 
-So the SRLPAC(x) methods were able to predict the number of patients who arrive in a given 10-hour window to within an average of about 6.8 patients. 
+So the SRLPAC(x) methods were able to predict the number of patients who arrive in a given 10-hour window to within an average of about 6.9 patients. 
 
 It may be pertinent to investigate this predictive accuracy only on the test data set, which can be done by extracting the `train_idx` object from the `fastTS` object. 
 
@@ -248,7 +248,7 @@ rsq_vec(y_c10hr[-srlpac$train_idx], p_10step_csum_endo[-srlpac$train_idx])
 rsq_vec(y_c10hr[-srlpacx$train_idx], p_10step_csum_exo[-srlpacx$train_idx])
 ```
 
-It's interesting that R-squared increases as the horizon for the cumulative predictions increases: it’s about 0.85 for the 10-hour cumulative predictions yet only about 0.53 for the standard 1-step predictions. It seems to imply some predictive gains in the process of aggregating to longer periods of time. More investigation may be warranted here. 
+It's interesting that R-squared increases as the horizon for the cumulative predictions increases: it’s about 0.8 for the 10-hour cumulative predictions yet only about 0.53 for the standard 1-step predictions. It seems to imply some predictive gains in the process of aggregating to longer periods of time. More investigation may be warranted here. 
 
 # Conclusions
 

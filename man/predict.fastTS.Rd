@@ -4,7 +4,16 @@
 \alias{predict.fastTS}
 \title{Predict function for fastTS object}
 \usage{
-\method{predict}{fastTS}(object, n_ahead = 1, X_test, y_test, cumulative = 0, ...)
+\method{predict}{fastTS}(
+  object,
+  n_ahead = 1,
+  X_test,
+  y_test,
+  cumulative = 0,
+  keep_forecasts = FALSE,
+  keep_train = FALSE,
+  ...
+)
 }
 \arguments{
 \item{object}{an fastTS object}
@@ -18,6 +27,12 @@ details)}
 
 \item{cumulative}{should cumulative (rolling) sums be returned (integer
 indicating number of times to sum)}
+
+\item{keep_forecasts}{should forecasts be kept in the output (only when
+`y_test`, `X_test` not supplied)}
+
+\item{keep_train}{should the training set predictions be returned, only
+relevant if `y_test` or `X_test` supplied}
 
 \item{...}{currently unused}
 }

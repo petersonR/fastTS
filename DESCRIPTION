@@ -29,7 +29,8 @@ Suggests:
     knitr,
     magrittr,
     rmarkdown,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0), 
+    tibble
 Imports: 
     dplyr,
     methods,
