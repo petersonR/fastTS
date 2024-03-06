@@ -25,6 +25,7 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/case_studies.html">Simple Case Studies</a>
+    <a class="dropdown-item" href="../articles/forecasting.html">Forecasting with fastTS</a>
     <a class="dropdown-item" href="../articles/hourly_er_visits.html">Time Series Modeling with Multiple Modes</a>
   </div>
 </li>
@@ -59,7 +60,16 @@
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S3 method for fastTS</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">object</span>, n_ahead <span class="op">=</span> <span class="fl">1</span>, <span class="va">X_test</span>, <span class="va">y_test</span>, cumulative <span class="op">=</span> <span class="fl">0</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span></span>
+<span>  <span class="va">object</span>,</span>
+<span>  n_ahead <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  <span class="va">X_test</span>,</span>
+<span>  <span class="va">y_test</span>,</span>
+<span>  cumulative <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  keep_forecasts <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  keep_train <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -84,6 +94,16 @@ details)</p></dd>
 <dt>cumulative</dt>
 <dd><p>should cumulative (rolling) sums be returned (integer
 indicating number of times to sum)</p></dd>
+
+
+<dt>keep_forecasts</dt>
+<dd><p>should forecasts be kept in the output (only when
+`y_test`, `X_test` not supplied)</p></dd>
+
+
+<dt>keep_train</dt>
+<dd><p>should the training set predictions be returned, only
+relevant if `y_test` or `X_test` supplied</p></dd>
 
 
 <dt>...</dt>

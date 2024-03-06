@@ -42,6 +42,7 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/case_studies.html">Simple Case Studies</a>
+    <a class="dropdown-item" href="../articles/forecasting.html">Forecasting with fastTS</a>
     <a class="dropdown-item" href="../articles/hourly_er_visits.html">Time Series Modeling with Multiple Modes</a>
   </div>
 </li>
@@ -142,28 +143,28 @@ procedure can handle this situation in stride.</p>
 <p>We can fit an endogenous SRLPAC model using one line of code which
 might take 1-2 minutes to run:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">srlpac</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fastTS.html">fastTS</a></span><span class="op">(</span><span class="va">y</span>, n_lags_max <span class="op">=</span> <span class="va">n_lags_max</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">srlpac</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fastTS.html">fastTS</a></span><span class="op">(</span><span class="va">y</span>, n_lags_max <span class="op">=</span> <span class="va">n_lags_max</span>, ptrain <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span></span></code></pre></div>
 <p>We can investigate the performance of the SRLPAC model using
 associated <code>print</code>, <code>coef</code>, <code>summary</code>,
 and <code>plot</code> functions.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">srlpac</span></span>
 <span><span class="co">#&gt;  PF_gamma   AICc_d    BIC_d</span></span>
-<span><span class="co">#&gt;      0.00    41.33   315.63</span></span>
-<span><span class="co">#&gt;      0.25      5.4    25.13</span></span>
+<span><span class="co">#&gt;      0.00    73.99   292.98</span></span>
+<span><span class="co">#&gt;      0.25    11.63    20.55</span></span>
 <span><span class="co">#&gt;      0.50      *0*      *0*</span></span>
-<span><span class="co">#&gt;      1.00   266.95     4.67</span></span>
-<span><span class="co">#&gt;      2.00  2434.97  1887.67</span></span>
-<span><span class="co">#&gt;      4.00  7379.55  6698.07</span></span>
-<span><span class="co">#&gt;      8.00 14030.32 13306.91</span></span>
-<span><span class="co">#&gt;     16.00 14030.32 13306.91</span></span>
+<span><span class="co">#&gt;      1.00   345.67    80.13</span></span>
+<span><span class="co">#&gt;      2.00  2719.38  2139.19</span></span>
+<span><span class="co">#&gt;      4.00  8347.84  7640.05</span></span>
+<span><span class="co">#&gt;      8.00 15920.25 15152.91</span></span>
+<span><span class="co">#&gt;     16.00 15920.25 15152.91</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Note: AICc_d and BIC_d are the difference from the minimum; *0* is best.</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Test-set prediction accuracy</span></span>
 <span><span class="co">#&gt;          rmse       rsq      mae</span></span>
-<span><span class="co">#&gt; AICc 2.661505 0.5309945 2.059681</span></span>
-<span><span class="co">#&gt; BIC  2.664962 0.5297754 2.064657</span></span></code></pre></div>
+<span><span class="co">#&gt; AICc 2.651049 0.5276457 2.050730</span></span>
+<span><span class="co">#&gt; BIC  2.656269 0.5257839 2.057091</span></span></code></pre></div>
 <p>By default, <code>fastTS</code> used 8 possible tuning parameters for
 <span class="math inline">\(\gamma\)</span>, the penalty weight
 exponent, and using AICc as a judge it appears the best value is 0.5. By
@@ -183,216 +184,181 @@ local autoregressive patterns.</p>
 Expand to see output
 </summary><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">srlpac</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Model summary (ncvreg) at optimal AICc (lambda=0.0015; gamma=0.5)</span></span>
-<span><span class="co">#&gt; lasso-penalized linear regression with n=32472, p=840</span></span>
-<span><span class="co">#&gt; At lambda=0.0015:</span></span>
+<span><span class="co">#&gt; Model summary (ncvreg) at optimal AICc (lambda=0.0017; gamma=0.5)</span></span>
+<span><span class="co">#&gt; lasso-penalized linear regression with n=36636, p=840</span></span>
+<span><span class="co">#&gt; At lambda=0.0017:</span></span>
 <span><span class="co">#&gt; -------------------------------------------------</span></span>
-<span><span class="co">#&gt;   Nonzero coefficients         : 201</span></span>
-<span><span class="co">#&gt;   Expected nonzero coefficients: 124.63</span></span>
-<span><span class="co">#&gt;   Average mfdr (201 features)  :   0.620</span></span>
+<span><span class="co">#&gt;   Nonzero coefficients         : 166</span></span>
+<span><span class="co">#&gt;   Expected nonzero coefficients:  89.93</span></span>
+<span><span class="co">#&gt;   Average mfdr (166 features)  :   0.542</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;          Estimate       z       mfdr Selected</span></span>
-<span><span class="co">#&gt; lag1    5.047e-02 13.5997    &lt; 1e-04        *</span></span>
-<span><span class="co">#&gt; lag168  3.075e-02  8.6541    &lt; 1e-04        *</span></span>
-<span><span class="co">#&gt; lag336  3.011e-02  8.5221    &lt; 1e-04        *</span></span>
-<span><span class="co">#&gt; lag840  2.720e-02  7.9715    &lt; 1e-04        *</span></span>
-<span><span class="co">#&gt; lag504  2.760e-02  7.9247    &lt; 1e-04        *</span></span>
-<span><span class="co">#&gt; lag673  2.577e-02  7.5147    &lt; 1e-04        *</span></span>
-<span><span class="co">#&gt; lag505  2.590e-02  7.4932    &lt; 1e-04        *</span></span>
-<span><span class="co">#&gt; lag672  2.494e-02  7.3047    &lt; 1e-04        *</span></span>
-<span><span class="co">#&gt; lag337  2.465e-02  7.1122    &lt; 1e-04        *</span></span>
-<span><span class="co">#&gt; lag3    2.395e-02  6.7734    &lt; 1e-04        *</span></span>
-<span><span class="co">#&gt; lag503  2.304e-02  6.7301    &lt; 1e-04        *</span></span>
-<span><span class="co">#&gt; lag167  2.305e-02  6.6151    &lt; 1e-04        *</span></span>
-<span><span class="co">#&gt; lag671  2.093e-02  6.2762    &lt; 1e-04        *</span></span>
-<span><span class="co">#&gt; lag170  2.136e-02  6.2511    &lt; 1e-04        *</span></span>
-<span><span class="co">#&gt; lag2    2.248e-02  6.2089    &lt; 1e-04        *</span></span>
-<span><span class="co">#&gt; lag47   2.191e-02  6.2032    &lt; 1e-04        *</span></span>
-<span><span class="co">#&gt; lag144  2.013e-02  5.8676    &lt; 1e-04        *</span></span>
-<span><span class="co">#&gt; lag432  1.908e-02  5.7448    &lt; 1e-04        *</span></span>
-<span><span class="co">#&gt; lag72   1.985e-02  5.6922    &lt; 1e-04        *</span></span>
-<span><span class="co">#&gt; lag674  1.752e-02  5.4118    &lt; 1e-04        *</span></span>
-<span><span class="co">#&gt; lag24   1.899e-02  5.3635    &lt; 1e-04        *</span></span>
-<span><span class="co">#&gt; lag96   1.828e-02  5.3247    &lt; 1e-04        *</span></span>
-<span><span class="co">#&gt; lag647  1.662e-02  5.1731    &lt; 1e-04        *</span></span>
-<span><span class="co">#&gt; lag839  1.594e-02  5.1414    &lt; 1e-04        *</span></span>
-<span><span class="co">#&gt; lag71   1.780e-02  5.1341    &lt; 1e-04        *</span></span>
-<span><span class="co">#&gt; lag335  1.643e-02  4.9851    &lt; 1e-04        *</span></span>
-<span><span class="co">#&gt; lag73   1.679e-02  4.9224 0.00012924        *</span></span>
-<span><span class="co">#&gt; lag166  1.649e-02  4.9127 0.00013687        *</span></span>
-<span><span class="co">#&gt; lag528  1.511e-02  4.8434 0.00021101        *</span></span>
-<span><span class="co">#&gt; lag22   1.702e-02  4.8170 0.00025250        *</span></span>
-<span><span class="co">#&gt; lag23   1.687e-02  4.7827 0.00032225        *</span></span>
-<span><span class="co">#&gt; lag283 -1.541e-02 -4.7905 0.00117894        *</span></span>
-<span><span class="co">#&gt; lag644 -1.410e-02 -4.5745 0.00324570        *</span></span>
-<span><span class="co">#&gt; lag481  1.334e-02  4.2374 0.00578817        *</span></span>
-<span><span class="co">#&gt; lag192  1.299e-02  4.1148 0.00659483        *</span></span>
-<span><span class="co">#&gt; lag190  1.246e-02  4.0150 0.00787831        *</span></span>
-<span><span class="co">#&gt; lag169  1.282e-02  3.9885 0.00834837        *</span></span>
-<span><span class="co">#&gt; lag838  1.104e-02  3.9208 0.00986811        *</span></span>
-<span><span class="co">#&gt; lag600  1.139e-02  3.8620 0.01169054        *</span></span>
-<span><span class="co">#&gt; lag648  1.110e-02  3.7956 0.01447996        *</span></span>
-<span><span class="co">#&gt; lag649  1.097e-02  3.7373 0.01783076        *</span></span>
-<span><span class="co">#&gt; lag143  1.197e-02  3.7338 0.01806154        *</span></span>
-<span><span class="co">#&gt; lag25   1.242e-02  3.6694 0.02332690        *</span></span>
-<span><span class="co">#&gt; lag6    1.245e-02  3.6057 0.03075707        *</span></span>
-<span><span class="co">#&gt; lag670  1.029e-02  3.5438 0.04120586        *</span></span>
-<span><span class="co">#&gt; lag770  9.780e-03  3.5034 0.05043729        *</span></span>
-<span><span class="co">#&gt; lag338  1.036e-02  3.4741 0.05863041        *</span></span>
-<span><span class="co">#&gt; lag520 -1.114e-02 -3.7583 0.07077636        *</span></span>
-<span><span class="co">#&gt; lag533 -1.006e-02 -3.5702 0.08643562        *</span></span>
-<span><span class="co">#&gt; lag317 -9.565e-03 -3.4451 0.10139174        *</span></span>
-<span><span class="co">#&gt; lag241  9.869e-03  3.3625 0.10348058        *</span></span>
-<span><span class="co">#&gt; lag152 -9.465e-03 -3.2413 0.13291889        *</span></span>
-<span><span class="co">#&gt; lag212 -9.045e-03 -3.2280 0.13590142        *</span></span>
-<span><span class="co">#&gt; lag700 -8.466e-03 -3.1938 0.14428893        *</span></span>
-<span><span class="co">#&gt; lag462 -8.431e-03 -3.1205 0.16765963        *</span></span>
-<span><span class="co">#&gt; lag634 -7.853e-03 -3.0316 0.21023330        *</span></span>
-<span><span class="co">#&gt; lag502  8.282e-03  2.9906 0.22748657        *</span></span>
-<span><span class="co">#&gt; lag263  8.436e-03  2.9902 0.22757536        *</span></span>
-<span><span class="co">#&gt; lag288  8.089e-03  2.9506 0.23613700        *</span></span>
-<span><span class="co">#&gt; lag191  8.389e-03  2.9402 0.23868476        *</span></span>
-<span><span class="co">#&gt; lag816  7.216e-03  2.9364 0.23964450        *</span></span>
-<span><span class="co">#&gt; lag4    9.260e-03  2.9319 0.24079490        *</span></span>
-<span><span class="co">#&gt; lag547 -7.587e-03 -2.9837 0.24196266        *</span></span>
-<span><span class="co">#&gt; lag519 -7.779e-03 -2.9828 0.24261208        *</span></span>
-<span><span class="co">#&gt; lag575  6.819e-03  2.7771 0.29361989        *</span></span>
-<span><span class="co">#&gt; lag316 -7.387e-03 -2.9072 0.31061649        *</span></span>
-<span><span class="co">#&gt; lag26   8.463e-03  2.7197 0.31808234        *</span></span>
-<span><span class="co">#&gt; lag214  6.894e-03  2.6843 0.33398265        *</span></span>
-<span><span class="co">#&gt; lag46   8.541e-03  2.6800 0.33590529        *</span></span>
-<span><span class="co">#&gt; lag492 -6.765e-03 -2.8788 0.34297048        *</span></span>
-<span><span class="co">#&gt; lag564  6.785e-03  2.6438 0.35259573        *</span></span>
-<span><span class="co">#&gt; lag145  7.483e-03  2.6102 0.36851885        *</span></span>
-<span><span class="co">#&gt; lag121  7.381e-03  2.5599 0.39306042        *</span></span>
-<span><span class="co">#&gt; lag55   1.701e-03  2.5127 0.41738231        *</span></span>
-<span><span class="co">#&gt; lag40   5.068e-03  2.5026 0.42284245        *</span></span>
-<span><span class="co">#&gt; lag334  6.476e-03  2.4806 0.43499775        *</span></span>
-<span><span class="co">#&gt; lag440  5.460e-03  2.4031 0.48283202        *</span></span>
-<span><span class="co">#&gt; lag312  6.049e-03  2.3948 0.48848405        *</span></span>
-<span><span class="co">#&gt; lag792  4.504e-03  2.3945 0.48870811        *</span></span>
-<span><span class="co">#&gt; lag696  3.688e-03  2.3900 0.49181933        *</span></span>
-<span><span class="co">#&gt; lag7    7.894e-03  2.3793 0.49936433        *</span></span>
-<span><span class="co">#&gt; lag142  6.509e-03  2.3462 0.52449501        *</span></span>
-<span><span class="co">#&gt; lag37  -8.194e-03 -2.7582 0.53142891        *</span></span>
-<span><span class="co">#&gt; lag264  5.775e-03  2.2844 0.57848564        *</span></span>
-<span><span class="co">#&gt; lag615  4.703e-03  2.2487 0.61417945        *</span></span>
-<span><span class="co">#&gt; lag8    7.358e-03  2.2373 0.62625252        *</span></span>
-<span><span class="co">#&gt; lag116 -6.727e-03 -2.6938 0.66474447        *</span></span>
-<span><span class="co">#&gt; lag119  6.131e-03  2.1880 0.68266674        *</span></span>
-<span><span class="co">#&gt; lag697  3.769e-03  2.1711 0.70363651        *</span></span>
-<span><span class="co">#&gt; lag479  4.822e-03  2.1663 0.70966547        *</span></span>
-<span><span class="co">#&gt; lag722  3.862e-03  2.1559 0.72298340        *</span></span>
-<span><span class="co">#&gt; lag781  5.059e-03  2.1534 0.72614207        *</span></span>
-<span><span class="co">#&gt; lag384  4.518e-03  2.1383 0.74594804        *</span></span>
-<span><span class="co">#&gt; lag216  4.961e-03  2.1265 0.76177334        *</span></span>
-<span><span class="co">#&gt; lag580 -5.824e-03 -2.6429 0.77812056        *</span></span>
-<span><span class="co">#&gt; lag360  4.369e-03  2.1069 0.78857230        *</span></span>
-<span><span class="co">#&gt; lag817  3.194e-03  2.0851 0.81897597        *</span></span>
-<span><span class="co">#&gt; lag406  3.941e-03  2.0759 0.83214380        *</span></span>
-<span><span class="co">#&gt; lag11  -3.313e-04 -0.3710 0.88337658        *</span></span>
-<span><span class="co">#&gt; lag266  4.313e-03  2.0302 0.89765999        *</span></span>
-<span><span class="co">#&gt; lag70   5.802e-03  2.0072 0.93095507        *</span></span>
-<span><span class="co">#&gt; lag60  -8.267e-04 -0.9440 0.96962579        *</span></span>
-<span><span class="co">#&gt; lag5    1.796e-03  0.7846 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag10   4.621e-03  1.5155 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag13   3.796e-03  1.3676 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag15   9.660e-04  0.8174 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag18   3.299e-03  1.4689 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag21   5.688e-03  1.8231 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag30   5.488e-04  0.9108 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag32   1.548e-03  1.2160 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag34   3.990e-03  1.7879 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag41  -1.492e-03 -1.3014 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag50  -1.587e-03 -1.2593 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag54  -3.115e-03 -1.4952 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag58   5.343e-04  1.1262 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag74   4.818e-03  1.9117 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag76  -3.985e-03 -1.8829 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag84  -3.251e-03 -1.6239 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag92   1.436e-03  1.3917 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag95   4.709e-03  1.7707 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag97   4.139e-03  1.6618 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag112  2.772e-04  1.1772 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag120  4.499e-03  1.7794 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag126 -1.122e-03 -1.0248 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag133 -6.166e-04 -1.2922 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag136  2.052e-03  1.7073 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag141  3.818e-03  1.7347 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag148 -2.829e-03 -1.6247 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag149 -4.482e-03 -1.9845 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag150 -3.738e-03 -1.8145 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag154 -1.846e-03 -1.4016 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag165  1.002e-05  0.7632 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag172 -3.634e-03 -1.9687 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag185 -6.248e-03 -2.4878 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag189  1.049e-03  1.2842 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag193  1.743e-03  1.3299 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag196 -1.283e-03 -1.3630 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag198 -1.105e-03 -1.3789 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag204 -6.142e-04 -1.2745 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag211 -5.535e-04 -1.1453 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag217  2.580e-03  1.6224 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag232  3.133e-03  1.8421 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag255  2.685e-03  1.7900 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag259 -1.317e-03 -1.3618 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag287  2.728e-03  1.6777 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag295 -2.249e-04 -1.1144 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag311  9.230e-04  1.1582 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag315 -8.906e-05 -1.2992 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag322 -1.336e-03 -1.5794 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag356 -1.982e-03 -1.4913 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag359  2.203e-03  1.5691 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag364 -1.817e-03 -1.4860 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag389 -1.459e-03 -1.3790 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag397  3.209e-03  1.8182 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag402  3.410e-03  1.8544 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag408  6.127e-04  1.2396 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag409  1.209e-03  1.4095 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag456  2.063e-03  1.6446 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag461 -1.487e-03 -1.4587 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag463 -5.048e-03 -2.2758 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag480  2.448e-03  1.6650 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag489 -5.052e-03 -2.3007 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag491 -4.405e-03 -2.3206 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag501  3.295e-03  1.8219 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag506  2.372e-03  1.6797 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag515 -2.407e-03 -1.7750 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag518 -2.619e-03 -1.7741 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag524 -4.711e-03 -2.2013 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag531 -1.243e-03 -1.3870 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag552  1.179e-03  1.6796 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag553  1.176e-03  1.5669 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag569  1.012e-03  1.3497 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag579 -3.673e-03 -1.9986 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag592  1.722e-04  1.0859 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag611 -4.434e-03 -2.2845 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag616  5.466e-04  1.2661 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag638 -4.583e-03 -2.1926 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag639  3.052e-03  1.8619 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag640  3.465e-04  1.2975 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag642 -1.341e-03 -1.4342 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag660 -3.190e-03 -2.0548 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag676 -4.239e-04 -1.2965 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag677 -2.231e-03 -1.7961 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag685 -3.053e-03 -2.1499 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag692 -1.303e-03 -1.4646 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag693  4.405e-04  1.2581 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag701 -1.181e-03 -1.5956 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag712 -2.882e-03 -1.7862 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag713 -1.645e-03 -1.5430 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag716 -5.414e-04 -1.3492 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag719  1.363e-03  1.7168 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag727 -2.566e-03 -1.7564 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag744  1.899e-03  1.7906 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag747 -1.567e-04 -1.3046 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag748 -1.401e-03 -1.6702 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag753  1.059e-03  1.2851 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag775  3.850e-04  1.1682 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag779 -1.751e-03 -1.8628 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag796 -2.115e-03 -1.7097 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag819  6.947e-05  1.0180 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag837  1.591e-03  1.4840 1.00000000        *</span></span></code></pre></div>
+<span><span class="co">#&gt; lag1    4.832e-02 13.8334    &lt; 1e-04        *</span></span>
+<span><span class="co">#&gt; lag168  3.128e-02  9.3035    &lt; 1e-04        *</span></span>
+<span><span class="co">#&gt; lag336  2.913e-02  8.8062    &lt; 1e-04        *</span></span>
+<span><span class="co">#&gt; lag504  2.838e-02  8.7034    &lt; 1e-04        *</span></span>
+<span><span class="co">#&gt; lag840  2.611e-02  8.2193    &lt; 1e-04        *</span></span>
+<span><span class="co">#&gt; lag672  2.614e-02  8.1720    &lt; 1e-04        *</span></span>
+<span><span class="co">#&gt; lag337  2.578e-02  7.9079    &lt; 1e-04        *</span></span>
+<span><span class="co">#&gt; lag671  2.497e-02  7.8255    &lt; 1e-04        *</span></span>
+<span><span class="co">#&gt; lag503  2.419e-02  7.5314    &lt; 1e-04        *</span></span>
+<span><span class="co">#&gt; lag170  2.394e-02  7.3430    &lt; 1e-04        *</span></span>
+<span><span class="co">#&gt; lag167  2.374e-02  7.1869    &lt; 1e-04        *</span></span>
+<span><span class="co">#&gt; lag673  2.212e-02  7.0841    &lt; 1e-04        *</span></span>
+<span><span class="co">#&gt; lag47   2.285e-02  6.8408    &lt; 1e-04        *</span></span>
+<span><span class="co">#&gt; lag505  2.088e-02  6.6926    &lt; 1e-04        *</span></span>
+<span><span class="co">#&gt; lag335  2.142e-02  6.6878    &lt; 1e-04        *</span></span>
+<span><span class="co">#&gt; lag2    2.233e-02  6.5631    &lt; 1e-04        *</span></span>
+<span><span class="co">#&gt; lag72   2.081e-02  6.3162    &lt; 1e-04        *</span></span>
+<span><span class="co">#&gt; lag3    2.046e-02  6.2389    &lt; 1e-04        *</span></span>
+<span><span class="co">#&gt; lag96   2.016e-02  6.1570    &lt; 1e-04        *</span></span>
+<span><span class="co">#&gt; lag432  1.813e-02  5.9159    &lt; 1e-04        *</span></span>
+<span><span class="co">#&gt; lag73   1.816e-02  5.6173    &lt; 1e-04        *</span></span>
+<span><span class="co">#&gt; lag144  1.777e-02  5.5418    &lt; 1e-04        *</span></span>
+<span><span class="co">#&gt; lag839  1.594e-02  5.5196    &lt; 1e-04        *</span></span>
+<span><span class="co">#&gt; lag23   1.807e-02  5.4146    &lt; 1e-04        *</span></span>
+<span><span class="co">#&gt; lag169  1.695e-02  5.3612    &lt; 1e-04        *</span></span>
+<span><span class="co">#&gt; lag166  1.578e-02  5.0024 0.00013290        *</span></span>
+<span><span class="co">#&gt; lag24   1.646e-02  4.9811 0.00014407        *</span></span>
+<span><span class="co">#&gt; lag647  1.399e-02  4.8894 0.00020595        *</span></span>
+<span><span class="co">#&gt; lag192  1.481e-02  4.8607 0.00023151        *</span></span>
+<span><span class="co">#&gt; lag528  1.313e-02  4.7248 0.00041161        *</span></span>
+<span><span class="co">#&gt; lag25   1.499e-02  4.6212 0.00064353        *</span></span>
+<span><span class="co">#&gt; lag600  1.243e-02  4.4974 0.00109680        *</span></span>
+<span><span class="co">#&gt; lag190  1.329e-02  4.4680 0.00124585        *</span></span>
+<span><span class="co">#&gt; lag22   1.469e-02  4.4586 0.00129698        *</span></span>
+<span><span class="co">#&gt; lag71   1.370e-02  4.3025 0.00250156        *</span></span>
+<span><span class="co">#&gt; lag338  1.237e-02  4.2944 0.00258105        *</span></span>
+<span><span class="co">#&gt; lag674  1.076e-02  4.0905 0.00507225        *</span></span>
+<span><span class="co">#&gt; lag283 -1.279e-02 -4.4935 0.00550361        *</span></span>
+<span><span class="co">#&gt; lag191  1.188e-02  4.0510 0.00565705        *</span></span>
+<span><span class="co">#&gt; lag312  1.143e-02  3.9938 0.00661894        *</span></span>
+<span><span class="co">#&gt; lag648  1.017e-02  3.9094 0.00846943        *</span></span>
+<span><span class="co">#&gt; lag838  9.762e-03  3.8902 0.00899589        *</span></span>
+<span><span class="co">#&gt; lag481  1.064e-02  3.8646 0.00978190        *</span></span>
+<span><span class="co">#&gt; lag241  1.064e-02  3.7938 0.01256213        *</span></span>
+<span><span class="co">#&gt; lag263  1.062e-02  3.7646 0.01403752        *</span></span>
+<span><span class="co">#&gt; lag670  9.846e-03  3.7290 0.01618174        *</span></span>
+<span><span class="co">#&gt; lag143  1.117e-02  3.7159 0.01709125        *</span></span>
+<span><span class="co">#&gt; lag649  9.386e-03  3.6818 0.01972140        *</span></span>
+<span><span class="co">#&gt; lag644 -1.142e-02 -4.1916 0.02003468        *</span></span>
+<span><span class="co">#&gt; lag696  8.329e-03  3.6545 0.02216270        *</span></span>
+<span><span class="co">#&gt; lag360  8.925e-03  3.4680 0.04637704        *</span></span>
+<span><span class="co">#&gt; lag502  9.070e-03  3.4593 0.04776033        *</span></span>
+<span><span class="co">#&gt; lag506  8.383e-03  3.4020 0.05648894        *</span></span>
+<span><span class="co">#&gt; lag462 -9.032e-03 -3.5147 0.07540346        *</span></span>
+<span><span class="co">#&gt; lag212 -8.826e-03 -3.4942 0.07736262        *</span></span>
+<span><span class="co">#&gt; lag700 -8.677e-03 -3.4654 0.08098477        *</span></span>
+<span><span class="co">#&gt; lag4    9.476e-03  3.2218 0.08506706        *</span></span>
+<span><span class="co">#&gt; lag770  7.547e-03  3.1949 0.09044007        *</span></span>
+<span><span class="co">#&gt; lag288  8.157e-03  3.1730 0.09538571        *</span></span>
+<span><span class="co">#&gt; lag6    9.919e-03  3.1411 0.10348778        *</span></span>
+<span><span class="co">#&gt; lag119  9.133e-03  3.1349 0.10522840        *</span></span>
+<span><span class="co">#&gt; lag317 -8.195e-03 -3.3438 0.10821560        *</span></span>
+<span><span class="co">#&gt; lag26   9.165e-03  3.0991 0.11643256        *</span></span>
+<span><span class="co">#&gt; lag480  7.304e-03  3.0785 0.12385458        *</span></span>
+<span><span class="co">#&gt; lag816  6.479e-03  3.0524 0.13481254        *</span></span>
+<span><span class="co">#&gt; lag685 -6.883e-03 -3.2704 0.13668375        *</span></span>
+<span><span class="co">#&gt; lag533 -7.910e-03 -3.2636 0.13988385        *</span></span>
+<span><span class="co">#&gt; lag817  6.235e-03  3.0378 0.14142489        *</span></span>
+<span><span class="co">#&gt; lag7    9.577e-03  3.0323 0.14416881        *</span></span>
+<span><span class="co">#&gt; lag214  7.360e-03  2.9473 0.19864861        *</span></span>
+<span><span class="co">#&gt; lag116 -7.533e-03 -3.1542 0.20193296        *</span></span>
+<span><span class="co">#&gt; lag121  7.902e-03  2.8451 0.30780947        *</span></span>
+<span><span class="co">#&gt; lag489 -7.001e-03 -2.9682 0.31614097        *</span></span>
+<span><span class="co">#&gt; lag142  7.690e-03  2.7934 0.38747164        *</span></span>
+<span><span class="co">#&gt; lag46   8.362e-03  2.7916 0.39055411        *</span></span>
+<span><span class="co">#&gt; lag152 -7.118e-03 -2.8179 0.40039350        *</span></span>
+<span><span class="co">#&gt; lag334  6.960e-03  2.7827 0.40612179        *</span></span>
+<span><span class="co">#&gt; lag580 -5.584e-03 -2.7634 0.44244156        *</span></span>
+<span><span class="co">#&gt; lag37  -7.508e-03 -2.7583 0.44713350        *</span></span>
+<span><span class="co">#&gt; lag520 -5.889e-03 -2.7571 0.44817932        *</span></span>
+<span><span class="co">#&gt; lag316 -5.746e-03 -2.7312 0.47264093        *</span></span>
+<span><span class="co">#&gt; lag491 -4.946e-03 -2.6593 0.55782089        *</span></span>
+<span><span class="co">#&gt; lag322 -5.256e-03 -2.6354 0.59149435        *</span></span>
+<span><span class="co">#&gt; lag463 -5.281e-03 -2.5134 0.79098919        *</span></span>
+<span><span class="co">#&gt; lag522 -4.762e-03 -2.4968 0.81972626        *</span></span>
+<span><span class="co">#&gt; lag440  5.086e-03  2.5291 0.87842016        *</span></span>
+<span><span class="co">#&gt; lag84  -2.297e-04 -0.9457 0.92947496        *</span></span>
+<span><span class="co">#&gt; lag14  -3.126e-04 -0.5388 0.93792793        *</span></span>
+<span><span class="co">#&gt; lag54  -9.170e-04 -1.0496 0.95145643        *</span></span>
+<span><span class="co">#&gt; lag145  6.216e-03  2.4024 0.97566476        *</span></span>
+<span><span class="co">#&gt; lag697  3.706e-03  2.3890 0.98272235        *</span></span>
+<span><span class="co">#&gt; lag8    5.377e-03  1.8417 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag10   4.209e-03  1.5186 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag13   1.100e-03  0.7079 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag15   8.068e-04  0.8520 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag18   2.555e-03  1.3921 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag21   5.752e-03  1.9600 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag34   1.044e-04  0.8149 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag52  -3.382e-03 -1.8283 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag55   1.327e-04  2.3267 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag64   1.444e-03  1.6590 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag70   5.290e-03  1.9913 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag74   3.526e-03  1.6954 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag76  -4.207e-03 -2.1447 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag95   5.916e-04  0.7312 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag97   3.450e-03  1.5648 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag120  5.638e-03  2.1829 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag133 -6.336e-04 -1.3573 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag141  5.578e-03  2.2978 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag148 -3.279e-03 -1.9375 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag149 -1.272e-03 -1.3516 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag150 -4.134e-03 -2.0763 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag154 -2.606e-03 -1.6541 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag172 -4.161e-03 -2.2711 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag185 -1.227e-03 -1.4276 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag193  1.638e-03  1.4142 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag216  2.812e-03  1.7056 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag239  1.924e-03  1.4977 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag255  4.054e-04  1.3612 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag264  1.282e-03  1.2839 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag266  6.112e-04  1.2681 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag287  3.561e-03  1.9931 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag311  3.634e-03  1.9446 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag315 -7.311e-04 -1.5680 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag354 -3.043e-04 -1.3601 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag356 -3.593e-03 -2.0771 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag378 -1.041e-03 -1.5192 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag384  2.089e-03  1.7697 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag397  3.425e-03  2.0249 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag399  8.276e-04  1.4562 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag406  2.982e-03  2.0384 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag408  2.958e-03  1.9697 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag461 -1.379e-03 -1.5807 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag477 -3.551e-03 -2.1067 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag479  4.055e-03  2.1982 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag492 -1.684e-03 -1.9215 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag515 -1.421e-03 -1.7696 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag518 -3.009e-03 -2.0826 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag519 -1.245e-03 -1.7359 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag524 -1.837e-03 -1.6917 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag532 -3.848e-03 -2.1992 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag547 -1.769e-03 -1.8280 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag553  4.045e-04  1.5840 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag568  1.031e-04  1.2304 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag579 -2.218e-03 -1.7556 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag611 -3.447e-03 -2.2112 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag615  4.221e-03  2.2616 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag643  8.495e-04  1.3665 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag660 -1.451e-03 -1.9181 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag677 -4.081e-03 -2.3519 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag712 -2.749e-03 -1.9713 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag716 -2.516e-03 -2.0212 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag722  2.626e-03  2.0303 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag723 -1.057e-03 -1.5367 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag724 -7.890e-04 -1.6821 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag727 -2.050e-03 -1.7763 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag733 -8.095e-04 -1.7718 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag744  2.234e-03  2.0510 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag747 -4.722e-04 -1.5162 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag749  4.085e-04  1.1317 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag753  1.922e-03  1.6696 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag769  9.107e-05  1.4103 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag779 -2.768e-03 -2.1869 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag781  2.550e-03  1.7091 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag792  3.355e-03  2.3111 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag819  2.919e-03  1.8711 1.00000000        *</span></span></code></pre></div>
 </details>
 </div>
 <div class="section level3">
@@ -431,27 +397,27 @@ statistical inference on the exogenous variable coefficients (by
 default, they will be penalized using adaptive-lasso-style penalty
 weights, which makes formal inference more difficult).</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">srlpacx</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fastTS.html">fastTS</a></span><span class="op">(</span><span class="va">y</span>, X<span class="op">=</span><span class="va">X</span>, n_lags_max <span class="op">=</span> <span class="va">n_lags_max</span>, w_exo <span class="op">=</span> <span class="st">"unpenalized"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">srlpacx</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fastTS.html">fastTS</a></span><span class="op">(</span><span class="va">y</span>, X<span class="op">=</span><span class="va">X</span>, n_lags_max <span class="op">=</span> <span class="va">n_lags_max</span>, w_exo <span class="op">=</span> <span class="st">"unpenalized"</span>, ptrain <span class="op">=</span> <span class="fl">.9</span><span class="op">)</span></span></code></pre></div>
 <p>The same S3 methods apply and can be used to investigate the
 performance of the SLRPACx model.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">srlpacx</span></span>
 <span><span class="co">#&gt;  PF_gamma   AICc_d    BIC_d</span></span>
-<span><span class="co">#&gt;      0.00     55.3   262.49</span></span>
-<span><span class="co">#&gt;      0.25    15.88      4.2</span></span>
+<span><span class="co">#&gt;      0.00    79.07   226.06</span></span>
+<span><span class="co">#&gt;      0.25     29.1     9.74</span></span>
 <span><span class="co">#&gt;      0.50      *0*      *0*</span></span>
-<span><span class="co">#&gt;      1.00   292.55    22.27</span></span>
-<span><span class="co">#&gt;      2.00  2349.39  1767.88</span></span>
-<span><span class="co">#&gt;      4.00  7057.48  6333.44</span></span>
-<span><span class="co">#&gt;      8.00 13566.17 12791.83</span></span>
-<span><span class="co">#&gt;     16.00 13566.17 12791.83</span></span>
+<span><span class="co">#&gt;      1.00   347.06    48.11</span></span>
+<span><span class="co">#&gt;      2.00  2618.52  1988.01</span></span>
+<span><span class="co">#&gt;      4.00  7966.17  7208.09</span></span>
+<span><span class="co">#&gt;      8.00 15351.43 14533.81</span></span>
+<span><span class="co">#&gt;     16.00 15351.43 14533.81</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Note: AICc_d and BIC_d are the difference from the minimum; *0* is best.</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Test-set prediction accuracy</span></span>
 <span><span class="co">#&gt;          rmse       rsq      mae</span></span>
-<span><span class="co">#&gt; AICc 2.656204 0.5328608 2.054256</span></span>
-<span><span class="co">#&gt; BIC  2.658211 0.5321548 2.057566</span></span></code></pre></div>
+<span><span class="co">#&gt; AICc 2.645336 0.5296794 2.045353</span></span>
+<span><span class="co">#&gt; BIC  2.648096 0.5286975 2.048818</span></span></code></pre></div>
 <p>Again, <code>fastTS</code> used 8 possible tuning parameters for
 <span class="math inline">\(\gamma\)</span>, and it appears the best
 value is 0.5. The addition of exogenous features has slightly improved
@@ -502,10 +468,10 @@ Month1
 0.07
 </td>
 <td style="text-align:right;">
-1.29
+1.32
 </td>
 <td style="text-align:left;">
-0.20
+0.19
 </td>
 </tr>
 <tr>
@@ -519,10 +485,10 @@ Month2
 0.07
 </td>
 <td style="text-align:right;">
-0.58
+0.60
 </td>
 <td style="text-align:left;">
-0.56
+0.55
 </td>
 </tr>
 <tr>
@@ -530,16 +496,16 @@ Month2
 Month4
 </td>
 <td style="text-align:right;">
--0.17
+-0.18
 </td>
 <td style="text-align:right;">
 0.07
 </td>
 <td style="text-align:right;">
--2.36
+-2.58
 </td>
 <td style="text-align:left;">
-0.018
+0.010
 </td>
 </tr>
 <tr>
@@ -547,13 +513,13 @@ Month4
 Month5
 </td>
 <td style="text-align:right;">
--0.43
+-0.44
 </td>
 <td style="text-align:right;">
-0.08
+0.07
 </td>
 <td style="text-align:right;">
--5.44
+-5.97
 </td>
 <td style="text-align:left;">
 &lt; 0.001
@@ -564,13 +530,13 @@ Month5
 Month6
 </td>
 <td style="text-align:right;">
--0.65
+-0.63
 </td>
 <td style="text-align:right;">
-0.09
+0.08
 </td>
 <td style="text-align:right;">
--7.51
+-7.78
 </td>
 <td style="text-align:left;">
 &lt; 0.001
@@ -584,10 +550,10 @@ Month7
 -0.50
 </td>
 <td style="text-align:right;">
-0.09
+0.08
 </td>
 <td style="text-align:right;">
--5.77
+-6.10
 </td>
 <td style="text-align:left;">
 &lt; 0.001
@@ -598,13 +564,13 @@ Month7
 Month8
 </td>
 <td style="text-align:right;">
--0.42
+-0.41
 </td>
 <td style="text-align:right;">
 0.08
 </td>
 <td style="text-align:right;">
--5.07
+-5.23
 </td>
 <td style="text-align:left;">
 &lt; 0.001
@@ -615,13 +581,13 @@ Month8
 Month9
 </td>
 <td style="text-align:right;">
--0.27
+-0.30
 </td>
 <td style="text-align:right;">
 0.08
 </td>
 <td style="text-align:right;">
--3.38
+-3.94
 </td>
 <td style="text-align:left;">
 &lt; 0.001
@@ -638,7 +604,7 @@ Month10
 0.07
 </td>
 <td style="text-align:right;">
--6.38
+-6.35
 </td>
 <td style="text-align:left;">
 &lt; 0.001
@@ -655,7 +621,7 @@ Month11
 0.07
 </td>
 <td style="text-align:right;">
--4.14
+-4.13
 </td>
 <td style="text-align:left;">
 &lt; 0.001
@@ -666,16 +632,16 @@ Month11
 Month12
 </td>
 <td style="text-align:right;">
-0.00
+0.01
 </td>
 <td style="text-align:right;">
 0.07
 </td>
 <td style="text-align:right;">
-0.06
+0.10
 </td>
 <td style="text-align:left;">
-0.95
+0.92
 </td>
 </tr>
 <tr>
@@ -689,7 +655,7 @@ I(temp/10)
 0.01
 </td>
 <td style="text-align:right;">
-9.96
+10.47
 </td>
 <td style="text-align:left;">
 &lt; 0.001
@@ -700,13 +666,13 @@ I(temp/10)
 xmas
 </td>
 <td style="text-align:right;">
--1.43
+-1.45
 </td>
 <td style="text-align:right;">
 0.27
 </td>
 <td style="text-align:right;">
--5.26
+-5.33
 </td>
 <td style="text-align:left;">
 &lt; 0.001
@@ -717,16 +683,16 @@ xmas
 xmas2
 </td>
 <td style="text-align:right;">
-0.76
+0.74
 </td>
 <td style="text-align:right;">
 0.27
 </td>
 <td style="text-align:right;">
-2.79
+2.73
 </td>
 <td style="text-align:left;">
-0.005
+0.006
 </td>
 </tr>
 <tr>
@@ -740,10 +706,10 @@ nye
 0.27
 </td>
 <td style="text-align:right;">
--1.88
+-1.86
 </td>
 <td style="text-align:left;">
-0.061
+0.064
 </td>
 </tr>
 <tr>
@@ -751,16 +717,16 @@ nye
 nyd
 </td>
 <td style="text-align:right;">
--0.14
+-0.12
 </td>
 <td style="text-align:right;">
 0.27
 </td>
 <td style="text-align:right;">
--0.51
+-0.45
 </td>
 <td style="text-align:left;">
-0.61
+0.65
 </td>
 </tr>
 <tr>
@@ -768,13 +734,13 @@ nyd
 thx
 </td>
 <td style="text-align:right;">
--1.47
+-1.48
 </td>
 <td style="text-align:right;">
 0.27
 </td>
 <td style="text-align:right;">
--5.39
+-5.44
 </td>
 <td style="text-align:left;">
 &lt; 0.001
@@ -785,16 +751,16 @@ thx
 thx1
 </td>
 <td style="text-align:right;">
-0.44
+0.43
 </td>
 <td style="text-align:right;">
 0.28
 </td>
 <td style="text-align:right;">
-1.60
+1.57
 </td>
 <td style="text-align:left;">
-0.11
+0.12
 </td>
 </tr>
 <tr>
@@ -802,16 +768,16 @@ thx1
 ind
 </td>
 <td style="text-align:right;">
--0.59
+-0.75
 </td>
 <td style="text-align:right;">
-0.31
+0.27
 </td>
 <td style="text-align:right;">
--1.90
+-2.77
 </td>
 <td style="text-align:left;">
-0.058
+0.006
 </td>
 </tr>
 <tr>
@@ -819,16 +785,16 @@ ind
 game_day
 </td>
 <td style="text-align:right;">
-0.03
+0.01
 </td>
 <td style="text-align:right;">
-0.11
+0.10
 </td>
 <td style="text-align:right;">
-0.25
+0.09
 </td>
 <td style="text-align:left;">
-0.80
+0.92
 </td>
 </tr>
 </tbody>
@@ -885,18 +851,18 @@ perspective, it’s still straightforward though.</p>
 <span>               <span class="va">p_1step_exo</span>, <span class="va">p_2step_exo</span>, <span class="va">p_10step_exo</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">cor</a></span><span class="op">(</span><span class="va">preds</span>, use <span class="op">=</span> <span class="st">"pairwise"</span><span class="op">)</span></span>
 <span><span class="co">#&gt;               p_1step_endo p_2step_endo p_10step_endo p_1step_exo p_2step_exo</span></span>
-<span><span class="co">#&gt; p_1step_endo     1.0000000    0.9989157     0.9989135   0.9973023   0.9962257</span></span>
-<span><span class="co">#&gt; p_2step_endo     0.9989157    1.0000000     0.9999972   0.9962491   0.9970523</span></span>
-<span><span class="co">#&gt; p_10step_endo    0.9989135    0.9999972     1.0000000   0.9962476   0.9970503</span></span>
-<span><span class="co">#&gt; p_1step_exo      0.9973023    0.9962491     0.9962476   1.0000000   0.9991798</span></span>
-<span><span class="co">#&gt; p_2step_exo      0.9962257    0.9970523     0.9970503   0.9991798   1.0000000</span></span>
-<span><span class="co">#&gt; p_10step_exo     0.9962125    0.9970381     0.9970410   0.9991785   0.9999984</span></span>
+<span><span class="co">#&gt; p_1step_endo     1.0000000    0.9989941     0.9955790   0.9971924   0.9961816</span></span>
+<span><span class="co">#&gt; p_2step_endo     0.9989941    1.0000000     0.9974915   0.9962263   0.9969456</span></span>
+<span><span class="co">#&gt; p_10step_endo    0.9955790    0.9974915     1.0000000   0.9928145   0.9943129</span></span>
+<span><span class="co">#&gt; p_1step_exo      0.9971924    0.9962263     0.9928145   1.0000000   0.9992515</span></span>
+<span><span class="co">#&gt; p_2step_exo      0.9961816    0.9969456     0.9943129   0.9992515   1.0000000</span></span>
+<span><span class="co">#&gt; p_10step_exo     0.9944635    0.9958080     0.9964003   0.9976986   0.9989526</span></span>
 <span><span class="co">#&gt;               p_10step_exo</span></span>
-<span><span class="co">#&gt; p_1step_endo     0.9962125</span></span>
-<span><span class="co">#&gt; p_2step_endo     0.9970381</span></span>
-<span><span class="co">#&gt; p_10step_endo    0.9970410</span></span>
-<span><span class="co">#&gt; p_1step_exo      0.9991785</span></span>
-<span><span class="co">#&gt; p_2step_exo      0.9999984</span></span>
+<span><span class="co">#&gt; p_1step_endo     0.9944635</span></span>
+<span><span class="co">#&gt; p_2step_endo     0.9958080</span></span>
+<span><span class="co">#&gt; p_10step_endo    0.9964003</span></span>
+<span><span class="co">#&gt; p_1step_exo      0.9976986</span></span>
+<span><span class="co">#&gt; p_2step_exo      0.9989526</span></span>
 <span><span class="co">#&gt; p_10step_exo     1.0000000</span></span></code></pre></div>
 <p>Evidently (and as expected) these predictions are all very highly
 correlated with each other. Note that there are going to be missing (NA)
@@ -917,40 +883,40 @@ in a given 10 hour (shift-length) period. The
 ahead predictions using both models.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">y_c10hr</span> <span class="op">&lt;-</span> <span class="fu">RcppRoll</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/RcppRoll/man/RcppRoll-exports.html" class="external-link">roll_sum</a></span><span class="op">(</span><span class="va">y</span>, <span class="fl">10</span>, align <span class="op">=</span> <span class="st">"right"</span>, fill <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span>
-<span><span class="va">p_10step_csum_endo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">srlpac</span>, n_ahead <span class="op">=</span> <span class="fl">10</span>, cumulative <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
-<span><span class="va">p_10step_csum_exo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">srlpacx</span>, n_ahead <span class="op">=</span> <span class="fl">10</span>, cumulative <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">p_10step_csum_endo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">srlpac</span>, n_ahead <span class="op">=</span> <span class="fl">10</span>, cumulative <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">p_10step_csum_exo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">srlpacx</span>, n_ahead <span class="op">=</span> <span class="fl">10</span>, cumulative <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p>We can compute mean absolute error (MAE) (and other similar metrics)
 using the functionality from the <code>yardstick</code> package.</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">mae_vec</span><span class="op">(</span><span class="va">y_c10hr</span>, <span class="va">p_10step_csum_endo</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 6.820224</span></span>
+<span><span class="co">#&gt; [1] 7.018495</span></span>
 <span><span class="fu">mae_vec</span><span class="op">(</span><span class="va">y_c10hr</span>, <span class="va">p_10step_csum_exo</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 6.788572</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 6.903369</span></span></code></pre></div>
 <p>So the SRLPAC(x) methods were able to predict the number of patients
-who arrive in a given 10-hour window to within an average of about 6.8
+who arrive in a given 10-hour window to within an average of about 6.9
 patients.</p>
 <p>It may be pertinent to investigate this predictive accuracy only on
 the test data set, which can be done by extracting the
 <code>train_idx</code> object from the <code>fastTS</code> object.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">mae_vec</span><span class="op">(</span><span class="va">y_c10hr</span><span class="op">[</span><span class="op">-</span><span class="va">srlpac</span><span class="op">$</span><span class="va">train_idx</span><span class="op">]</span>, <span class="va">p_10step_csum_endo</span><span class="op">[</span><span class="op">-</span><span class="va">srlpac</span><span class="op">$</span><span class="va">train_idx</span><span class="op">]</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 6.795522</span></span>
+<span><span class="co">#&gt; [1] 7.24724</span></span>
 <span><span class="fu">mae_vec</span><span class="op">(</span><span class="va">y_c10hr</span><span class="op">[</span><span class="op">-</span><span class="va">srlpacx</span><span class="op">$</span><span class="va">train_idx</span><span class="op">]</span>, <span class="va">p_10step_csum_exo</span><span class="op">[</span><span class="op">-</span><span class="va">srlpacx</span><span class="op">$</span><span class="va">train_idx</span><span class="op">]</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 6.81384</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 7.165533</span></span></code></pre></div>
 <p>We can also compute the overall R-squared:</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">rsq_vec</span><span class="op">(</span><span class="va">y_c10hr</span>, <span class="va">p_10step_csum_endo</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.8528324</span></span>
+<span><span class="co">#&gt; [1] 0.8439841</span></span>
 <span><span class="fu">rsq_vec</span><span class="op">(</span><span class="va">y_c10hr</span>, <span class="va">p_10step_csum_exo</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.855573</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 0.8505091</span></span></code></pre></div>
 <p>And the R-squared just for the test data.</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">rsq_vec</span><span class="op">(</span><span class="va">y_c10hr</span><span class="op">[</span><span class="op">-</span><span class="va">srlpac</span><span class="op">$</span><span class="va">train_idx</span><span class="op">]</span>, <span class="va">p_10step_csum_endo</span><span class="op">[</span><span class="op">-</span><span class="va">srlpac</span><span class="op">$</span><span class="va">train_idx</span><span class="op">]</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.8522335</span></span>
+<span><span class="co">#&gt; [1] 0.8319384</span></span>
 <span><span class="fu">rsq_vec</span><span class="op">(</span><span class="va">y_c10hr</span><span class="op">[</span><span class="op">-</span><span class="va">srlpacx</span><span class="op">$</span><span class="va">train_idx</span><span class="op">]</span>, <span class="va">p_10step_csum_exo</span><span class="op">[</span><span class="op">-</span><span class="va">srlpacx</span><span class="op">$</span><span class="va">train_idx</span><span class="op">]</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.8529352</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 0.8378856</span></span></code></pre></div>
 <p>It’s interesting that R-squared increases as the horizon for the
-cumulative predictions increases: it’s about 0.85 for the 10-hour
+cumulative predictions increases: it’s about 0.8 for the 10-hour
 cumulative predictions yet only about 0.53 for the standard 1-step
 predictions. It seems to imply some predictive gains in the process of
 aggregating to longer periods of time. More investigation may be

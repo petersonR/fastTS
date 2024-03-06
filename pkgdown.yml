@@ -1,10 +1,11 @@
-pandoc: 2.19.2
+pandoc: 3.1.11
 pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
   case_studies: case_studies.html
+  forecasting: forecasting.html
   hourly_er_visits: hourly_er_visits.html
-last_built: 2024-02-09T16:59Z
+last_built: 2024-03-06T21:26Z
 urls:
   reference: https://petersonr.github.io/fastTS/reference
   article: https://petersonr.github.io/fastTS/articles
