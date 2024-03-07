@@ -154,7 +154,7 @@ necessary.</p></li>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  <span style="text-decoration: underline;">1</span>881      580.  581.   <span style="color: #BB0000;">NA</span> </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  <span style="text-decoration: underline;">1</span>882      581.  580.   <span style="color: #BB0000;">NA</span> </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  <span style="text-decoration: underline;">1</span>883      581.  581.   <span style="color: #BB0000;">NA</span> </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  <span style="text-decoration: underline;">1</span>884      581.  581.  580.</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  <span style="text-decoration: underline;">1</span>884      581.  581.  579.</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="va">predictions</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 4</span></span></span>
 <span><span class="co">#&gt;   years LakeHuron    p1    p7</span></span>
@@ -163,7 +163,7 @@ necessary.</p></li>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>  <span style="text-decoration: underline;">1</span>968      579.  579.  579.</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>  <span style="text-decoration: underline;">1</span>969      580.  579.  579.</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>  <span style="text-decoration: underline;">1</span>970      579.  580.  579.</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>  <span style="text-decoration: underline;">1</span>971      580.  579.  579.</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>  <span style="text-decoration: underline;">1</span>971      580.  579.  578.</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>  <span style="text-decoration: underline;">1</span>972      580.  580.  579.</span></span></code></pre></div>
 <ul>
 <li>The <code>predict</code> function returns missing values for the
@@ -173,7 +173,7 @@ predictions, but resets to NA before returning predictions.</li>
 <li>In 1884, the model’s 1-step prediction, the one that would be made
 in 1883, is 581.1087408.</li>
 <li>The 7-step prediction for 1884, the one “made” in 1877, is
-579.6492458.</li>
+579.4498549.</li>
 </ul>
 <p>Note: there is a “burn-in” component to <code>fastTS</code> objects
 that means the first <code>n_lags_max</code> observations are
@@ -215,12 +215,12 @@ collect all of the step-ahead predictions up to <span class="math inline">\(k\)<
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 9</span></span></span>
 <span><span class="co">#&gt;   years LakeHuron    p1    p2    p3    p4    p5    p6    p7</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>  <span style="text-decoration: underline;">1</span>967      578.  578.  578.  578.  578.  578.  579.  579.</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>  <span style="text-decoration: underline;">1</span>968      579.  579.  579.  578.  578.  579.  579.  579.</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>  <span style="text-decoration: underline;">1</span>969      580.  579.  579.  578.  579.  579.  579.  579.</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>  <span style="text-decoration: underline;">1</span>970      579.  580.  580.  580.  579.  579.  579.  579.</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>  <span style="text-decoration: underline;">1</span>971      580.  579.  578.  578.  579.  579.  579.  579.</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>  <span style="text-decoration: underline;">1</span>972      580.  580.  580.  580.  580.  580.  580.  579.</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>  <span style="text-decoration: underline;">1</span>967      578.  578.  578.  578.  578.  579.  579.  579.</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>  <span style="text-decoration: underline;">1</span>968      579.  579.  578.  578.  578.  578.  579.  579.</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>  <span style="text-decoration: underline;">1</span>969      580.  579.  579.  578.  578.  578.  578.  579.</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>  <span style="text-decoration: underline;">1</span>970      579.  580.  579.  579.  578.  578.  578.  579.</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>  <span style="text-decoration: underline;">1</span>971      580.  579.  580.  579.  579.  578.  578.  578.</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>  <span style="text-decoration: underline;">1</span>972      580.  580.  579.  579.  579.  579.  579.  579.</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
