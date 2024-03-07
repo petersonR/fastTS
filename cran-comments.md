@@ -1,25 +1,15 @@
-## fastTS 0.1.2 release summary
+## fastTS 1.0.0 release summary
 
-This is a resubmission that fixes an incorrectly formatted
-DOI link that was caught in the previous submission. 
+This submission is a major update 
+to the existing fastTS R package.
 
-The previous submission was a re-naming and otherwise minor update 
-to the existing srlTS R package.
-
-We are seeking to rename because: 1) srlTS is too specific as our package 
-can implement the sparsity-ranked MCP and SCAD methods in addition 
-to the SRL, and 2) better visibility. 
-
+All major changes are documented in
+the news.md file, in short, the package
+has more methods functionality, 
+better unit-testing, and simpler
+prediction methods/user interfaces.
 
 ## R CMD check results
 
-0 errors | 0 warnings | 1 note
-
-* This is a new release.
-* Possibly misspelled words in DESCRIPTION:
-  Cavanaugh (12:55, 18:5)
-  
-This is a renaming, not a new release.
-Cavanaugh is the family name of a co-author and is not misspelled. 
-  
+0 errors | 0 warnings | 0 notes 
 

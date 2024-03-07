@@ -37,6 +37,7 @@
 #'   \item{m}{the mode(s) for seasonal lags (used if weight_type =
 #'   "parametric")} \item{r}{penalty factors for seasonal + local scaling
 #'   functions}
+#'   \item{ptrain}{the proportion used to train the model}
 #'
 #' @details The default weights for exogenous features will be chosen based on a
 #'   similar approach to the adaptive lasso (using bivariate OLS estimates). For
@@ -193,7 +194,8 @@ fastTS <- function(
     oos_results = oos_results,
     train_idx = train_idx,
     weight_type = weight_type,
-    m = m, r = r
+    m = m, r = r,
+    ptrain = ptrain
   )
 
   class(results) <- "fastTS"
@@ -276,6 +278,13 @@ print.fastTS <- function(x, ...) {
   aic_pretty[AICc_d == 0] <- "*0*"
   bic_pretty[BIC_d == 0] <- "*0*"
 
+  # Meta info
+  weight_type <- ifelse(x$weight_type == "pacf", "PACF-based", "parametric")
+  endo <- is.null(x$X)
+  meta_message <- ifelse(endo, paste0("An endogenous ", weight_type, " fastTS model.\n\n"),
+                         paste0("A ", weight_type, " fastTS model with ", ncol(x$X),
+                                " exogenous features.\n\n"))
+  cat(meta_message)
 
   gamma_summary <- data.frame(
     "PF_gamma" = x$gamma,
@@ -284,11 +293,23 @@ print.fastTS <- function(x, ...) {
     check.names = FALSE
   )
 
+  coef_summary <- paste0(
+    "\n- Best AICc model: ", sum(coef(x) != 0), " active terms\n- Best BIC  model: ",
+    sum(coef(x, choose = "BIC") != 0), " active terms\n"
+  )
+
   print(gamma_summary, row.names = FALSE)
 
-  cat("\nNote: AICc_d and BIC_d are the difference from the minimum; *0* is best.\n")
+  cat("\nAICc_d and BIC_d are the difference from the minimum; *0* is best.\n")
 
-  cat("\nTest-set prediction accuracy\n")
+  cat(coef_summary)
+
+  test_acc_message <- paste0(
+    "\nTest-set prediction accuracy (", round(100*(1-x$ptrain), 1),
+    "% held-out test set)\n"
+  )
+
+  cat(test_acc_message)
   print(x$oos_results, row.names = TRUE)
 }
 

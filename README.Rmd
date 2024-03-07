@@ -47,13 +47,13 @@ install.packages("fastTS")
 
 ## Example
 
-This is a basic example.
+This is a basic example with the [sunspot monthly series](https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/sunspot.month.html). 
 
 ```{r example}
 library(fastTS)
 
-y <- cumsum(rnorm(100))
-fit <- fastTS(y, gamma = c(0, .5))
+data("sunspot.month")
+fit <- fastTS(sunspot.month)
 
 fit
 ```

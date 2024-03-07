@@ -85,6 +85,7 @@ A list of class \code{fastTS} with elements
   \item{m}{the mode(s) for seasonal lags (used if weight_type =
   "parametric")} \item{r}{penalty factors for seasonal + local scaling
   functions}
+  \item{ptrain}{the proportion used to train the model}
 
 x invisibly
 

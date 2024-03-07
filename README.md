@@ -49,23 +49,37 @@ install.packages("fastTS")
 
 ## Example
 
-This is a basic example.
+This is a basic example with the [sunspot monthly
+series](https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/sunspot.month.html).
 
 ``` r
 library(fastTS)
 
-y <- cumsum(rnorm(100))
-fit <- fastTS(y, gamma = c(0, .5))
+data("sunspot.month")
+fit <- fastTS(sunspot.month)
 
 fit
-#>  PF_gamma best_AICc best_BIC
-#>       0.0  178.4453 189.6189
-#>       0.5  175.3748 185.6797
+#> An endogenous PACF-based fastTS model.
 #> 
-#> Test-set prediction accuracy
+#>  PF_gamma AICc_d  BIC_d
+#>      0.00  24.92  38.93
+#>      0.25   7.88    *0*
+#>      0.50    *0*   0.48
+#>      1.00  69.15   35.7
+#>      2.00 221.33 131.01
+#>      4.00 434.49 332.77
+#>      8.00 434.49 332.77
+#>     16.00 434.49 332.77
+#> 
+#> AICc_d and BIC_d are the difference from the minimum; *0* is best.
+#> 
+#> - Best AICc model: 23 active terms
+#> - Best BIC  model: 14 active terms
+#> 
+#> Test-set prediction accuracy (20% held-out test set)
 #>          rmse       rsq      mae
-#> AIC 0.7375194 0.4263235 0.598126
-#> BIC 0.7375194 0.4263235 0.598126
+#> AICc 15.94153 0.8920102 11.85384
+#> BIC  16.04978 0.8905385 11.99382
 ```
 
 ## Learn more
