@@ -5,7 +5,7 @@ articles:
   case_studies: case_studies.html
   forecasting: forecasting.html
   hourly_er_visits: hourly_er_visits.html
-last_built: 2024-03-07T16:34Z
+last_built: 2024-03-07T17:31Z
 urls:
   reference: https://petersonr.github.io/fastTS/reference
   article: https://petersonr.github.io/fastTS/articles
