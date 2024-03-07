@@ -120,7 +120,7 @@ predict.fastTS <- function(object, n_ahead = 1, X_test, y_test, cumulative = FAL
         # Replace X_new lags with correct predicted values
         for(lag in 1:(j-1)) {
           if(lag <= object$n_lags_max) {
-               X_new[,lag] <- preds_bf[,j - lag]
+               X_new[,lag] <- lag(preds_bf[,j - lag], lag)
           }
         }
 
@@ -153,7 +153,7 @@ predict.fastTS <- function(object, n_ahead = 1, X_test, y_test, cumulative = FAL
         # Replace X_new lags with correct predicted values
         for(lag in 1:(j-1)) {
           if(lag <= object$n_lags_max) {
-            X_new[,lag] <- preds_bf[,j - lag]
+            X_new[,lag] <-lag(preds_bf[,j - lag], lag)
           }
         }
 
@@ -196,7 +196,7 @@ predict.fastTS <- function(object, n_ahead = 1, X_test, y_test, cumulative = FAL
         # Replace X_new lags with correct predicted values
         for(lag in 1:(j-1)) {
           if(lag <= object$n_lags_max) {
-            X_new[,lag] <- preds_bf[,j - lag]
+            X_new[,lag] <- lag(preds_bf[,j - lag], lag)
           }
         }
 

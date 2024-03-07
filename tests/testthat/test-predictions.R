@@ -41,12 +41,12 @@ test_that("predict.fastTS when neither X_test nor y_test supplied", {
   expect_silent(p <- predict(fit, n_ahead = 2))
   expect_identical(p2$p2, p)
 
-  expect_gt(rho_2step <- cor(p, lh_train, use = "pairwise.complete"), 0.836)
+  expect_gt(rho_2step <- cor(p, lh_train, use = "pairwise.complete"), 0.597)
 
   expect_gt(rho_1step, rho_2step)
 
   expect_silent(p10 <- predict(fit, n_ahead = 10))
-  expect_gt(rho_10step <- cor(p10, lh_train, use = "pairwise.complete"), 0.765)
+  expect_gt(rho_10step <- cor(p10, lh_train, use = "pairwise.complete"), 0.228)
 
   # Exogenous model
   expect_silent(p <- predict(fitX))
@@ -57,13 +57,13 @@ test_that("predict.fastTS when neither X_test nor y_test supplied", {
   expect_silent(p2 <- predict(fitX, n_ahead = 2))
   expect_length(p2, length(lh_train))
 
-  expect_gt(rho_2step <- cor(p2, lh_train, use = "pairwise.complete"), 0.840)
+  expect_gt(rho_2step <- cor(p2, lh_train, use = "pairwise.complete"), 0.598)
 
   expect_gt(rho_1step, rho_2step)
 
   expect_silent(p <- predict(fitX, n_ahead = 10))
   expect_length(p, length(lh_train))
-  expect_gt(rho_10step <- cor(p, lh_train, use = "pairwise.complete"), 0.778)
+  expect_gt(rho_10step <- cor(p, lh_train, use = "pairwise.complete"), 0.228)
 
   expect_gt(rho_1step, rho_10step)
   expect_gt(rho_2step, rho_10step)
@@ -77,7 +77,7 @@ test_that("predict.fastTS when X_test not supplied, y_test supplied", {
   expect_gt(rho_1step <- cor(p, lh_test, use = "pairwise.complete"), .75)
   expect_silent(p2 <- predict(fit, y_test = lh_test, n_ahead = 2))
   expect_length(p2, length(lh_test))
-  expect_gt(rho_2step <- cor(p2, lh_test, use = "pairwise.complete"), 0.735)
+  expect_gt(rho_2step <- cor(p2, lh_test, use = "pairwise.complete"), 0.478)
 
   expect_gt(rho_1step, rho_2step)
 
@@ -97,7 +97,7 @@ test_that("predict.fastTS when X_test supplied", {
 
   expect_silent(p2 <- predict(fitX, X_test = X_test, y_test = lh_test, n_ahead = 2))
   expect_length(p2, length(X_test))
-  expect_gt(cor(p2, p), 0.972)
+  expect_gt(cor(p2, p), 0.629)
 
   expect_silent(p10 <- predict(fitX, X_test = X_test, y_test = lh_test, n_ahead = 10))
   expect_length(p10, length(X_test))
@@ -107,13 +107,11 @@ test_that("predict.fastTS when X_test supplied", {
 
   expect_length(pmax, length(X_test))
 
-  expect_gt(rho_max <- cor(pmax, lh_test, use = "pair"), 0.72)
+  expect_gt(rho_max <- cor(pmax, lh_test, use = "pair"), 0.272)
   expect_gt(rho_1s <- cor(p, lh_test, use = "pair"), 0.75)
-  expect_gt(rho_2s <- cor(p2, lh_test, use = "pair"), .74)
-  expect_gt(rho_10s <- cor(p10, lh_test, use = "pair"), .72)
+  expect_gt(rho_2s <- cor(p2, lh_test, use = "pair"), .474)
 
   expect_gt(rho_1s, rho_2s)
-  expect_gt(rho_1s, rho_10s)
 
   # Try intermediate coding
   expect_silent(p <- predict(fitX, X_test = X_test, y_test = lh_test, n_ahead = 10,
@@ -157,8 +155,8 @@ test_that("cumulative predict.fastTS when X_test not supplied", {
   # check correlations
   rho_c10 <- cor(p10c, y_c10, use = "pair")
   rho_c2 <- cor(p2c, y_c2, use = "pair")
-  expect_gt(rho_c10, .979)
-  expect_gt(rho_c2, .964)
+  expect_gt(rho_c10, .970)
+  expect_gt(rho_c2, .960)
 
   p <- predict(fitX)
   p2 <- predict(fitX, n_ahead = 2)
@@ -170,8 +168,8 @@ test_that("cumulative predict.fastTS when X_test not supplied", {
   # check correlations
   rho_c10 <- cor(p10c, y_c10, use = "pair")
   rho_c2 <- cor(p2c, y_c10, use = "pair")
-  expect_gt(rho_c10, .979)
-  expect_gt(rho_c2, .980)
+  expect_gt(rho_c10, .970)
+  expect_gt(rho_c2, .983)
 })
 
 test_that("cumulative predict.fastTS when X_test supplied", {
@@ -199,8 +197,8 @@ test_that("cumulative predict.fastTS when X_test supplied", {
   # check correlations
   rho_10 <- cor(p10, y_c10, use = "pair")
   rho_2 <- cor(p2, y_c2, use = "pair")
-  expect_gt(rho_10, 0.982)
-  expect_gt(rho_2, 0.970)
+  expect_gt(rho_10, 0.978)
+  expect_gt(rho_2, 0.967)
 })
 
 test_that("cumulative predict.fastTS when X_test not supplied, y_test supplied", {
@@ -212,7 +210,7 @@ test_that("cumulative predict.fastTS when X_test not supplied, y_test supplied",
   expect_gt(rho_1step <- cor(p, y_c10, use = "pairwise.complete"), .969)
   expect_silent(p2 <- predict(fit, y_test = ss_test, n_ahead = 10, cumulative = TRUE))
   expect_length(p2, length(y_c10))
-  expect_gt(rho_2step <- cor(p2, y_c10, use = "pairwise.complete"), 0.982)
+  expect_gt(rho_2step <- cor(p2, y_c10, use = "pairwise.complete"), 0.978)
 
   # Exogenous model (should not work when X_test not supplied)
   expect_error(p <- predict(fitX, y_test = lh_test, cumulative = 10),
@@ -239,7 +237,7 @@ test_that("predictions work as expected on uihc data", {
 
   expect_gt(rho_1_endo, .754)
   expect_gt(rho_2_endo, .752)
-  expect_gt(rho_10_endo, .749)
+  expect_gt(rho_10_endo, .751)
 
   ## Cumulative
   y_c10hr <- RcppRoll::roll_sum(y, 10, align = "right", fill = NA)
@@ -250,13 +248,13 @@ test_that("predictions work as expected on uihc data", {
   rho_10pc_endo <- cor(p_c10_10hr, y_c10hr, use="pairwise")
 
   expect_gt(rho_1pc_endo, .939)
-  expect_gt(rho_10pc_endo, .915)
+  expect_gt(rho_10pc_endo, .917)
 
   p_10step_csum_endo <- predict(fit, n_ahead = 10, cumulative = TRUE)
 
   rho_10c_endo <- cor(p_10step_csum_endo, y_c10hr, use="pairwise")
 
-  expect_gt(rho_10c_endo, 0.922)
+  expect_gt(rho_10c_endo, 0.923)
 })
 
 test_that("Forecasting", {

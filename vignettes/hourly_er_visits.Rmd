@@ -252,4 +252,4 @@ It's interesting that R-squared increases as the horizon for the cumulative pred
 
 # Conclusions
 
-In ongoing work we are comparing the SRL-based approaches to other competing approaches. 
+In [ongoing work](https://arxiv.org/abs/2211.01492) we are comparing the SRL-based approaches to other competing approaches. 
