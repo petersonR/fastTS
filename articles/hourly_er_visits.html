@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">fastTS</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -149,6 +149,8 @@ associated <code>print</code>, <code>coef</code>, <code>summary</code>,
 and <code>plot</code> functions.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">srlpac</span></span>
+<span><span class="co">#&gt; An endogenous PACF-based fastTS model.</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;  PF_gamma   AICc_d    BIC_d</span></span>
 <span><span class="co">#&gt;      0.00    73.99   292.98</span></span>
 <span><span class="co">#&gt;      0.25    11.63    20.55</span></span>
@@ -159,9 +161,12 @@ and <code>plot</code> functions.</p>
 <span><span class="co">#&gt;      8.00 15920.25 15152.91</span></span>
 <span><span class="co">#&gt;     16.00 15920.25 15152.91</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Note: AICc_d and BIC_d are the difference from the minimum; *0* is best.</span></span>
+<span><span class="co">#&gt; AICc_d and BIC_d are the difference from the minimum; *0* is best.</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Test-set prediction accuracy</span></span>
+<span><span class="co">#&gt; - Best AICc model: 167 active terms</span></span>
+<span><span class="co">#&gt; - Best BIC  model: 68 active terms</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Test-set prediction accuracy (10% held-out test set)</span></span>
 <span><span class="co">#&gt;          rmse       rsq      mae</span></span>
 <span><span class="co">#&gt; AICc 2.651049 0.5276457 2.050730</span></span>
 <span><span class="co">#&gt; BIC  2.656269 0.5257839 2.057091</span></span></code></pre></div>
@@ -402,6 +407,8 @@ weights, which makes formal inference more difficult).</p>
 performance of the SLRPACx model.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">srlpacx</span></span>
+<span><span class="co">#&gt; A PACF-based fastTS model with 20 exogenous features.</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;  PF_gamma   AICc_d    BIC_d</span></span>
 <span><span class="co">#&gt;      0.00    79.07   226.06</span></span>
 <span><span class="co">#&gt;      0.25     29.1     9.74</span></span>
@@ -412,9 +419,12 @@ performance of the SLRPACx model.</p>
 <span><span class="co">#&gt;      8.00 15351.43 14533.81</span></span>
 <span><span class="co">#&gt;     16.00 15351.43 14533.81</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Note: AICc_d and BIC_d are the difference from the minimum; *0* is best.</span></span>
+<span><span class="co">#&gt; AICc_d and BIC_d are the difference from the minimum; *0* is best.</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Test-set prediction accuracy</span></span>
+<span><span class="co">#&gt; - Best AICc model: 212 active terms</span></span>
+<span><span class="co">#&gt; - Best BIC  model: 97 active terms</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Test-set prediction accuracy (10% held-out test set)</span></span>
 <span><span class="co">#&gt;          rmse       rsq      mae</span></span>
 <span><span class="co">#&gt; AICc 2.645336 0.5296794 2.045353</span></span>
 <span><span class="co">#&gt; BIC  2.648096 0.5286975 2.048818</span></span></code></pre></div>

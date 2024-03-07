@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">fastTS</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -94,6 +94,8 @@
 <span><span class="va">fit_LH</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fastTS.html">fastTS</a></span><span class="op">(</span><span class="va">LakeHuron</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">fit_LH</span></span>
+<span><span class="co">#&gt; An endogenous PACF-based fastTS model.</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;  PF_gamma AICc_d BIC_d</span></span>
 <span><span class="co">#&gt;      0.00   4.17  6.56</span></span>
 <span><span class="co">#&gt;      0.25   3.34  3.54</span></span>
@@ -104,9 +106,12 @@
 <span><span class="co">#&gt;      8.00   6.79   2.9</span></span>
 <span><span class="co">#&gt;     16.00   6.79   2.9</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Note: AICc_d and BIC_d are the difference from the minimum; *0* is best.</span></span>
+<span><span class="co">#&gt; AICc_d and BIC_d are the difference from the minimum; *0* is best.</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Test-set prediction accuracy</span></span>
+<span><span class="co">#&gt; - Best AICc model: 4 active terms</span></span>
+<span><span class="co">#&gt; - Best BIC  model: 4 active terms</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Test-set prediction accuracy (20% held-out test set)</span></span>
 <span><span class="co">#&gt;        rmse       rsq       mae</span></span>
 <span><span class="co">#&gt; AICc 0.7751 0.6043019 0.5888855</span></span>
 <span><span class="co">#&gt; BIC  0.7751 0.6043019 0.5888855</span></span>
@@ -135,6 +140,8 @@ the EuStockMarkets data set,</p>
 <span></span>
 <span><span class="va">fit_stock</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fastTS.html">fastTS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">EuStockMarkets</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span>, n_lags_max <span class="op">=</span> <span class="fl">400</span>, X <span class="op">=</span> <span class="va">X_sp</span>, w_exo <span class="op">=</span> <span class="st">"unpenalized"</span><span class="op">)</span></span>
 <span><span class="va">fit_stock</span></span>
+<span><span class="co">#&gt; A PACF-based fastTS model with 9 exogenous features.</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;  PF_gamma AICc_d BIC_d</span></span>
 <span><span class="co">#&gt;      0.00  11.36 28.22</span></span>
 <span><span class="co">#&gt;      0.25   2.18  4.41</span></span>
@@ -145,9 +152,12 @@ the EuStockMarkets data set,</p>
 <span><span class="co">#&gt;      8.00   6.46 &lt;0.01</span></span>
 <span><span class="co">#&gt;     16.00   6.46 &lt;0.01</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Note: AICc_d and BIC_d are the difference from the minimum; *0* is best.</span></span>
+<span><span class="co">#&gt; AICc_d and BIC_d are the difference from the minimum; *0* is best.</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Test-set prediction accuracy</span></span>
+<span><span class="co">#&gt; - Best AICc model: 18 active terms</span></span>
+<span><span class="co">#&gt; - Best BIC  model: 10 active terms</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Test-set prediction accuracy (20% held-out test set)</span></span>
 <span><span class="co">#&gt;            rmse       rsq       mae</span></span>
 <span><span class="co">#&gt; AICc 0.09071464 0.7328887 0.0758487</span></span>
 <span><span class="co">#&gt; BIC  0.09292579 0.7197084 0.0780460</span></span>
@@ -177,6 +187,8 @@ the EuStockMarkets data set,</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"nottem"</span><span class="op">)</span></span>
 <span><span class="va">fit_nt</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fastTS.html">fastTS</a></span><span class="op">(</span><span class="va">nottem</span>, n_lags_max <span class="op">=</span> <span class="fl">24</span><span class="op">)</span></span>
 <span><span class="va">fit_nt</span></span>
+<span><span class="co">#&gt; An endogenous PACF-based fastTS model.</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;  PF_gamma AICc_d  BIC_d</span></span>
 <span><span class="co">#&gt;      0.00   3.86   13.5</span></span>
 <span><span class="co">#&gt;      0.25   0.43    *0*</span></span>
@@ -187,9 +199,12 @@ the EuStockMarkets data set,</p>
 <span><span class="co">#&gt;      8.00 106.95  99.16</span></span>
 <span><span class="co">#&gt;     16.00 212.75 201.97</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Note: AICc_d and BIC_d are the difference from the minimum; *0* is best.</span></span>
+<span><span class="co">#&gt; AICc_d and BIC_d are the difference from the minimum; *0* is best.</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Test-set prediction accuracy</span></span>
+<span><span class="co">#&gt; - Best AICc model: 9 active terms</span></span>
+<span><span class="co">#&gt; - Best BIC  model: 6 active terms</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Test-set prediction accuracy (20% held-out test set)</span></span>
 <span><span class="co">#&gt;          rmse       rsq      mae</span></span>
 <span><span class="co">#&gt; AICc 2.324769 0.9223185 1.747609</span></span>
 <span><span class="co">#&gt; BIC  2.376213 0.9188426 1.815714</span></span>
@@ -228,6 +243,8 @@ the EuStockMarkets data set,</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"UKDriverDeaths"</span><span class="op">)</span></span>
 <span><span class="va">fit_ukdd</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fastTS.html">fastTS</a></span><span class="op">(</span><span class="va">UKDriverDeaths</span>, n_lags_max <span class="op">=</span> <span class="fl">24</span><span class="op">)</span></span>
 <span><span class="va">fit_ukdd</span></span>
+<span><span class="co">#&gt; An endogenous PACF-based fastTS model.</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;  PF_gamma AICc_d BIC_d</span></span>
 <span><span class="co">#&gt;      0.00   5.97   7.9</span></span>
 <span><span class="co">#&gt;      0.25   3.91  3.91</span></span>
@@ -238,9 +255,12 @@ the EuStockMarkets data set,</p>
 <span><span class="co">#&gt;      8.00  10.21  7.55</span></span>
 <span><span class="co">#&gt;     16.00  39.18 33.83</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Note: AICc_d and BIC_d are the difference from the minimum; *0* is best.</span></span>
+<span><span class="co">#&gt; AICc_d and BIC_d are the difference from the minimum; *0* is best.</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Test-set prediction accuracy</span></span>
+<span><span class="co">#&gt; - Best AICc model: 5 active terms</span></span>
+<span><span class="co">#&gt; - Best BIC  model: 5 active terms</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Test-set prediction accuracy (20% held-out test set)</span></span>
 <span><span class="co">#&gt;          rmse       rsq      mae</span></span>
 <span><span class="co">#&gt; AICc 170.9203 0.5776374 131.9969</span></span>
 <span><span class="co">#&gt; BIC  170.9203 0.5776374 131.9969</span></span>
@@ -280,6 +300,8 @@ the EuStockMarkets data set,</p>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"sunspot.month"</span><span class="op">)</span></span>
 <span><span class="va">fit_ssm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fastTS.html">fastTS</a></span><span class="op">(</span><span class="va">sunspot.month</span><span class="op">)</span></span>
 <span><span class="va">fit_ssm</span></span>
+<span><span class="co">#&gt; An endogenous PACF-based fastTS model.</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;  PF_gamma AICc_d  BIC_d</span></span>
 <span><span class="co">#&gt;      0.00  24.92  38.93</span></span>
 <span><span class="co">#&gt;      0.25   7.88    *0*</span></span>
@@ -290,9 +312,12 @@ the EuStockMarkets data set,</p>
 <span><span class="co">#&gt;      8.00 434.49 332.77</span></span>
 <span><span class="co">#&gt;     16.00 434.49 332.77</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Note: AICc_d and BIC_d are the difference from the minimum; *0* is best.</span></span>
+<span><span class="co">#&gt; AICc_d and BIC_d are the difference from the minimum; *0* is best.</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Test-set prediction accuracy</span></span>
+<span><span class="co">#&gt; - Best AICc model: 23 active terms</span></span>
+<span><span class="co">#&gt; - Best BIC  model: 14 active terms</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Test-set prediction accuracy (20% held-out test set)</span></span>
 <span><span class="co">#&gt;          rmse       rsq      mae</span></span>
 <span><span class="co">#&gt; AICc 15.94153 0.8920102 11.85384</span></span>
 <span><span class="co">#&gt; BIC  16.04978 0.8905385 11.99382</span></span></code></pre></div>

@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">fastTS</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -95,6 +95,8 @@
 <span><span class="va">years</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/time.html" class="external-link">time</a></span><span class="op">(</span><span class="va">LakeHuron</span><span class="op">)</span></span>
 <span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fastTS.html">fastTS</a></span><span class="op">(</span><span class="va">LakeHuron</span>, n_lags_max <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="va">fit</span></span>
+<span><span class="co">#&gt; An endogenous PACF-based fastTS model.</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;  PF_gamma AICc_d BIC_d</span></span>
 <span><span class="co">#&gt;      0.00    *0*  0.54</span></span>
 <span><span class="co">#&gt;      0.25  &lt;0.01  0.54</span></span>
@@ -105,9 +107,12 @@
 <span><span class="co">#&gt;      8.00   4.46  0.89</span></span>
 <span><span class="co">#&gt;     16.00   4.46  0.89</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Note: AICc_d and BIC_d are the difference from the minimum; *0* is best.</span></span>
+<span><span class="co">#&gt; AICc_d and BIC_d are the difference from the minimum; *0* is best.</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Test-set prediction accuracy</span></span>
+<span><span class="co">#&gt; - Best AICc model: 4 active terms</span></span>
+<span><span class="co">#&gt; - Best BIC  model: 3 active terms</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Test-set prediction accuracy (20% held-out test set)</span></span>
 <span><span class="co">#&gt;           rmse       rsq       mae</span></span>
 <span><span class="co">#&gt; AICc 0.7836646 0.5955089 0.6056737</span></span>
 <span><span class="co">#&gt; BIC  0.7486619 0.6308355 0.6032140</span></span></code></pre></div>

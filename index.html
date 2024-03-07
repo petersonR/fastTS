@@ -58,7 +58,7 @@
     
     <a class="navbar-brand me-2" href="index.html">fastTS</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -126,22 +126,35 @@
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
-<p>This is a basic example.</p>
+<p>This is a basic example with the <a href="https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/sunspot.month.html" class="external-link">sunspot monthly series</a>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://petersonr.github.io/fastTS/">fastTS</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cumsum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/fastTS.html">fastTS</a></span><span class="op">(</span><span class="va">y</span>, gamma <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">.5</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"sunspot.month"</span><span class="op">)</span></span>
+<span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/fastTS.html">fastTS</a></span><span class="op">(</span><span class="va">sunspot.month</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">fit</span></span>
-<span><span class="co">#&gt;  PF_gamma best_AICc best_BIC</span></span>
-<span><span class="co">#&gt;       0.0  178.4453 189.6189</span></span>
-<span><span class="co">#&gt;       0.5  175.3748 185.6797</span></span>
+<span><span class="co">#&gt; An endogenous PACF-based fastTS model.</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Test-set prediction accuracy</span></span>
+<span><span class="co">#&gt;  PF_gamma AICc_d  BIC_d</span></span>
+<span><span class="co">#&gt;      0.00  24.92  38.93</span></span>
+<span><span class="co">#&gt;      0.25   7.88    *0*</span></span>
+<span><span class="co">#&gt;      0.50    *0*   0.48</span></span>
+<span><span class="co">#&gt;      1.00  69.15   35.7</span></span>
+<span><span class="co">#&gt;      2.00 221.33 131.01</span></span>
+<span><span class="co">#&gt;      4.00 434.49 332.77</span></span>
+<span><span class="co">#&gt;      8.00 434.49 332.77</span></span>
+<span><span class="co">#&gt;     16.00 434.49 332.77</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; AICc_d and BIC_d are the difference from the minimum; *0* is best.</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; - Best AICc model: 23 active terms</span></span>
+<span><span class="co">#&gt; - Best BIC  model: 14 active terms</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Test-set prediction accuracy (20% held-out test set)</span></span>
 <span><span class="co">#&gt;          rmse       rsq      mae</span></span>
-<span><span class="co">#&gt; AIC 0.7375194 0.4263235 0.598126</span></span>
-<span><span class="co">#&gt; BIC 0.7375194 0.4263235 0.598126</span></span></code></pre></div>
+<span><span class="co">#&gt; AICc 15.94153 0.8920102 11.85384</span></span>
+<span><span class="co">#&gt; BIC  16.04978 0.8905385 11.99382</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="learn-more">Learn more<a class="anchor" aria-label="anchor" href="#learn-more"></a>
