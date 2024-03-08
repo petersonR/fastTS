@@ -49,4 +49,4 @@ VignetteBuilder: knitr
 URL: https://petersonr.github.io/fastTS/, 
     https://github.com/petersonR/fastTS/
 BugReports: https://github.com/petersonR/fastTS/issues
-Date: 2024-03-10
+Date: 2024-03-08
