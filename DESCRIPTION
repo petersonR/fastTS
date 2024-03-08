@@ -1,7 +1,7 @@
 Package: fastTS
 Type: Package
 Title: Fast Time Series Modeling for Seasonal Series with Exogenous Variables
-Version: 1.0.0.9000
+Version: 1.0.1
 Authors@R: person("Ryan Andrew", "Peterson", 
                   email = "ryan.a.peterson@cuanschutz.edu", 
                   role = c("aut", "cre", "cph"),
@@ -15,7 +15,7 @@ Description: An implementation of sparsity-ranked lasso and related methods
     a philosophy with methods useful for variable selection in the 
     presence of prior informational asymmetry. This situation exists for time 
     series data with complex seasonality, as shown in Peterson and Cavanaugh 
-    (2023+) <doi:10.48550/arXiv.2211.01492>, which also describes this package
+    (2024) <doi:10.1177/1471082X231225307>, which also describes this package
     in greater detail. The sparsity-ranked penalization methods for Time Series
     implemented in 'fastTS' can fit large/complex/high-frequency time series
     quickly, even with a high-dimensional exogenous feature set. The method is
@@ -49,4 +49,4 @@ VignetteBuilder: knitr
 URL: https://petersonr.github.io/fastTS/, 
     https://github.com/petersonR/fastTS/
 BugReports: https://github.com/petersonR/fastTS/issues
-Date: 2024-03-07
+Date: 2024-03-10
