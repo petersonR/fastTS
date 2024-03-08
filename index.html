@@ -14,7 +14,7 @@
     a philosophy with methods useful for variable selection in the 
     presence of prior informational asymmetry. This situation exists for time 
     series data with complex seasonality, as shown in Peterson and Cavanaugh 
-    (2023+) &lt;doi:10.48550/arXiv.2211.01492&gt;, which also describes this package
+    (2024) &lt;doi:10.1177/1471082X231225307&gt;, which also describes this package
     in greater detail. The sparsity-ranked penalization methods for Time Series
     implemented in fastTS can fit large/complex/high-frequency time series
     quickly, even with a high-dimensional exogenous feature set. The method is
@@ -37,7 +37,7 @@
     a philosophy with methods useful for variable selection in the 
     presence of prior informational asymmetry. This situation exists for time 
     series data with complex seasonality, as shown in Peterson and Cavanaugh 
-    (2023+) &lt;doi:10.48550/arXiv.2211.01492&gt;, which also describes this package
+    (2024) &lt;doi:10.1177/1471082X231225307&gt;, which also describes this package
     in greater detail. The sparsity-ranked penalization methods for Time Series
     implemented in fastTS can fit large/complex/high-frequency time series
     quickly, even with a high-dimensional exogenous feature set. The method is
@@ -58,7 +58,7 @@
     
     <a class="navbar-brand me-2" href="index.html">fastTS</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -110,7 +110,9 @@
 </h2>
 <p>The <code>fastTS</code> package efficiently fits long, high-frequency time series with complex seasonality, even with a high-dimensional exogenous feature set. It implements the sparsity-ranked lasso (and similar methods) for time series data.</p>
 <p>Originally described in <a href="https://doi.org/10.1007/s10182-021-00431-7" class="external-link">Peterson and Cavanaugh (2022)</a> in the context of variable selection with interactions and/or polynomials, <em>ranked sparsity</em> is a philosophy of variable selection in the presence of prior informational asymmetry.</p>
-<p>In time series data with complex seasonality or exogenous features; see <a href="https://doi.org/10.48550/arXiv.2211.01492" class="external-link">Peterson and Cavanaugh (2023+)</a>, which also describes this package in greater detail. The basic premise is to utilize the sparsity-ranked lasso (or similar) to be less skeptical of more recent lags, and suspected seasonal relationships.</p>
+<p>This package implements such methods for fast fitting of time series data with complex seasonality or exogenous features. More information is included in <a href="https://doi.org/10.1177/1471082X23122530" class="external-link">Peterson and Cavanaugh (2024)</a> (<a href="https://arxiv.org/abs/2211.01492" class="external-link">accepted version</a>). The basic premise is to utilize the sparsity-ranked lasso (or similar) to be less skeptical of more recent lags, and suspected seasonal relationships.</p>
+<p>Please cite <code>fastTS</code> as:</p>
+<p>Peterson R, Cavanaugh J. Fast, effective, and coherent time series modelling using the sparsity-ranked lasso. <em>Statistical Modelling</em>. 2024. <a href="doi:10.1177/1471082X231225307" class="uri">doi:10.1177/1471082X231225307</a></p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
