@@ -12,5 +12,5 @@ bibentry(
   pages    = "",
   doi      = "10.1177/1471082X231225307",
   textVersion =
-        "Ryan A. Peterson & Joseph E. Cavanaugh (2024). Fast, effective, and coherent time series modeling using the sparsity-ranked lasso. Statistical Modelling. DOI: 10.1177/1471082X231225307"
+        "Peterson, R.A. & Cavanaugh, J.E. (2024). Fast, effective, and coherent time series modelling using the sparsity-ranked lasso. Statistical Modelling. DOI: 10.1177/1471082X231225307"
 )

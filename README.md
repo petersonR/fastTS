@@ -28,16 +28,15 @@ informational asymmetry.
 This package implements such methods for fast fitting of time series
 data with complex seasonality or exogenous features. More information is
 included in [Peterson and Cavanaugh
-(2024)](https://doi.org/10.1177/1471082X23122530) ([accepted
-version](https://arxiv.org/abs/2211.01492)). The basic premise is to
-utilize the sparsity-ranked lasso (or similar) to be less skeptical of
-more recent lags, and suspected seasonal relationships.
+(2024)](https://doi.org/10.1177/1471082X231225307). The basic premise is
+to utilize the sparsity-ranked lasso (or similar) to be less skeptical
+of more recent lags, and suspected seasonal relationships.
 
 Please cite `fastTS` as:
 
-Peterson R, Cavanaugh J. Fast, effective, and coherent time series
-modelling using the sparsity-ranked lasso. *Statistical Modelling*.
-2024. <doi:10.1177/1471082X231225307>
+Peterson R. A. & Cavanaugh J. E. (2024). Fast, effective, and coherent
+time series modelling using the sparsity-ranked lasso. *Statistical
+Modelling*. <doi:10.1177/1471082X231225307>
 
 ## Installation
 

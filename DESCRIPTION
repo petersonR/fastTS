@@ -16,7 +16,7 @@ Description: An implementation of sparsity-ranked lasso and related methods
     presence of prior informational asymmetry. This situation exists for time 
     series data with complex seasonality, as shown in Peterson and Cavanaugh 
     (2024) <doi:10.1177/1471082X231225307>, which also describes this package
-    in greater detail. The sparsity-ranked penalization methods for Time Series
+    in greater detail. The sparsity-ranked penalization methods for time series
     implemented in 'fastTS' can fit large/complex/high-frequency time series
     quickly, even with a high-dimensional exogenous feature set. The method is
     considerably faster than its competitors, while often producing more 
@@ -49,4 +49,4 @@ VignetteBuilder: knitr
 URL: https://petersonr.github.io/fastTS/, 
     https://github.com/petersonR/fastTS/
 BugReports: https://github.com/petersonR/fastTS/issues
-Date: 2024-03-08
+Date: 2024-03-28

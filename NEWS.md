@@ -1,6 +1,6 @@
 # fastTS 1.0.1
 
-- Update citation with now published [paper](https://doi.org/10.1177/1471082X231225307)!  
+- Update citation with now published [paper](https://doi.org/10.1177/1471082X231225307)
 
 # fastTS 1.0.0
 
