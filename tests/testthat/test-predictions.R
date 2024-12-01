@@ -198,7 +198,7 @@ test_that("cumulative predict.fastTS when X_test supplied", {
   rho_10 <- cor(p10, y_c10, use = "pair")
   rho_2 <- cor(p2, y_c2, use = "pair")
   expect_gt(rho_10, 0.978)
-  expect_gt(rho_2, 0.967)
+  expect_gt(rho_2, 0.966)
 })
 
 test_that("cumulative predict.fastTS when X_test not supplied, y_test supplied", {
@@ -207,7 +207,7 @@ test_that("cumulative predict.fastTS when X_test not supplied, y_test supplied",
   expect_silent(p <- predict(fit, y_test = ss_test, cumulative = TRUE))
   expect_length(p, length(y_c10))
 
-  expect_gt(rho_1step <- cor(p, y_c10, use = "pairwise.complete"), .969)
+  expect_gt(rho_1step <- cor(p, y_c10, use = "pairwise.complete"), .968)
   expect_silent(p2 <- predict(fit, y_test = ss_test, n_ahead = 10, cumulative = TRUE))
   expect_length(p2, length(y_c10))
   expect_gt(rho_2step <- cor(p2, y_c10, use = "pairwise.complete"), 0.978)

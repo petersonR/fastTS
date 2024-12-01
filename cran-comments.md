@@ -1,8 +1,8 @@
-## fastTS 1.0.1 release summary
+## fastTS 1.0.2 release summary
 
 This is a minor update that 
-simply updates the citation, as the
-main paper is now published.
+fixes issues in the CRAN CMD 
+CHECK. 
 
 ## R CMD check results
 

@@ -1,4 +1,7 @@
-# fastTS 1.0.1.9000
+# fastTS 1.0.2
+
+- Fixed some tests that were very slightly sensitive to OS and 
+  were causing errors in R CMD CHECK on CRAN. 
 
 # fastTS 1.0.1
 
