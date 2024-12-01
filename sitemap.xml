@@ -1,48 +1,18 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://petersonr.github.io/fastTS/404.html</loc>
-  </url>
-  <url>
-    <loc>https://petersonr.github.io/fastTS/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://petersonr.github.io/fastTS/articles/case_studies.html</loc>
-  </url>
-  <url>
-    <loc>https://petersonr.github.io/fastTS/articles/forecasting.html</loc>
-  </url>
-  <url>
-    <loc>https://petersonr.github.io/fastTS/articles/hourly_er_visits.html</loc>
-  </url>
-  <url>
-    <loc>https://petersonr.github.io/fastTS/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://petersonr.github.io/fastTS/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://petersonr.github.io/fastTS/index.html</loc>
-  </url>
-  <url>
-    <loc>https://petersonr.github.io/fastTS/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://petersonr.github.io/fastTS/reference/fastTS.html</loc>
-  </url>
-  <url>
-    <loc>https://petersonr.github.io/fastTS/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://petersonr.github.io/fastTS/reference/internal.html</loc>
-  </url>
-  <url>
-    <loc>https://petersonr.github.io/fastTS/reference/penalty_scaler.html</loc>
-  </url>
-  <url>
-    <loc>https://petersonr.github.io/fastTS/reference/predict.fastTS.html</loc>
-  </url>
-  <url>
-    <loc>https://petersonr.github.io/fastTS/reference/uihc_ed_arrivals.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://petersonr.github.io/fastTS/404.html</loc></url>
+<url><loc>https://petersonr.github.io/fastTS/LICENSE.html</loc></url>
+<url><loc>https://petersonr.github.io/fastTS/articles/case_studies.html</loc></url>
+<url><loc>https://petersonr.github.io/fastTS/articles/forecasting.html</loc></url>
+<url><loc>https://petersonr.github.io/fastTS/articles/hourly_er_visits.html</loc></url>
+<url><loc>https://petersonr.github.io/fastTS/articles/index.html</loc></url>
+<url><loc>https://petersonr.github.io/fastTS/authors.html</loc></url>
+<url><loc>https://petersonr.github.io/fastTS/index.html</loc></url>
+<url><loc>https://petersonr.github.io/fastTS/news/index.html</loc></url>
+<url><loc>https://petersonr.github.io/fastTS/reference/fastTS.html</loc></url>
+<url><loc>https://petersonr.github.io/fastTS/reference/index.html</loc></url>
+<url><loc>https://petersonr.github.io/fastTS/reference/internal.html</loc></url>
+<url><loc>https://petersonr.github.io/fastTS/reference/penalty_scaler.html</loc></url>
+<url><loc>https://petersonr.github.io/fastTS/reference/predict.fastTS.html</loc></url>
+<url><loc>https://petersonr.github.io/fastTS/reference/uihc_ed_arrivals.html</loc></url>
 </urlset>
+
