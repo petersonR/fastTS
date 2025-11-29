@@ -176,9 +176,9 @@ fastTS <- function(
   })
 
   best_fit_penalized_bic <-
-    fits[[which.min(apply(sapply(fits, BIC), 2, min))]]
+    fits[[which.min(sapply(lapply(fits, BIC), min))]]
   best_fit_penalized_aicc <-
-    fits[[which.min(apply(sapply(fits, AICc), 2, min))]]
+    fits[[which.min(sapply(lapply(fits, AICc), min))]]
 
   oos_results <- data.frame(rmse = NA, rsq = NA, mae = NA)
   if(ptrain < 1)
