@@ -10,6 +10,8 @@ coverage](https://codecov.io/gh/petersonR/fastTS/branch/main/graph/badge.svg)](h
 [![R-CMD-check](https://github.com/petersonR/fastTS/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/petersonR/fastTS/actions/workflows/R-CMD-check.yaml)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/fastTS)](https://CRAN.R-project.org/package=fastTS)
+[![Codecov test
+coverage](https://codecov.io/gh/petersonR/fastTS/graph/badge.svg)](https://app.codecov.io/gh/petersonR/fastTS)
 <!-- badges: end -->
 
 ## Overview
@@ -68,24 +70,24 @@ fit
 #> An endogenous PACF-based fastTS model.
 #> 
 #>  PF_gamma AICc_d  BIC_d
-#>      0.00  24.92  38.93
-#>      0.25   7.88    *0*
-#>      0.50    *0*   0.48
-#>      1.00  69.15   35.7
-#>      2.00 221.33 131.01
-#>      4.00 434.49 332.77
-#>      8.00 434.49 332.77
-#>     16.00 434.49 332.77
+#>      0.00  18.62  26.13
+#>      0.25   5.77    3.5
+#>      0.50    *0*    *0*
+#>      1.00  55.68  30.84
+#>      2.00 234.71 146.86
+#>      4.00 460.98 361.64
+#>      8.00 460.98 361.64
+#>     16.00 460.98 361.64
 #> 
 #> AICc_d and BIC_d are the difference from the minimum; *0* is best.
 #> 
-#> - Best AICc model: 23 active terms
-#> - Best BIC  model: 14 active terms
+#> - Best AICc model: 24 active terms
+#> - Best BIC  model: 18 active terms
 #> 
 #> Test-set prediction accuracy (20% held-out test set)
 #>          rmse       rsq      mae
-#> AICc 15.94153 0.8920102 11.85384
-#> BIC  16.04978 0.8905385 11.99382
+#> AICc 22.04138 0.8969860 16.11950
+#> BIC  22.05650 0.8968446 16.17492
 ```
 
 ## Learn more

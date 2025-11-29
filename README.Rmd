@@ -19,6 +19,7 @@ knitr::opts_chunk$set(
 [![Codecov test coverage](https://codecov.io/gh/petersonR/fastTS/branch/main/graph/badge.svg)](https://app.codecov.io/gh/petersonR/fastTS?branch=main)
 [![R-CMD-check](https://github.com/petersonR/fastTS/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/petersonR/fastTS/actions/workflows/R-CMD-check.yaml)
 [![CRAN status](https://www.r-pkg.org/badges/version/fastTS)](https://CRAN.R-project.org/package=fastTS)
+[![Codecov test coverage](https://codecov.io/gh/petersonR/fastTS/graph/badge.svg)](https://app.codecov.io/gh/petersonR/fastTS)
 <!-- badges: end -->
 
 ## Overview
