@@ -288,58 +288,59 @@ the EuStockMarkets data set,</p>
 <span><span class="co">#&gt; An endogenous PACF-based fastTS model.</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;  PF_gamma AICc_d  BIC_d</span></span>
-<span><span class="co">#&gt;      0.00  24.92  38.93</span></span>
-<span><span class="co">#&gt;      0.25   7.88    *0*</span></span>
-<span><span class="co">#&gt;      0.50    *0*   0.48</span></span>
-<span><span class="co">#&gt;      1.00  69.15   35.7</span></span>
-<span><span class="co">#&gt;      2.00 221.33 131.01</span></span>
-<span><span class="co">#&gt;      4.00 434.49 332.77</span></span>
-<span><span class="co">#&gt;      8.00 434.49 332.77</span></span>
-<span><span class="co">#&gt;     16.00 434.49 332.77</span></span>
+<span><span class="co">#&gt;      0.00  18.62  26.13</span></span>
+<span><span class="co">#&gt;      0.25   5.77    3.5</span></span>
+<span><span class="co">#&gt;      0.50    *0*    *0*</span></span>
+<span><span class="co">#&gt;      1.00  55.68  30.84</span></span>
+<span><span class="co">#&gt;      2.00 234.71 146.86</span></span>
+<span><span class="co">#&gt;      4.00 460.98 361.64</span></span>
+<span><span class="co">#&gt;      8.00 460.98 361.64</span></span>
+<span><span class="co">#&gt;     16.00 460.98 361.64</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; AICc_d and BIC_d are the difference from the minimum; *0* is best.</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; - Best AICc model: 23 active terms</span></span>
-<span><span class="co">#&gt; - Best BIC  model: 14 active terms</span></span>
+<span><span class="co">#&gt; - Best AICc model: 24 active terms</span></span>
+<span><span class="co">#&gt; - Best BIC  model: 18 active terms</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Test-set prediction accuracy (20% held-out test set)</span></span>
 <span><span class="co">#&gt;          rmse       rsq      mae</span></span>
-<span><span class="co">#&gt; AICc 15.94153 0.8920102 11.85384</span></span>
-<span><span class="co">#&gt; BIC  16.04978 0.8905385 11.99382</span></span></code></pre></div>
+<span><span class="co">#&gt; AICc 22.04138 0.8969860 16.11950</span></span>
+<span><span class="co">#&gt; BIC  22.05650 0.8968446 16.17492</span></span></code></pre></div>
 <p>Model summaries</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">fit_ssm</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Model summary (ncvreg) at optimal AICc (lambda=0.0514; gamma=0.5)</span></span>
-<span><span class="co">#&gt; lasso-penalized linear regression with n=2224, p=317</span></span>
-<span><span class="co">#&gt; At lambda=0.0514:</span></span>
+<span><span class="co">#&gt; Model summary (ncvreg) at optimal AICc (lambda=0.0924; gamma=0.5)</span></span>
+<span><span class="co">#&gt; lasso-penalized linear regression with n=2317, p=331</span></span>
+<span><span class="co">#&gt; At lambda=0.0924:</span></span>
 <span><span class="co">#&gt; -------------------------------------------------</span></span>
-<span><span class="co">#&gt;   Nonzero coefficients         :  22</span></span>
-<span><span class="co">#&gt;   Expected nonzero coefficients:   9.57</span></span>
-<span><span class="co">#&gt;   Average mfdr (22 features)   :   0.435</span></span>
+<span><span class="co">#&gt;   Nonzero coefficients         :  23</span></span>
+<span><span class="co">#&gt;   Expected nonzero coefficients:  11.40</span></span>
+<span><span class="co">#&gt;   Average mfdr (23 features)   :   0.496</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;         Estimate       z       mfdr Selected</span></span>
-<span><span class="co">#&gt; lag1    0.543429 75.5671    &lt; 1e-04        *</span></span>
-<span><span class="co">#&gt; lag2    0.100936 14.3108    &lt; 1e-04        *</span></span>
-<span><span class="co">#&gt; lag9    0.095814 13.9892    &lt; 1e-04        *</span></span>
-<span><span class="co">#&gt; lag4    0.088981 12.7748    &lt; 1e-04        *</span></span>
-<span><span class="co">#&gt; lag3    0.077649 11.1365    &lt; 1e-04        *</span></span>
-<span><span class="co">#&gt; lag6    0.058591  8.7845    &lt; 1e-04        *</span></span>
-<span><span class="co">#&gt; lag5    0.031138  4.9444 0.00032499        *</span></span>
-<span><span class="co">#&gt; lag18  -0.028505 -4.4224 0.00358984        *</span></span>
-<span><span class="co">#&gt; lag102  0.021959  3.7402 0.05828151        *</span></span>
-<span><span class="co">#&gt; lag27  -0.019987 -3.4042 0.10972036        *</span></span>
-<span><span class="co">#&gt; lag212 -0.018947 -3.1479 0.18181026        *</span></span>
-<span><span class="co">#&gt; lag24  -0.018334 -3.0999 0.22938279        *</span></span>
-<span><span class="co">#&gt; lag111  0.017205  2.9704 0.42094460        *</span></span>
-<span><span class="co">#&gt; lag92   0.017222  2.8639 0.56607826        *</span></span>
-<span><span class="co">#&gt; lag12   0.012107  2.3759 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag20  -0.007329 -1.6906 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag21  -0.009982 -2.0002 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag34  -0.004472 -1.3302 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag55  -0.003429 -1.2274 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag96   0.001556  1.0625 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag275  0.000595  0.8962 1.00000000        *</span></span>
-<span><span class="co">#&gt; lag292 -0.010658 -1.9653 1.00000000        *</span></span></code></pre></div>
+<span><span class="co">#&gt;          Estimate       z       mfdr Selected</span></span>
+<span><span class="co">#&gt; lag1    0.5381873 73.8992    &lt; 1e-04        *</span></span>
+<span><span class="co">#&gt; lag9    0.1022791 14.7795    &lt; 1e-04        *</span></span>
+<span><span class="co">#&gt; lag2    0.0983075 13.8168    &lt; 1e-04        *</span></span>
+<span><span class="co">#&gt; lag4    0.0889776 12.6824    &lt; 1e-04        *</span></span>
+<span><span class="co">#&gt; lag3    0.0748760 10.6776    &lt; 1e-04        *</span></span>
+<span><span class="co">#&gt; lag6    0.0574307  8.6278    &lt; 1e-04        *</span></span>
+<span><span class="co">#&gt; lag5    0.0356911  5.5714    &lt; 1e-04        *</span></span>
+<span><span class="co">#&gt; lag18  -0.0336397 -5.1736 0.00011438        *</span></span>
+<span><span class="co">#&gt; lag102  0.0242850  4.3714 0.00527675        *</span></span>
+<span><span class="co">#&gt; lag27  -0.0203566 -3.5944 0.05843986        *</span></span>
+<span><span class="co">#&gt; lag21  -0.0198168 -3.4229 0.09031381        *</span></span>
+<span><span class="co">#&gt; lag212 -0.0170930 -3.1816 0.27456916        *</span></span>
+<span><span class="co">#&gt; lag20  -0.0009492 -0.8997 0.96979786        *</span></span>
+<span><span class="co">#&gt; lag12   0.0141200  2.7259 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag24  -0.0128349 -2.4821 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag34  -0.0086503 -2.0163 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag55  -0.0011088 -1.0797 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag92   0.0077636  1.8327 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag96   0.0012431  1.0838 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag111  0.0104439  2.3428 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag112  0.0046870  1.8807 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag116  0.0016910  1.4641 1.00000000        *</span></span>
+<span><span class="co">#&gt; lag292 -0.0100337 -2.0345 1.00000000        *</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -353,7 +354,7 @@ the EuStockMarkets data set,</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

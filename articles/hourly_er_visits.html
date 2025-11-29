@@ -110,7 +110,7 @@ been sorted by time.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="va">uihc_ed_arrivals</span><span class="op">$</span><span class="va">Arrivals</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">y</span>, type <span class="op">=</span> <span class="st">"l"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="hourly_er_visits_files/figure-html/plot_outcome-1.png" width="672"></p>
+<p><img src="hourly_er_visits_files/figure-html/plot_outcome-1.png" class="r-plt" width="672"></p>
 <p>OK, not too helpful visually. Such is the trap of being so close to
 asymptopia. Let’s look a bit closer at the partial autocorrelation
 function to see what kind of seasonality and autoregressive (AR)
@@ -120,7 +120,7 @@ structure we could be dealing with.</p>
 <span><span class="va">n_lags_max</span> <span class="op">&lt;-</span> <span class="fl">24</span><span class="op">*</span><span class="fl">7</span><span class="op">*</span><span class="fl">5</span> <span class="co"># consider 5 weeks' data lags</span></span>
 <span><span class="va">pacfs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/acf.html" class="external-link">pacf</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span>, lag.max <span class="op">=</span> <span class="va">n_lags_max</span>, plot <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">pacfs</span><span class="op">)</span></span></code></pre></div>
-<p><img src="hourly_er_visits_files/figure-html/plot_pacf-1.png" width="672"></p>
+<p><img src="hourly_er_visits_files/figure-html/plot_pacf-1.png" class="r-plt" width="672"></p>
 <p>Clearly we have multiple modes of seasonality in this hourly data,
 likely corresponding to observed shift-based, daily, and weekly
 patterns. Thankfully the sparsity ranked lasso (SRL) time series fitting
@@ -167,7 +167,7 @@ multi-modal seasonal and local autoregressive patterns.</p>
 <code>plot</code> function.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">srlpac</span><span class="op">)</span></span></code></pre></div>
-<p><img src="hourly_er_visits_files/figure-html/plot_endo-1.png" width="672"></p>
+<p><img src="hourly_er_visits_files/figure-html/plot_endo-1.png" class="r-plt" width="672"></p>
 <p>To see the (long) list of selected coefficients, the
 <code>summary</code> function can be used.</p>
 <details><summary>
@@ -425,7 +425,7 @@ interest.</p>
 <code>plot</code> function.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">srlpacx</span><span class="op">)</span></span></code></pre></div>
-<p><img src="hourly_er_visits_files/figure-html/plot_exo-1.png" width="672"></p>
+<p><img src="hourly_er_visits_files/figure-html/plot_exo-1.png" class="r-plt" width="672"></p>
 <p>To see the (long) list of selected coefficients, the
 <code>summary</code> function can be used. In this case, we’re most
 interested in the exogenous features, which can be extracted via the
@@ -814,7 +814,7 @@ game_day
 <span>          <span class="st">"Thanksgiving"</span>, <span class="st">"Thanksgiving+1"</span>, <span class="st">"Independence Day"</span>,</span>
 <span>          <span class="st">"Hawkeye Gameday"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">se_b</span><span class="op">)</span><span class="op">:</span><span class="fl">1</span>, <span class="va">labs</span>, las <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
-<p><img src="hourly_er_visits_files/figure-html/plot_exo_coefs-1.png" width="672"></p>
+<p><img src="hourly_er_visits_files/figure-html/plot_exo_coefs-1.png" class="r-plt" width="672"></p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="va">old</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -941,7 +941,7 @@ comparing the SRL-based approaches to other competing approaches.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>
