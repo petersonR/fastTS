@@ -1,8 +1,7 @@
-## fastTS 1.0.2 release summary
+## fastTS 1.0.3 release summary
 
 This is a minor update that 
-fixes issues in the CRAN CMD 
-CHECK. 
+fixes an issue found by a user.
 
 ## R CMD check results
 

@@ -1,4 +1,4 @@
-# fastTS 1.0.2.9000
+# fastTS 1.0.3
 
 - Fixing issue #4
 

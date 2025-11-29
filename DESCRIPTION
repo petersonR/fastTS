@@ -1,7 +1,7 @@
 Package: fastTS
 Type: Package
 Title: Fast Time Series Modeling for Seasonal Series with Exogenous Variables
-Version: 1.0.2.9000
+Version: 1.0.3
 Authors@R: person("Ryan Andrew", "Peterson", 
                   email = "ryan-peterson@uiowa.edu", 
                   role = c("aut", "cre", "cph"),
