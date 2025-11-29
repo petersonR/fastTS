@@ -24,8 +24,8 @@ AICc <- function(fit, eps = 1) {
 #' @importFrom rlang .data
 get_oos_results <- function(fits, ytest, Xtest) {
 
-  best_fit_penalized_bic <- fits[[which.min(apply(sapply(fits, BIC), 2, min))]]
-  best_fit_penalized_aicc <- fits[[which.min(apply(sapply(fits, AICc), 2, min))]]
+  best_fit_penalized_bic <- fits[[which.min(sapply(lapply(fits, BIC), min))]]
+  best_fit_penalized_aicc <- fits[[which.min(sapply(lapply(fits, AICc), min))]]
 
   predictions <- data.frame(
     y = ytest,

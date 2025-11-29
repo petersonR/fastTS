@@ -3,7 +3,7 @@ Type: Package
 Title: Fast Time Series Modeling for Seasonal Series with Exogenous Variables
 Version: 1.0.2.9000
 Authors@R: person("Ryan Andrew", "Peterson", 
-                  email = "ryan.a.peterson@cuanschutz.edu", 
+                  email = "ryan-peterson@uiowa.edu", 
                   role = c("aut", "cre", "cph"),
                   comment = c(ORCID = "0000-0002-4650-5798"))
 Description: An implementation of sparsity-ranked lasso and related methods 
@@ -43,10 +43,10 @@ Depends:
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.3
 Config/testthat/edition: 3
 VignetteBuilder: knitr
 URL: https://petersonr.github.io/fastTS/, 
     https://github.com/petersonR/fastTS/
 BugReports: https://github.com/petersonR/fastTS/issues
-Date: 2024-12-01
+Date: 2025-11-29

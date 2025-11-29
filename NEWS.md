@@ -1,5 +1,7 @@
 # fastTS 1.0.2.9000
 
+- Fixing issue #4
+
 # fastTS 1.0.2
 
 - Fixed some tests that were very slightly sensitive to OS and 
